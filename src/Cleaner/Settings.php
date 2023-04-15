@@ -21,6 +21,12 @@ use Dotclear\Plugin\Uninstaller\{
     ActionDescriptor
 };
 
+/**
+ * Settings cleaner.
+ * 
+ * Cleaner manages entire setting namespace 
+ * except 'delete_related' which can pickup settings ns/id pairs
+ */
 class Settings extends AbstractCleaner
 {
     protected function properties(): array
@@ -52,6 +58,13 @@ class Settings extends AbstractCleaner
                 'query'   => __('delete "%s" settings'),
                 'success' => __('"%s" settings deleted'),
                 'error'   => __('Failed to delete "%s" settings'),
+            ]),
+            // $ns = 'setting_ns:setting_id;setting_ns:setting_id;...' for global and blogs settings
+            new ActionDescriptor([
+                'id'      => 'delete_related',
+                'query'   => __('delete related settings'),
+                'success' => __('related settings deleted'),
+                'error'   => __('Failed to delete related settings'),
             ]),
         ];
     }
@@ -123,6 +136,25 @@ class Settings extends AbstractCleaner
             dcCore::app()->con->execute(
                 'DELETE FROM ' . dcCore::app()->prefix . dcNamespace::NS_TABLE_NAME . ' ' .
                 "WHERE setting_ns = '" . dcCore::app()->con->escapeStr((string) $ns) . "' " .
+                "AND (blog_id IS NULL OR blog_id != '') "
+            );
+
+            return true;
+        }
+        if ($action == 'delete_related') {
+            $or = [];
+            foreach (explode(';', $ns) as $pair) {
+                $exp = explode(':', $pair);
+                if (count($exp) == 2) {
+                    $or[] = "setting_ns = '" . dcCore::app()->con->escapeStr((string) $exp[0]) . "' AND setting_id = '" . dcCore::app()->con->escapeStr((string) $exp[1]) . "'";
+                }
+            }
+            if (empty($or)) {
+                return false;
+            }
+            dcCore::app()->con->execute(
+                'DELETE FROM ' . dcCore::app()->prefix . dcNamespace::NS_TABLE_NAME . ' ' .
+                "WHERE (" . implode(' OR ', $or) . ") " .
                 "AND (blog_id IS NULL OR blog_id != '') "
             );
 
