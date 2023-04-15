@@ -90,14 +90,6 @@ class Cleaners
         # --BEHAVIOR-- UninstallerBeforeAction: string, string, string
         dcCore::app()->callBehavior('UninstallerBeforeAction', $id, $action, $ns);
 
-        $ret = $this->cleaners[$id]->execute($action, $ns);
-
-        if ($ret === false) {
-            $msg = $this->cleaners[$id]->actions[$action]->error;
-
-            throw new Exception($msg ?: __('Unknown error'));
-        }
-
-        return true;
+        return $this->cleaners[$id]->execute($action, $ns);
     }
 }
