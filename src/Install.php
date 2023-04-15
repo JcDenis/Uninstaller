@@ -36,7 +36,7 @@ class Install extends dcNsProcess
         }
 
         try {
-            dcCore::app()->blog->settings->get('system')->put(
+            dcCore::app()->blog?->settings->get('system')->put(
                 'no_direct_uninstall',
                 false,
                 'boolean',

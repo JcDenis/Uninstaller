@@ -48,28 +48,28 @@ class Manage extends dcNsProcess
         }
 
         $type  = ($_REQUEST['type'] ?? 'theme') == 'theme' ? 'themes' : 'plugins';
-        $redir = $type                          == 'themes' ? ['blog.themes', [], '#themes'] : ['admin.plugins', [], '#plugins'];
+        $redir = $type                          == 'themes' ? ['admin.blog.theme', [], '#themes'] : ['admin.plugins', [], '#plugins'];
 
         if (empty($_REQUEST['id'])) {
-            dcCore::app()->adminurl->redirect($redir[0], $redir[1], $redir[2]);
+            dcCore::app()->adminurl?->redirect($redir[0], $redir[1], $redir[2]);
         }
 
         if ($type == 'themes' && !is_a(dcCore::app()->themes, 'dcThemes')) {
             dcCore::app()->themes = new dcThemes();
-            dcCore::app()->themes->loadModules(dcCore::app()->blog->themes_path, null);
+            dcCore::app()->themes->loadModules((string) dcCore::app()->blog?->themes_path, null);
         }
 
         $define = dcCore::app()->{$type}->getDefine($_REQUEST['id']);
         if (!$define->isDefined()) {
             dcCore::app()->error->add(__('Unknown module id to uninstall'));
-            dcCore::app()->adminurl->redirect($redir[0], $redir[1], $redir[2]);
+            dcCore::app()->adminurl?->redirect($redir[0], $redir[1], $redir[2]);
         }
 
         $uninstaller = Uninstaller::instance()->loadModules([$define]);
         $actions     = $uninstaller->getUserActions($define->getId());
         if (empty($actions)) {
             dcCore::app()->error->add(__('There are no uninstall actions for this module'));
-            dcCore::app()->adminurl->redirect($redir[0], $redir[1], $redir[2]);
+            dcCore::app()->adminurl?->redirect($redir[0], $redir[1], $redir[2]);
         }
 
         if (empty($_POST)) {
@@ -95,7 +95,7 @@ class Manage extends dcNsProcess
             } else {
                 dcPage::addWarningNotice(__('No uninstall action done'));
             }
-            dcCore::app()->adminurl->redirect($redir[0], $redir[1], $redir[2]);
+            dcCore::app()->adminurl?->redirect($redir[0], $redir[1], $redir[2]);
         } catch (Exception $e) {
             dcCore::app()->error->add($e->getMessage());
         }
@@ -152,14 +152,14 @@ class Manage extends dcNsProcess
             (new Hidden(['type'], $type)),
             (new Hidden(['id'], $define->getId())),
             (new Submit(['do']))->value(__('Perform selected actions'))->class('delete'),
-            (new Text('', ' <a class="button" href="' . dcCore::app()->adminurl->get($redir[0], $redir[1]) . $redir[2] . '">' . __('Cancel') . '</a>')),
+            (new Text('', ' <a class="button" href="' . dcCore::app()->adminurl?->get($redir[0], $redir[1]) . $redir[2] . '">' . __('Cancel') . '</a>')),
         ]);
 
         // display form
         echo (new Div())->items([
             (new Text('h3', sprintf(($type == 'themes' ? __('Uninstall theme "%s"') : __('Uninstall plugin "%s"')), __($define->get('name'))))),
             (new Text('p', sprintf(__('The module "%s %s" offers advanced unsintall process:'), $define->getId(), $define->get('version')))),
-            (new Form('uninstall-form'))->method('post')->action(dcCore::app()->adminurl->get('admin.plugin.' . My::id()))->fields($fields),
+            (new Form('uninstall-form'))->method('post')->action(dcCore::app()->adminurl?->get('admin.plugin.' . My::id()))->fields($fields),
         ])->render();
 
         dcPage::closeModule();

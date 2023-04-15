@@ -23,7 +23,7 @@ class Prepend extends dcNsProcess
     {
         static::$init = defined('DC_CONTEXT_ADMIN')
             && My::phpCompliant()
-            && dcCore::app()->auth->isSuperAdmin();
+            && dcCore::app()->auth?->isSuperAdmin();
 
         return static::$init;
     }

@@ -113,7 +113,7 @@ class Settings extends AbstractCleaner
         if ($action == 'delete_local') {
             dcCore::app()->con->execute(
                 'DELETE FROM ' . dcCore::app()->prefix . dcNamespace::NS_TABLE_NAME . ' ' .
-                "WHERE blog_id = '" . dcCore::app()->con->escapeStr((string) dcCore::app()->blog->id) . "' " .
+                "WHERE blog_id = '" . dcCore::app()->con->escapeStr((string) dcCore::app()->blog?->id) . "' " .
                 "AND setting_ns = '" . dcCore::app()->con->escapeStr((string) $ns) . "' "
             );
 

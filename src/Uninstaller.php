@@ -224,7 +224,7 @@ class Uninstaller
     {
         $output = '';
         if ($this->hasRender($id)) {
-            $class = $this->getModule($id)->get('namespace') . '\\Uninstall';
+            $class = $this->getModule($id)?->get('namespace') . '\\Uninstall';
 
             ob_start();
 

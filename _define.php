@@ -24,10 +24,10 @@ $this->registerModule(
         'permissions' => null,
         'type'        => 'plugin',
         'settings'    => [
-            'self'=> false,
+            'self' => false,
         ],
-        'support'     => 'https://github.com/JcDenis/' . basename(__DIR__),
-        'details'     => 'https://plugins.dotaddict.org/dc2/details/' . basename(__DIR__),
-        'repository'  => 'https://raw.githubusercontent.com/JcDenis/' . basename(__DIR__) . '/master/dcstore.xml',
+        'support'    => 'https://github.com/JcDenis/' . basename(__DIR__),
+        'details'    => 'https://plugins.dotaddict.org/dc2/details/' . basename(__DIR__),
+        'repository' => 'https://raw.githubusercontent.com/JcDenis/' . basename(__DIR__) . '/master/dcstore.xml',
     ]
 );

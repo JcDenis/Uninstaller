@@ -43,12 +43,12 @@ class Backend extends dcNsProcess
                 return empty(Uninstaller::instance()->loadModules([$define])->getUserActions($define->getId())) ? '' :
                     sprintf(
                         ' <a href="%s" class="button delete">' . __('Uninstall') . '</a>',
-                        dcCore::app()->adminurl->get('admin.plugin.' . My::id(), ['type' => $define->get('type'), 'id' => $define->getId()])
+                        dcCore::app()->adminurl?->get('admin.plugin.' . My::id(), ['type' => $define->get('type'), 'id' => $define->getId()])
                     );
             },
             // perform direct action on module deletion
             'pluginBeforeDeleteV2' => function (dcModuleDefine $define): void {
-                if (dcCore::app()->blog->settings->get('system')->get('no_uninstall_direct')) {
+                if (dcCore::app()->blog?->settings->get('system')->get('no_uninstall_direct')) {
                     return;
                 }
 
@@ -71,9 +71,9 @@ class Backend extends dcNsProcess
                         array_unshift($done, __('Plugin has been successfully uninstalled.'));
                         dcPage::addSuccessNotice(implode('<br />', $done));
                         if ($define->get('type') == 'theme') {
-                            dcCore::app()->adminurl->redirect('blog.themes', [], '#themes');
+                            dcCore::app()->adminurl?->redirect('admin.blog.theme', [], '#themes');
                         } else {
-                            dcCore::app()->adminurl->redirect('admin.plugins', [], '#plugins');
+                            dcCore::app()->adminurl?->redirect('admin.plugins', [], '#plugins');
                         }
                     }
                 } catch (Exception $e) {

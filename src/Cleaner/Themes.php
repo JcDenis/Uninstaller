@@ -53,7 +53,11 @@ class Themes extends AbstractCleaner
 
     public function values(): array
     {
-        $res = self::getDirs(dcCore::app()->blog->themes_path);
+        if (($path = dcCore::app()->blog?->themes_path) === null) {
+            return [];
+        }
+
+        $res = self::getDirs($path);
         sort($res);
 
         return $res;
@@ -61,12 +65,12 @@ class Themes extends AbstractCleaner
 
     public function execute(string $action, string $ns): bool
     {
-        if ($action == 'delete') {
-            self::delDir(dcCore::app()->blog->themes_path, $ns, true);
-
-            return true;
+        if ($action != 'delete' || ($path = dcCore::app()->blog?->themes_path) === null) {
+            return false;
         }
 
-        return false;
+        self::delDir($path, $ns, true);
+
+        return true;
     }
 }
