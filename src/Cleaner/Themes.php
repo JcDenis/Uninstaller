@@ -39,9 +39,10 @@ class Themes extends AbstractCleaner
         return [
             new ActionDescriptor([
                 'id'      => 'delete',
-                'query'   => __('delete "%s" theme directory'),
-                'success' => __('"%s" theme directory deleted'),
-                'error'   => __('Failed to delete "%s" theme directory'),
+                'select'  => __('delete selected themes files and directories'),
+                'query'   => __('delete "%s" theme files and directories'),
+                'success' => __('"%s" theme files and directories deleted'),
+                'error'   => __('Failed to delete "%s" theme files and directories'),
             ]),
         ];
     }

@@ -36,6 +36,7 @@ class Versions extends AbstractCleaner
         return [
             new ActionDescriptor([
                 'id'      => 'delete',
+                'select'  => __('delete selected versions numbers'),
                 'query'   => __('delete "%s" version number'),
                 'success' => __('"%s" version number deleted'),
                 'error'   => __('Failed to delete "%s" version number'),

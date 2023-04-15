@@ -1,6 +1,6 @@
 # Language: Français
 # Module: Uninstaller - 0.1
-# Date: 2023-04-15 15:32:43
+# Date: 2023-04-15 23:11:02
 # Author: , contact@jcdenis.fr
 # Translated with translater 2023.03.19
 
@@ -9,18 +9,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Project-Id-Version: Uninstaller 0.1\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2023-04-15T15:32:43+00:00\n"
+"PO-Revision-Date: 2023-04-15T23:11:02+00:00\n"
 "Last-Translator: Jean-Christian Denis\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: src/Backend.php:45
+#: src/Backend.php:50
 msgid "Uninstall"
 msgstr "Désinstaller"
 
-#: src/Backend.php:71
+#: src/Backend.php:89
 msgid "Plugin has been successfully uninstalled."
 msgstr "Plugin désinstallé avec succès"
 
@@ -29,26 +29,34 @@ msgid "Folders from cache directory"
 msgstr "Dossiers du répertoire de cache"
 
 #: src/Cleaner/Caches.php:41
+msgid "delete selected cache directories"
+msgstr "effacer les répertoires de cache sélectionnés"
+
+#: src/Cleaner/Caches.php:42
 msgid "delete \"%s\" cache directory"
 msgstr "supprimer le répertoire de cache \"%s\""
 
-#: src/Cleaner/Caches.php:42
+#: src/Cleaner/Caches.php:43
 msgid "\"%s\" cache directory deleted"
 msgstr "répertoire de cache \"%s\" supprimé"
 
-#: src/Cleaner/Caches.php:43
+#: src/Cleaner/Caches.php:44
 msgid "Failed to delete \"%s\" cache directory"
 msgstr "Impossible de supprimer le répertoire de cache \"%s\""
 
-#: src/Cleaner/Caches.php:47
+#: src/Cleaner/Caches.php:48
+msgid "empty selected cache directories"
+msgstr "vider les répertoires de cache séletionnés"
+
+#: src/Cleaner/Caches.php:49
 msgid "empty \"%s\" cache directory"
 msgstr "vider le répertoire de cache \"%s\""
 
-#: src/Cleaner/Caches.php:48
+#: src/Cleaner/Caches.php:50
 msgid "\"%s\" cache directory emptied"
 msgstr "répertoire de cache \"%s\" vidé"
 
-#: src/Cleaner/Caches.php:49
+#: src/Cleaner/Caches.php:51
 msgid "Failed to empty \"%s\" cache directory"
 msgstr "Impossible de vider le répertoire de cache \"ùs\""
 
@@ -57,82 +65,118 @@ msgid "Folders from plugins directories"
 msgstr "Dossiers des répertoires des plugins"
 
 #: src/Cleaner/Plugins.php:41
-msgid "delete \"%s\" plugin directory"
-msgstr "supprimer le répertoire \"%s\" du plugin"
+msgid "delete selected plugins files and directories"
+msgstr "effacer le fichiers et répertoires des plugins sélectionnés"
 
 #: src/Cleaner/Plugins.php:42
-msgid "\"%s\" plugin directory deleted"
-msgstr "répertoire \"%s\" du plugin supprimé"
+msgid "delete \"%s\" plugin files and directories"
+msgstr "effacer les fichiers et répertoires du plugin \"%s\""
 
 #: src/Cleaner/Plugins.php:43
-msgid "Failed to delete \"%s\" plugin directory"
-msgstr "Impossible de supprimer le répertoire \"%s\" du plugin"
+msgid "\"%s\" plugin files and directories deleted"
+msgstr "fichiers et répertoires du plugin \"%s\" effacés"
 
-#: src/Cleaner/Settings.php:31
+#: src/Cleaner/Plugins.php:44
+msgid "Failed to delete \"%s\" plugin files and directories"
+msgstr "Impossible d'effacer les fichiers et répertoires du plugin \"%s\""
+
+#: src/Cleaner/Settings.php:41
 msgid "Namespaces registered in dcSettings"
 msgstr "Espaces de nom (namespaces) enregistrés dans dcSettings"
 
-#: src/Cleaner/Settings.php:40
-msgid "delete \"%s\" global settings"
-msgstr "supprimer les paramètres \"%s\" globaux"
+#: src/Cleaner/Settings.php:50
+msgid "delete selected global settings namespaces"
+msgstr "effacer les espaces de noms de paramètres globaux sélectionnés"
 
-#: src/Cleaner/Settings.php:41
-msgid "\"%s\" global settings deleted"
-msgstr "paramètres \"%s\" globaux supprimés"
-
-#: src/Cleaner/Settings.php:42
-msgid "Failed to delete \"%s\" global settings"
-msgstr "Impossible de supprimer les paramètres \"%s\" globaux"
-
-#: src/Cleaner/Settings.php:46
-msgid "delete \"%s\" blog settings"
-msgstr "supprimer les paramètres \"%s\" du blog"
-
-#: src/Cleaner/Settings.php:47
-msgid "\"%s\" blog settings deleted"
-msgstr "paramètres \"%s\" du blog supprimés"
-
-#: src/Cleaner/Settings.php:48
-msgid "Failed to delete \"%s\" blog settings"
-msgstr "Impossible de supprimer les paramètres \"%s\" du blog"
+#: src/Cleaner/Settings.php:51
+msgid "delete \"%s\" global settings namespace"
+msgstr "effacer l'espace de nom de paramètres global \"%s\""
 
 #: src/Cleaner/Settings.php:52
-msgid "delete \"%s\" settings"
-msgstr "supprimer les paramètres \"%s\""
+msgid "\"%s\" global settings namespace deleted"
+msgstr "espace de nom de paramètres global \"%s\" effacé"
 
 #: src/Cleaner/Settings.php:53
-msgid "\"%s\" settings deleted"
-msgstr "paramètres \"%s\" supprimés"
+msgid "Failed to delete \"%s\" global settings namespace"
+msgstr "Impossible d'effacer l'espace de nom de paramètre global \"%s\""
 
-#: src/Cleaner/Settings.php:54
-msgid "Failed to delete \"%s\" settings"
-msgstr "Impossible de supprimer les paramètres \"%s\""
+#: src/Cleaner/Settings.php:57
+msgid "delete selected blog settings namespaces"
+msgstr "effacer les espace de noms de paramètre de blog sélectionnés"
+
+#: src/Cleaner/Settings.php:58
+msgid "delete \"%s\" blog settings namespace"
+msgstr "effacer l'espace de nom de paramètre de blog \"%s\""
+
+#: src/Cleaner/Settings.php:59
+msgid "\"%s\" blog settings namespace deleted"
+msgstr "espace de nom de paramètre de blog \"%s\" effacé"
+
+#: src/Cleaner/Settings.php:60
+msgid "Failed to delete \"%s\" blog settings namespace"
+msgstr "Impossible d'effacer l'espace de nom de paramètres de blog \"%s\""
+
+#: src/Cleaner/Settings.php:64
+msgid "delete selected settings namespaces"
+msgstr "effacer les espaces de noms de paramètres sélectionnés"
+
+#: src/Cleaner/Settings.php:65
+msgid "delete \"%s\" settings namespace"
+msgstr "effacer l'espace de nom de paramètres \"%s\""
+
+#: src/Cleaner/Settings.php:66
+msgid "\"%s\" settings namespace deleted"
+msgstr "espace de nom de paramètres \"%s\" effacé"
+
+#: src/Cleaner/Settings.php:67
+msgid "Failed to delete \"%s\" settings namespace"
+msgstr "Impossible d'effacer l'espace de nom de paramètres \"%s\""
+
+#: src/Cleaner/Settings.php:72
+msgid "delete related settings"
+msgstr "effacer les paramètres relatifs"
+
+#: src/Cleaner/Settings.php:73
+msgid "related settings deleted"
+msgstr "paramètres relatifs effacer"
+
+#: src/Cleaner/Settings.php:74
+msgid "Failed to delete related settings"
+msgstr "Impossible d'effacer les paramètres relatifs"
 
 #: src/Cleaner/Tables.php:31
 msgid "All database tables of Dotclear"
 msgstr "Toutes les tables Dotclear de la base de données"
 
 #: src/Cleaner/Tables.php:40
+msgid "delete selected tables"
+msgstr "effacer les tables sélectionnées"
+
+#: src/Cleaner/Tables.php:41
 msgid "delete \"%s\" table"
 msgstr "Supprimer la table \"%s\""
 
-#: src/Cleaner/Tables.php:41
+#: src/Cleaner/Tables.php:42
 msgid "\"%s\" table deleted"
 msgstr "table \"%s\" supprimée"
 
-#: src/Cleaner/Tables.php:42
+#: src/Cleaner/Tables.php:43
 msgid "Failed to delete \"%s\" table"
 msgstr "Impossible de supprimer la table \"%s\""
 
-#: src/Cleaner/Tables.php:46
+#: src/Cleaner/Tables.php:47
+msgid "empty selected tables"
+msgstr "vider les tables selectionnées"
+
+#: src/Cleaner/Tables.php:48
 msgid "empty \"%s\" table"
 msgstr "vider la table \"%s\""
 
-#: src/Cleaner/Tables.php:47
+#: src/Cleaner/Tables.php:49
 msgid "\"%s\" table emptied"
 msgstr "table \"%s\" vidée"
 
-#: src/Cleaner/Tables.php:48
+#: src/Cleaner/Tables.php:50
 msgid "Failed to empty \"%s\" table"
 msgstr "Impossible de vider la table \"%s\""
 
@@ -141,30 +185,38 @@ msgid "Folders from blog themes directory"
 msgstr "Dossiers du répertoire des thèmes du blog"
 
 #: src/Cleaner/Themes.php:42
-msgid "delete \"%s\" theme directory"
-msgstr "supprimer le répertoire \"%s\" du thème"
+msgid "delete selected themes files and directories"
+msgstr "effacer les fichiers et répertoires des thèmes selectionnés"
 
 #: src/Cleaner/Themes.php:43
-msgid "\"%s\" theme directory deleted"
-msgstr "répertoire \"%s\" du thème supprimer"
+msgid "delete \"%s\" theme files and directories"
+msgstr "effacer les fichiers et répertoires du thème \"%s\""
 
 #: src/Cleaner/Themes.php:44
-msgid "Failed to delete \"%s\" theme directory"
-msgstr "Impossible de supprimer le répertoire \"%s\" du thème"
+msgid "\"%s\" theme files and directories deleted"
+msgstr "fichiers et répertoires du thème \"%s\" effacés"
+
+#: src/Cleaner/Themes.php:45
+msgid "Failed to delete \"%s\" theme files and directories"
+msgstr "Impossible d'effacer les fichiers et répertoires du thème \"%s\""
 
 #: src/Cleaner/Vars.php:32
 msgid "Folders from Dotclear VAR directory"
 msgstr "Dossiers du répertoire VAR de Dotclear"
 
 #: src/Cleaner/Vars.php:41
+msgid "delete selected var directories"
+msgstr "effacer les répertoires var sélectionnés"
+
+#: src/Cleaner/Vars.php:42
 msgid "delete \"%s\" var directory"
 msgstr "Supprimer le répertoire var \"%s\""
 
-#: src/Cleaner/Vars.php:42
+#: src/Cleaner/Vars.php:43
 msgid "\"%s\" var directory deleted"
 msgstr "répertoire var \"%s\" supprimé"
 
-#: src/Cleaner/Vars.php:43
+#: src/Cleaner/Vars.php:44
 msgid "Failed to delete \"%s\" var directory"
 msgstr "Impossible de supprimer le répertoire var \"%s\""
 
@@ -173,14 +225,18 @@ msgid "Versions registered in table \"version\" of Dotclear"
 msgstr "Versions enregistrées dans la table \"version\" de Dotclear"
 
 #: src/Cleaner/Versions.php:39
+msgid "delete selected versions numbers"
+msgstr "effacer les numéros de versions sélectionnés"
+
+#: src/Cleaner/Versions.php:40
 msgid "delete \"%s\" version number"
 msgstr "supprimer le numéro de version de \"%s\""
 
-#: src/Cleaner/Versions.php:40
+#: src/Cleaner/Versions.php:41
 msgid "\"%s\" version number deleted"
 msgstr "numéro de version de \"%s\" supprimé"
 
-#: src/Cleaner/Versions.php:41
+#: src/Cleaner/Versions.php:42
 msgid "Failed to delete \"%s\" version number"
 msgstr "Impossible de supprimer le numéro de version de \"%s\""
 
@@ -191,10 +247,6 @@ msgstr "Nettoyeur \"%s\" inconnu"
 #: src/Cleaners.php:87
 msgid "Unsintaller can't remove itself"
 msgstr "Le désinstalleur ne peut pas se supprimer lui-même"
-
-#: src/Cleaners.php:98
-msgid "Unknown error"
-msgstr "Erreur inconnue"
 
 #: src/Manage.php:64
 msgid "Unknown module id to uninstall"

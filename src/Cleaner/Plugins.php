@@ -38,9 +38,10 @@ class Plugins extends AbstractCleaner
         return [
             new ActionDescriptor([
                 'id'      => 'delete',
-                'query'   => __('delete "%s" plugin directory'),
-                'success' => __('"%s" plugin directory deleted'),
-                'error'   => __('Failed to delete "%s" plugin directory'),
+                'select'  => __('delete selected plugins files and directories'),
+                'query'   => __('delete "%s" plugin files and directories'),
+                'success' => __('"%s" plugin files and directories deleted'),
+                'error'   => __('Failed to delete "%s" plugin files and directories'),
             ]),
         ];
     }

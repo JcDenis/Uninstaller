@@ -47,21 +47,24 @@ class Settings extends AbstractCleaner
         return [
             new ActionDescriptor([
                 'id'      => 'delete_global',
-                'query'   => __('delete "%s" global settings'),
-                'success' => __('"%s" global settings deleted'),
-                'error'   => __('Failed to delete "%s" global settings'),
+                'select'  => __('delete selected global settings namespaces'),
+                'query'   => __('delete "%s" global settings namespace'),
+                'success' => __('"%s" global settings namespace deleted'),
+                'error'   => __('Failed to delete "%s" global settings namespace'),
             ]),
             new ActionDescriptor([
                 'id'      => 'delete_local',
-                'query'   => __('delete "%s" blog settings'),
-                'success' => __('"%s" blog settings deleted'),
-                'error'   => __('Failed to delete "%s" blog settings'),
+                'select'  => __('delete selected blog settings namespaces'),
+                'query'   => __('delete "%s" blog settings namespace'),
+                'success' => __('"%s" blog settings namespace deleted'),
+                'error'   => __('Failed to delete "%s" blog settings namespace'),
             ]),
             new ActionDescriptor([
                 'id'      => 'delete_all',
-                'query'   => __('delete "%s" settings'),
-                'success' => __('"%s" settings deleted'),
-                'error'   => __('Failed to delete "%s" settings'),
+                'select'  => __('delete selected settings namespaces'),
+                'query'   => __('delete "%s" settings namespace'),
+                'success' => __('"%s" settings namespace deleted'),
+                'error'   => __('Failed to delete "%s" settings namespace'),
             ]),
             // $ns = 'setting_ns:setting_id;setting_ns:setting_id;...' for global and blogs settings
             new ActionDescriptor([
@@ -99,8 +102,12 @@ class Settings extends AbstractCleaner
             ->group('setting_ns');
 
         $res = $sql->select();
-        $rs  = [];
-        $i   = 0;
+        if ($res == null || $res->isEmpty()) {
+            return [];
+        }
+
+        $rs = [];
+        $i  = 0;
         while ($res->fetch()) {
             $sql = new SelectStatement();
             $sql->from(dcCore::app()->prefix . dcNamespace::NS_TABLE_NAME)
@@ -110,7 +117,7 @@ class Settings extends AbstractCleaner
                 ->group('setting_ns');
 
             $rs[$i]['key']   = $res->f('setting_ns');
-            $rs[$i]['value'] = $sql->select()->f(0);
+            $rs[$i]['value'] = (int) $sql->select()?->f(0);
             $i++;
         }
 
@@ -150,7 +157,7 @@ class Settings extends AbstractCleaner
             foreach (explode(';', $ns) as $pair) {
                 $exp = explode(':', $pair);
                 if (count($exp) == 2) {
-                    $or[] = $sql->andGroup(['setting_ns = ' . $sq->quote((string) $exp[0]), 'setting_id = ' . $sql->quote((string) $exp[1])]);
+                    $or[] = $sql->andGroup(['setting_ns = ' . $sql->quote((string) $exp[0]), 'setting_id = ' . $sql->quote((string) $exp[1])]);
                 }
             }
             if (empty($or)) {

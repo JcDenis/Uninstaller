@@ -22,7 +22,10 @@ class ActionDescriptor
     /** @var    string  $id     The action ID */
     public readonly string $id;
 
-    /** @var    string  $query  The orm query message */
+    /** @var    string  $query  The generic message (used for self::values() management) */
+    public readonly string $select;
+
+    /** @var    string  $query  The query message */
     public readonly string $query;
 
     /** @var    string  $success    The succes message */
@@ -37,6 +40,7 @@ class ActionDescriptor
     public function __construct(array $description)
     {
         $this->id      = (string) ($description['id'] ?? 'undefined');
+        $this->select  = (string) ($description['select'] ?? 'undefined');
         $this->query   = (string) ($description['query'] ?? 'undefined');
         $this->success = (string) ($description['success'] ?? 'undefined');
         $this->error   = (string) ($description['error'] ?? 'undefined');
@@ -51,6 +55,7 @@ class ActionDescriptor
     {
         return [
             'id'      => $this->id,
+            'select'  => $this->select,
             'query'   => $this->query,
             'success' => $this->success,
             'error'   => $this->error,

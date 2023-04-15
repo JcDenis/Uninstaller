@@ -37,12 +37,14 @@ class Tables extends AbstractCleaner
         return [
             new ActionDescriptor([
                 'id'      => 'delete',
+                'select'  => __('delete selected tables'),
                 'query'   => __('delete "%s" table'),
                 'success' => __('"%s" table deleted'),
                 'error'   => __('Failed to delete "%s" table'),
             ]),
             new ActionDescriptor([
                 'id'      => 'empty',
+                'select'  => __('empty selected tables'),
                 'query'   => __('empty "%s" table'),
                 'success' => __('"%s" table emptied'),
                 'error'   => __('Failed to empty "%s" table'),

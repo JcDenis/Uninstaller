@@ -38,6 +38,7 @@ class Vars extends AbstractCleaner
         return [
             new ActionDescriptor([
                 'id'      => 'delete',
+                'select'  => __('delete selected var directories'),
                 'query'   => __('delete "%s" var directory'),
                 'success' => __('"%s" var directory deleted'),
                 'error'   => __('Failed to delete "%s" var directory'),

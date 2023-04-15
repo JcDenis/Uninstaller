@@ -38,12 +38,14 @@ class Caches extends AbstractCleaner
         return [
             new ActionDescriptor([
                 'id'      => 'delete',
+                'select'  => __('delete selected cache directories'),
                 'query'   => __('delete "%s" cache directory'),
                 'success' => __('"%s" cache directory deleted'),
                 'error'   => __('Failed to delete "%s" cache directory'),
             ]),
             new ActionDescriptor([
                 'id'      => 'empty',
+                'select'  => __('empty selected cache directories'),
                 'query'   => __('empty "%s" cache directory'),
                 'success' => __('"%s" cache directory emptied'),
                 'error'   => __('Failed to empty "%s" cache directory'),
