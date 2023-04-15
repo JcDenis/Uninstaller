@@ -16,6 +16,10 @@ namespace Dotclear\Plugin\Uninstaller\Cleaner;
 
 use dcCore;
 use dcNamespace;
+use Dotclear\Database\Statement\{
+    DeleteStatement,
+    SelectStatement
+};
 use Dotclear\Plugin\Uninstaller\{
     AbstractCleaner,
     ActionDescriptor
@@ -88,24 +92,25 @@ class Settings extends AbstractCleaner
 
     public function values(): array
     {
-        $res = dcCore::app()->con->select(
-            'SELECT setting_ns ' .
-            'FROM ' . dcCore::app()->prefix . dcNamespace::NS_TABLE_NAME . ' ' .
-            'WHERE blog_id IS NULL ' .
-            'OR blog_id IS NOT NULL ' .
-            'GROUP BY setting_ns'
-        );
+        $sql = new SelectStatement();
+        $sql->from(dcCore::app()->prefix . dcNamespace::NS_TABLE_NAME)
+            ->columns(['setting_ns'])
+            ->where($sql->orGroup(['blog_id IS NULL', 'blog_id IS NOT NULL']))
+            ->group('setting_ns');
 
+        $res = $sql->select();
         $rs = [];
         $i  = 0;
         while ($res->fetch()) {
+            $sql = new SelectStatement();
+            $sql->from(dcCore::app()->prefix . dcNamespace::NS_TABLE_NAME)
+                ->fields([$sql->count('*')])
+                ->where($sql->orGroup(['blog_id IS NULL', 'blog_id IS NOT NULL']))
+                ->and('setting_ns = ' . $sql->quote($res->f('setting_ns')))
+                ->group('setting_ns');
+
             $rs[$i]['key']   = $res->f('setting_ns');
-            $rs[$i]['value'] = dcCore::app()->con->select(
-                'SELECT count(*) FROM ' . dcCore::app()->prefix . dcNamespace::NS_TABLE_NAME . ' ' .
-                "WHERE setting_ns = '" . $res->f('setting_ns') . "' " .
-                'AND (blog_id IS NULL OR blog_id IS NOT NULL) ' .
-                'GROUP BY setting_ns '
-            )->f(0);
+            $rs[$i]['value'] = $sql->select()->f(0);
             $i++;
         }
 
@@ -114,30 +119,29 @@ class Settings extends AbstractCleaner
 
     public function execute(string $action, string $ns): bool
     {
+        $sql = new DeleteStatement();
+
         if ($action == 'delete_global') {
-            dcCore::app()->con->execute(
-                'DELETE FROM ' . dcCore::app()->prefix . dcNamespace::NS_TABLE_NAME . ' ' .
-                'WHERE blog_id IS NULL ' .
-                "AND setting_ns = '" . dcCore::app()->con->escapeStr((string) $ns) . "' "
-            );
+            $sql->from(dcCore::app()->prefix . dcNamespace::NS_TABLE_NAME)
+                ->where('blog_id IS NULL')
+                ->and('setting_ns = ' . $sql->quote((string) $ns))
+                ->delete();
 
             return true;
         }
         if ($action == 'delete_local') {
-            dcCore::app()->con->execute(
-                'DELETE FROM ' . dcCore::app()->prefix . dcNamespace::NS_TABLE_NAME . ' ' .
-                "WHERE blog_id = '" . dcCore::app()->con->escapeStr((string) dcCore::app()->blog?->id) . "' " .
-                "AND setting_ns = '" . dcCore::app()->con->escapeStr((string) $ns) . "' "
-            );
+            $sql->from(dcCore::app()->prefix . dcNamespace::NS_TABLE_NAME)
+                ->where('blog_id = ' . $sql->quote((string) dcCore::app()->blog?->id))
+                ->and('setting_ns = ' . $sql->quote((string) $ns))
+                ->delete();
 
             return true;
         }
         if ($action == 'delete_all') {
-            dcCore::app()->con->execute(
-                'DELETE FROM ' . dcCore::app()->prefix . dcNamespace::NS_TABLE_NAME . ' ' .
-                "WHERE setting_ns = '" . dcCore::app()->con->escapeStr((string) $ns) . "' " .
-                "AND (blog_id IS NULL OR blog_id != '') "
-            );
+            $sql->from(dcCore::app()->prefix . dcNamespace::NS_TABLE_NAME)
+                ->where('setting_ns = ' . $sql->quote((string) $ns))
+                ->and($sql->orGroup(['blog_id IS NULL', 'blog_id IS NOT NULL']))
+                ->delete();
 
             return true;
         }
@@ -146,17 +150,17 @@ class Settings extends AbstractCleaner
             foreach (explode(';', $ns) as $pair) {
                 $exp = explode(':', $pair);
                 if (count($exp) == 2) {
-                    $or[] = "setting_ns = '" . dcCore::app()->con->escapeStr((string) $exp[0]) . "' AND setting_id = '" . dcCore::app()->con->escapeStr((string) $exp[1]) . "'";
+                    $or[] = $sql->andGroup(['setting_ns = ' . $sq->quote((string) $exp[0]), 'setting_id = ' . $sql->quote((string) $exp[1])]);
                 }
             }
             if (empty($or)) {
                 return false;
             }
-            dcCore::app()->con->execute(
-                'DELETE FROM ' . dcCore::app()->prefix . dcNamespace::NS_TABLE_NAME . ' ' .
-                "WHERE (" . implode(' OR ', $or) . ") " .
-                "AND (blog_id IS NULL OR blog_id != '') "
-            );
+
+            $sql->from(dcCore::app()->prefix . dcNamespace::NS_TABLE_NAME)
+                ->where($sql->orGroup($or))
+                ->and($sql->orGroup(['blog_id IS NULL', 'blog_id IS NOT NULL']))
+                ->delete();
 
             return true;
         }
