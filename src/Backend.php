@@ -76,7 +76,7 @@ class Backend extends dcNsProcess
             $done = [];
             foreach ($uninstaller->getDirectActions($define->getId()) as $cleaner => $stack) {
                 foreach ($stack as $action) {
-                    if (true) {//$uninstaller->execute($cleaner, $action['action'], $action['ns'])) {
+                    if ($uninstaller->execute($cleaner, $action['action'], $action['ns'])) {
                         $done[] = $action['success'];
                     } else {
                         dcCore::app()->error->add($action['error']);
