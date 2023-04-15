@@ -262,22 +262,22 @@ class Uninstaller
 
     private function addAction(string $group, string $cleaner, string $action, string $ns): void
     {
-        if (!self::group($group) || null === $this->module) {
+        // invalid group or no current module or no cleaner id or ns
+        if (!self::group($group) || null === $this->module || empty($cleaner) || empty($ns)) {
             return;
         }
-        if (empty($cleaner) || empty($ns)) {
-            return;
-        }
+        // unknow cleaner action
         if (!isset($this->cleaners->get($cleaner)->actions[$action])) {
             return;
         }
-        $this->actions[$group][$this->module->getId()][$cleaner][] = array_merge(
-            [
-                'ns'     => $ns,
-                'action' => $action,
-            ],
-            $this->cleaners->get($cleaner)->actions[$action]->dump()
-        );
+        // fill action properties
+        $this->actions[$group][$this->module->getId()][$cleaner][] = [
+            'ns'      => $ns,
+            'action'  => $action,
+            'query'   => sprintf($this->cleaners->get($cleaner)->actions[$action]->query, $ns),
+            'success' => sprintf($this->cleaners->get($cleaner)->actions[$action]->success, $ns),
+            'error'   => sprintf($this->cleaners->get($cleaner)->actions[$action]->error, $ns),
+        ];
     }
 
     private function getActions(string $group, string $id): array

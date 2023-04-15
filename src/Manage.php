@@ -82,9 +82,9 @@ class Manage extends dcNsProcess
                 foreach ($stack as $action) {
                     if (isset($_POST['action'][$cleaner]) && isset($_POST['action'][$cleaner][$action['action']])) {
                         if ($uninstaller->execute($cleaner, $action['action'], $_POST['action'][$cleaner][$action['action']])) {
-                            $done[] = sprintf($action['success'], $_POST['action'][$cleaner][$action['action']]);
+                            $done[] = $action['success'];
                         } else {
-                            dcCore::app()->error->add(sprintf($action['error'], $_POST['action'][$cleaner][$action['action']]));
+                            dcCore::app()->error->add($action['error']);
                         }
                     }
                 }
@@ -141,7 +141,7 @@ class Manage extends dcNsProcess
             foreach ($stack as $action) {
                 $fields[] = (new Para())->items([
                     (new Checkbox(['action[' . $cleaner . '][' . $action['action'] . ']', 'action_' . $cleaner . '_' . $action['action']], true))->value($action['ns']),
-                    (new Label(sprintf($action['query'], $action['ns']), Label::OUTSIDE_LABEL_AFTER))->for('action_' . $cleaner . '_' . $action['action'])->class('classic'),
+                    (new Label($action['query'], Label::OUTSIDE_LABEL_AFTER))->for('action_' . $cleaner . '_' . $action['action'])->class('classic'),
                 ]);
             }
         }
