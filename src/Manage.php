@@ -59,7 +59,7 @@ class Manage extends dcNsProcess
             dcCore::app()->themes->loadModules((string) dcCore::app()->blog?->themes_path);
         }
 
-        $define = dcCore::app()->{$type .'s'}->getDefine($_REQUEST['id']);
+        $define = dcCore::app()->{$type . 's'}->getDefine($_REQUEST['id']);
         if (!$define->isDefined()) {
             dcCore::app()->error->add(__('Unknown module id to uninstall'));
             dcCore::app()->adminurl?->redirect($redir[0], $redir[1], $redir[2]);
@@ -111,7 +111,7 @@ class Manage extends dcNsProcess
 
         $type        = $_REQUEST['type'] == 'theme' ? 'theme' : 'plugin';
         $redir       = $type             == 'theme' ? ['admin.blog.theme', [], '#themes'] : ['admin.plugins', [], '#plugins'];
-        $define      = dcCore::app()->{$type .'s'}->getDefine($_REQUEST['id']);
+        $define      = dcCore::app()->{$type . 's'}->getDefine($_REQUEST['id']);
         $uninstaller = Uninstaller::instance()->loadModules([$define]);
         $fields      = [];
 

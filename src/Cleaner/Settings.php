@@ -27,8 +27,8 @@ use Dotclear\Plugin\Uninstaller\{
 
 /**
  * Settings cleaner.
- * 
- * Cleaner manages entire setting namespace 
+ *
+ * Cleaner manages entire setting namespace
  * except 'delete_related' which can pickup settings ns/id pairs
  */
 class Settings extends AbstractCleaner
@@ -99,8 +99,8 @@ class Settings extends AbstractCleaner
             ->group('setting_ns');
 
         $res = $sql->select();
-        $rs = [];
-        $i  = 0;
+        $rs  = [];
+        $i   = 0;
         while ($res->fetch()) {
             $sql = new SelectStatement();
             $sql->from(dcCore::app()->prefix . dcNamespace::NS_TABLE_NAME)
