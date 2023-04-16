@@ -16,6 +16,11 @@ namespace Dotclear\Plugin\Uninstaller\Cleaner;
 
 use dbSchema;
 use dcCore;
+use Dotclear\Database\Statement\{
+    DeleteStatement,
+    DropStatement,
+    SelectStatement
+};
 use Dotclear\Plugin\Uninstaller\{
     AbstractCleaner,
     ActionDescriptor
@@ -83,14 +88,21 @@ class Tables extends AbstractCleaner
         $rs = [];
         $i  = 0;
         foreach ($res as $k => $v) {
+            // get only tables with dotclear prefix
             if ('' != dcCore::app()->prefix) {
                 if (!preg_match('/^' . preg_quote(dcCore::app()->prefix) . '(.*?)$/', $v, $m)) {
                     continue;
                 }
                 $v = $m[1];
             }
+
+            $sql = new SelectStatement();
+            $sql->from(dcCore::app()->prefix . $res[$k])
+                ->fields([$sql->count('*')]);
+
             $rs[$i]['key']   = $v;
-            $rs[$i]['value'] = dcCore::app()->con->select('SELECT count(*) FROM ' . $res[$k])->f(0);
+            $rs[$i]['value'] = (int) $sql->select()?->f(0);
+            ;
             $i++;
         }
 
@@ -100,17 +112,17 @@ class Tables extends AbstractCleaner
     public function execute(string $action, string $ns): bool
     {
         if (in_array($action, ['empty', 'delete'])) {
-            dcCore::app()->con->execute(
-                'DELETE FROM ' . dcCore::app()->con->escapeSystem(dcCore::app()->prefix . $ns)
-            );
+            $sql = new DeleteStatement();
+            $sql->from(dcCore::app()->prefix . $ns)
+                ->delete();
         }
         if ($action == 'empty') {
             return true;
         }
         if ($action == 'delete') {
-            dcCore::app()->con->execute(
-                'DROP TABLE ' . dcCore::app()->con->escapeSystem(dcCore::app()->prefix . $ns)
-            );
+            $sql = new DropStatement();
+            $sql->from(dcCore::app()->prefix . $ns)
+                ->drop();
 
             return true;
         }
