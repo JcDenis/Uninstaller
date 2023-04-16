@@ -26,6 +26,9 @@ use Exception;
  */
 class Uninstaller
 {
+    /** @var    string  The Uninstall class name */
+    public const UNINSTALL_CLASS_NAME = 'Uninstall';
+
     /** @var    Uninstaller     $uninstaller   Uninstaller instance */
     private static $uninstaller;
 
@@ -87,7 +90,7 @@ class Uninstaller
             if (!($module instanceof dcModuleDefine)) {
                 continue;
             }
-            $class = $module->get('namespace') . '\\Uninstall';
+            $class = $module->get('namespace') . '\\' . self::UNINSTALL_CLASS_NAME;
             if ($module->getId() != My::id() && is_a($class, dcNsProcess::class, true)) {
                 $this->modules[$module->getId()] = $this->module = $module;
                 if ($class::init()) {
@@ -196,35 +199,38 @@ class Uninstaller
      * Get modules <var>$id</var> predefined user actions associative array
      *
      * @param   string  $id     The module ID
-     * @return  array   Modules id
+     *
+     * @return  array   List module user actions group by cleaner
      */
     public function getUserActions(string $id): array
     {
-        return $this->getActions('user', $id);
+        return $this->actions['user'][$id] ?? [];
     }
 
     /**
      * Get modules <var>$id</var> predefined direct actions associative array
      *
      * @param   string  $id     The module ID
-     * @return  array   Modules id
+     *
+     * @return  array   List module direct actions group by cleaner
      */
     public function getDirectActions(string $id): array
     {
-        return $this->getActions('direct', $id);
+        return $this->actions['direct'][$id] ?? [];
     }
 
     /**
      * Get module <var>$id</var> custom actions fields.
      *
      * @param   string  $id     The module ID
+     *
      * @return  string  HTML render of custom form fields
      */
     public function render(string $id): string
     {
         $output = '';
         if ($this->hasRender($id)) {
-            $class = $this->getModule($id)?->get('namespace') . '\\Uninstall';
+            $class = $this->getModule($id)?->get('namespace') . '\\' . self::UNINSTALL_CLASS_NAME;
 
             ob_start();
 
@@ -248,7 +254,7 @@ class Uninstaller
      * @param   string      $action     The action ID
      * @param   string      $ns         Name of setting related to module.
      *
-     * @return boolean      Success
+     * @return  boolean     The success
      */
     public function execute(string $cleaner, string $action, string $ns): bool
     {
@@ -260,16 +266,23 @@ class Uninstaller
         return true;
     }
 
+    /**
+     * Add a predefined action to unsintall features.
+     *
+     * @param   string  $group      The group (user or direct)
+     * @param   string  $cleaner    The cleaner ID
+     * @param   string  $action     The action ID
+     * @param   string  $ns         Name of setting related to module.
+     */
     private function addAction(string $group, string $cleaner, string $action, string $ns): void
     {
-        // no current module or no cleaner id or ns
-        if (null === $this->module || empty($cleaner) || empty($ns)) {
+        // no current module or no cleaner id or no ns or unknown cleaner action
+        if (null === $this->module || empty($cleaner) || empty($ns)
+                                   || !isset($this->cleaners->get($cleaner)->actions[$action])
+        ) {
             return;
         }
-        // unknow cleaner action
-        if (!isset($this->cleaners->get($cleaner)->actions[$action])) {
-            return;
-        }
+
         // fill action properties
         $this->actions[$group][$this->module->getId()][$cleaner][] = new ActionDescriptor([
             'id'      => $action,
@@ -279,21 +292,5 @@ class Uninstaller
             'success' => sprintf($this->cleaners->get($cleaner)->actions[$action]->success, $ns),
             'error'   => sprintf($this->cleaners->get($cleaner)->actions[$action]->error, $ns),
         ]);
-    }
-
-    private function getActions(string $group, string $id): array
-    {
-        if (!isset($this->actions[$group][$id])) {
-            return [];
-        }
-        $res = [];
-        foreach ($this->cleaners->dump() as $cleaner) {
-            if (!isset($this->actions[$group][$id][$cleaner->id])) {
-                continue;
-            }
-            $res[$cleaner->id] = $this->actions[$group][$id][$cleaner->id];
-        }
-
-        return $res;
     }
 }
