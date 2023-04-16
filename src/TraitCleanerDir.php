@@ -28,9 +28,13 @@ trait TraitCleanerDir
         '..',
         '__MACOSX',
         '.svn',
+        '.hg',
+        '.git',
         'CVS',
+        '.directory',
         '.DS_Store',
         'Thumbs.db',
+        '_disabled',
     ];
 
     protected static function getDirs(string|array $roots): array
@@ -43,7 +47,7 @@ trait TraitCleanerDir
         foreach ($roots as $root) {
             $dirs = Files::scanDir($root);
             foreach ($dirs as $k) {
-                if ('.' == $k || '..' == $k || !is_dir($root . DIRECTORY_SEPARATOR . $k)) {
+                if (in_array($k, self::EXCLUDED) || !is_dir($root . DIRECTORY_SEPARATOR . $k)) {
                     continue;
                 }
                 $rs[$i]['key']   = $k;
