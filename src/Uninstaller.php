@@ -29,9 +29,6 @@ class Uninstaller
     /** @var    string  The Uninstall class name */
     public const UNINSTALL_CLASS_NAME = 'Uninstall';
 
-    /** @var    Uninstaller     $uninstaller   Uninstaller instance */
-    private static $uninstaller;
-
     /** @var    Cleaners    $cleaners The cleaners stack */
     public readonly Cleaners $cleaners;
 
@@ -46,6 +43,9 @@ class Uninstaller
 
     /** @var    array   List of registered actions */
     private array $actions = ['user' => [], 'direct' => []];
+
+    /** @var    Uninstaller     $uninstaller   Uninstaller instance */
+    private static $uninstaller;
 
     /**
      * Constructor load cleaners.
@@ -93,8 +93,11 @@ class Uninstaller
             $class = $module->get('namespace') . '\\' . self::UNINSTALL_CLASS_NAME;
             if ($module->getId() != My::id() && is_a($class, dcNsProcess::class, true)) {
                 $this->modules[$module->getId()] = $this->module = $module;
+                // check class prerequiretics
                 if ($class::init()) {
+                    // if class process returns true
                     if ($class::process()) {
+                        // add custom action (served by class render method )
                         $this->renders[] = $module->getId();
                     }
                     $this->module = null;
@@ -107,40 +110,6 @@ class Uninstaller
         );
 
         return $this;
-    }
-
-    /**
-     * Get a module <var>$id</var> Define if it exists.
-     *
-     * @param   string  $id     The module ID
-     *
-     * @return  dcModuleDefine   Module Define
-     */
-    public function getModule(string $id): ?dcModuleDefine
-    {
-        return $this->modules[$id] ?? null;
-    }
-
-    /**
-     * Get all modules Define.
-     *
-     * @return  array   Modules Define
-     */
-    public function getModules(): array
-    {
-        return $this->modules;
-    }
-
-    /**
-     * Check if the module <var>$id</var> exists.
-     *
-     * @param   string  $id     Module ID
-     *
-     * @return  boolean     Success
-     */
-    public function hasModule(string $id): bool
-    {
-        return isset($this->modules[$id]);
     }
 
     /**
@@ -230,7 +199,7 @@ class Uninstaller
     {
         $output = '';
         if ($this->hasRender($id)) {
-            $class = $this->getModule($id)?->get('namespace') . '\\' . self::UNINSTALL_CLASS_NAME;
+            $class = $this->modules[$id]->get('namespace') . '\\' . self::UNINSTALL_CLASS_NAME;
 
             ob_start();
 
@@ -258,9 +227,11 @@ class Uninstaller
      */
     public function execute(string $cleaner, string $action, string $ns): bool
     {
+        // unknown cleaner/action or no ns
         if (!isset($this->cleaners->get($cleaner)->actions[$action]) || empty($ns)) {
             return false;
         }
+
         $this->cleaners->execute($cleaner, $action, $ns);
 
         return true;
@@ -277,8 +248,10 @@ class Uninstaller
     private function addAction(string $group, string $cleaner, string $action, string $ns): void
     {
         // no current module or no cleaner id or no ns or unknown cleaner action
-        if (null === $this->module || empty($cleaner) || empty($ns)
-                                   || !isset($this->cleaners->get($cleaner)->actions[$action])
+        if (null === $this->module
+            || empty($cleaner)
+            || empty($ns)
+            || !isset($this->cleaners->get($cleaner)->actions[$action])
         ) {
             return;
         }
