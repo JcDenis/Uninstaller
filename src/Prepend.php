@@ -38,6 +38,7 @@ class Prepend extends dcNsProcess
         dcCore::app()->addBehavior('UninstallerAddCleaner', [Cleaner\Settings::class, 'create']);
         dcCore::app()->addBehavior('UninstallerAddCleaner', [Cleaner\Tables::class, 'create']);
         dcCore::app()->addBehavior('UninstallerAddCleaner', [Cleaner\Versions::class, 'create']);
+        dcCore::app()->addBehavior('UninstallerAddCleaner', [Cleaner\Logs::class, 'create']);
         dcCore::app()->addBehavior('UninstallerAddCleaner', [Cleaner\Caches::class, 'create']);
         dcCore::app()->addBehavior('UninstallerAddCleaner', [Cleaner\Vars::class, 'create']);
         dcCore::app()->addBehavior('UninstallerAddCleaner', [Cleaner\Themes::class, 'create']);
