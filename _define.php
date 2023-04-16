@@ -18,7 +18,7 @@ $this->registerModule(
     'Uninstaller',
     'Uninstall cleanly plugins and themes',
     'Jean-Christian Denis and Contributors',
-    '0.1',
+    '0.2',
     [
         'requires'    => [['core', '2.26']],
         'permissions' => null,
