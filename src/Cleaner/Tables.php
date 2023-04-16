@@ -97,7 +97,7 @@ class Tables extends AbstractCleaner
             }
 
             $sql = new SelectStatement();
-            $sql->from(dcCore::app()->prefix . $res[$k])
+            $sql->from($res[$k])
                 ->fields([$sql->count('*')]);
 
             $rs[$i]['key']   = $v;
