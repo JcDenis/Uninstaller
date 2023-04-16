@@ -41,7 +41,7 @@ class Logs extends AbstractCleaner
         return [
             new ActionDescriptor([
                 'id'      => 'delete_all',
-                'select'  => __('delete selected logs table'),
+                'select'  => __('delete selected logs tables'),
                 'query'   => __('delete "%s" logs table'),
                 'success' => __('"%s" logs table deleted'),
                 'error'   => __('Failed to delete "%s" logs table'),
@@ -52,7 +52,7 @@ class Logs extends AbstractCleaner
     public function distributed(): array
     {
         return [
-            'maintenance'
+            'maintenance',
         ];
     }
 
@@ -90,6 +90,7 @@ class Logs extends AbstractCleaner
     public function execute(string $action, string $ns): bool
     {
         if ($action == 'delete_all') {
+            $sql = new DeleteStatement();
             $sql->from(dcCore::app()->prefix . dcLog::LOG_TABLE_NAME)
                 ->where('log_table = ' . $sql->quote((string) $ns))
                 ->and($sql->orGroup(['blog_id IS NULL', 'blog_id IS NOT NULL']))

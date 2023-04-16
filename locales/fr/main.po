@@ -1,15 +1,15 @@
 # Language: Français
-# Module: Uninstaller - 0.1
-# Date: 2023-04-15 23:11:02
+# Module: Uninstaller - 0.2
+# Date: 2023-04-16 09:40:12
 # Author: , contact@jcdenis.fr
 # Translated with translater 2023.03.19
 
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
-"Project-Id-Version: Uninstaller 0.1\n"
+"Project-Id-Version: Uninstaller 0.2\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2023-04-15T23:11:02+00:00\n"
+"PO-Revision-Date: 2023-04-16T09:40:12+00:00\n"
 "Last-Translator: Jean-Christian Denis\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -59,6 +59,26 @@ msgstr "répertoire de cache \"%s\" vidé"
 #: src/Cleaner/Caches.php:51
 msgid "Failed to empty \"%s\" cache directory"
 msgstr "Impossible de vider le répertoire de cache \"ùs\""
+
+#: src/Cleaner/Logs.php:35
+msgid "Logs in Dotclear logs table"
+msgstr "Enregistrements dans le table de logs de Dotclear"
+
+#: src/Cleaner/Logs.php:44
+msgid "delete selected logs tables"
+msgstr "supprimer les tables de logs sélectionnées"
+
+#: src/Cleaner/Logs.php:45
+msgid "delete \"%s\" logs table"
+msgstr "supprimer la table de logs \"%S\""
+
+#: src/Cleaner/Logs.php:46
+msgid "\"%s\" logs table deleted"
+msgstr "table de logs \"%s\" supprimée"
+
+#: src/Cleaner/Logs.php:47
+msgid "Failed to delete \"%s\" logs table"
+msgstr "Impossible de supprimer la table de logs \"%s\""
 
 #: src/Cleaner/Plugins.php:32
 msgid "Folders from plugins directories"
@@ -144,39 +164,39 @@ msgstr "paramètres relatifs effacer"
 msgid "Failed to delete related settings"
 msgstr "Impossible d'effacer les paramètres relatifs"
 
-#: src/Cleaner/Tables.php:31
+#: src/Cleaner/Tables.php:36
 msgid "All database tables of Dotclear"
 msgstr "Toutes les tables Dotclear de la base de données"
 
-#: src/Cleaner/Tables.php:40
+#: src/Cleaner/Tables.php:45
 msgid "delete selected tables"
 msgstr "effacer les tables sélectionnées"
 
-#: src/Cleaner/Tables.php:41
+#: src/Cleaner/Tables.php:46
 msgid "delete \"%s\" table"
 msgstr "Supprimer la table \"%s\""
 
-#: src/Cleaner/Tables.php:42
+#: src/Cleaner/Tables.php:47
 msgid "\"%s\" table deleted"
 msgstr "table \"%s\" supprimée"
 
-#: src/Cleaner/Tables.php:43
+#: src/Cleaner/Tables.php:48
 msgid "Failed to delete \"%s\" table"
 msgstr "Impossible de supprimer la table \"%s\""
 
-#: src/Cleaner/Tables.php:47
+#: src/Cleaner/Tables.php:52
 msgid "empty selected tables"
 msgstr "vider les tables selectionnées"
 
-#: src/Cleaner/Tables.php:48
+#: src/Cleaner/Tables.php:53
 msgid "empty \"%s\" table"
 msgstr "vider la table \"%s\""
 
-#: src/Cleaner/Tables.php:49
+#: src/Cleaner/Tables.php:54
 msgid "\"%s\" table emptied"
 msgstr "table \"%s\" vidée"
 
-#: src/Cleaner/Tables.php:50
+#: src/Cleaner/Tables.php:55
 msgid "Failed to empty \"%s\" table"
 msgstr "Impossible de vider la table \"%s\""
 
