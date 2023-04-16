@@ -262,8 +262,8 @@ class Uninstaller
 
     private function addAction(string $group, string $cleaner, string $action, string $ns): void
     {
-        // invalid group or no current module or no cleaner id or ns
-        if (!self::group($group) || null === $this->module || empty($cleaner) || empty($ns)) {
+        // no current module or no cleaner id or ns
+        if (null === $this->module || empty($cleaner) || empty($ns)) {
             return;
         }
         // unknow cleaner action
@@ -283,7 +283,7 @@ class Uninstaller
 
     private function getActions(string $group, string $id): array
     {
-        if (!self::group($group) || !isset($this->actions[$group][$id])) {
+        if (!isset($this->actions[$group][$id])) {
             return [];
         }
         $res = [];
@@ -295,10 +295,5 @@ class Uninstaller
         }
 
         return $res;
-    }
-
-    private function group(string $group): bool
-    {
-        return in_array($group, ['user', 'direct']);
     }
 }
