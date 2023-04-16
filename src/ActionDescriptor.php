@@ -22,6 +22,9 @@ class ActionDescriptor
     /** @var    string  $id     The action ID */
     public readonly string $id;
 
+    /** @var    string  $ns     The namespace (for defined action) */
+    public readonly string $ns;
+
     /** @var    string  $query  The generic message (used for self::values() management) */
     public readonly string $select;
 
@@ -40,6 +43,7 @@ class ActionDescriptor
     public function __construct(array $description)
     {
         $this->id      = (string) ($description['id'] ?? 'undefined');
+        $this->ns      = (string) ($description['ns'] ?? '');
         $this->select  = (string) ($description['select'] ?? 'undefined');
         $this->query   = (string) ($description['query'] ?? 'undefined');
         $this->success = (string) ($description['success'] ?? 'undefined');
@@ -55,6 +59,7 @@ class ActionDescriptor
     {
         return [
             'id'      => $this->id,
+            'ns'      => $this->ns,
             'select'  => $this->select,
             'query'   => $this->query,
             'success' => $this->success,

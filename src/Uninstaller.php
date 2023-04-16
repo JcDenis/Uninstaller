@@ -71,7 +71,7 @@ class Uninstaller
      *
      * Load modules resets previously loaded modules and actions.
      *
-     * @param   array  $modules   List of modules Define
+     * @param   array<int,dcModuleDefine>  $modules   List of modules Define
      *
      * @return  Uninstaller     Uninstaller instance
      */
@@ -271,13 +271,14 @@ class Uninstaller
             return;
         }
         // fill action properties
-        $this->actions[$group][$this->module->getId()][$cleaner][] = [
+        $this->actions[$group][$this->module->getId()][$cleaner][] = new ActionDescriptor([
+            'id'      => $action,
             'ns'      => $ns,
-            'action'  => $action,
+            'select'  => $this->cleaners->get($cleaner)->actions[$action]->select,
             'query'   => sprintf($this->cleaners->get($cleaner)->actions[$action]->query, $ns),
             'success' => sprintf($this->cleaners->get($cleaner)->actions[$action]->success, $ns),
             'error'   => sprintf($this->cleaners->get($cleaner)->actions[$action]->error, $ns),
-        ];
+        ]);
     }
 
     private function getActions(string $group, string $id): array

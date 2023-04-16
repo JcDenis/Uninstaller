@@ -80,11 +80,11 @@ class Manage extends dcNsProcess
             $done = [];
             foreach ($actions as $cleaner => $stack) {
                 foreach ($stack as $action) {
-                    if (isset($_POST['action'][$cleaner]) && isset($_POST['action'][$cleaner][$action['action']])) {
-                        if ($uninstaller->execute($cleaner, $action['action'], $_POST['action'][$cleaner][$action['action']])) {
-                            $done[] = $action['success'];
+                    if (isset($_POST['action'][$cleaner]) && isset($_POST['action'][$cleaner][$action->id])) {
+                        if ($uninstaller->execute($cleaner, $action->id, $_POST['action'][$cleaner][$action->id])) {
+                            $done[] = $action->success;
                         } else {
-                            dcCore::app()->error->add($action['error']);
+                            dcCore::app()->error->add($action->error);
                         }
                     }
                 }
@@ -140,8 +140,8 @@ class Manage extends dcNsProcess
         foreach ($uninstaller->getUserActions($define->getId()) as $cleaner => $stack) {
             foreach ($stack as $action) {
                 $fields[] = (new Para())->items([
-                    (new Checkbox(['action[' . $cleaner . '][' . $action['action'] . ']', 'action_' . $cleaner . '_' . $action['action']], true))->value($action['ns']),
-                    (new Label($action['query'], Label::OUTSIDE_LABEL_AFTER))->for('action_' . $cleaner . '_' . $action['action'])->class('classic'),
+                    (new Checkbox(['action[' . $cleaner . '][' . $action->id . ']', 'action_' . $cleaner . '_' . $action->id], true))->value($action->ns),
+                    (new Label($action->query, Label::OUTSIDE_LABEL_AFTER))->for('action_' . $cleaner . '_' . $action->id)->class('classic'),
                 ]);
             }
         }
