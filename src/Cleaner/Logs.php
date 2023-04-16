@@ -52,6 +52,7 @@ class Logs extends AbstractCleaner
     public function distributed(): array
     {
         return [
+            'dcDeprecated',
             'maintenance',
         ];
     }
