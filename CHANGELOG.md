@@ -1,3 +1,8 @@
+0.3 - 2023.04.17
+- require Dotclear 2.26 and PHP >= 8.1
+- add logs cleaner
+- various fixes
+
 0.2 - 2023.04.16
 - require Dotclear 2.26 and PHP >= 8.1
 - enhance cleaner descriptor
