@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\Uninstaller;
 
 use dcCore;
+use dcModuleDefine;
 use dcNsProcess;
 use dcPage;
 use dcThemes;
@@ -59,7 +60,7 @@ class Manage extends dcNsProcess
         }
 
         // get selected module
-        $define = dcCore::app()->{self::getType() . 's'}->getDefine($_REQUEST['id']);
+        $define = dcCore::app()->{self::getType() . 's'}->getDefine($_REQUEST['id'], ['state' => dcModuleDefine::STATE_ENABLED]);
         if (!$define->isDefined()) {
             dcCore::app()->error->add(__('Unknown module id to uninstall'));
             self::doRedirect();
@@ -114,7 +115,7 @@ class Manage extends dcNsProcess
         }
 
         // load module uninstaller
-        $define      = dcCore::app()->{self::getType() . 's'}->getDefine($_REQUEST['id']);
+        $define      = dcCore::app()->{self::getType() . 's'}->getDefine($_REQUEST['id'], ['state' => dcModuleDefine::STATE_ENABLED]);
         $uninstaller = Uninstaller::instance()->loadModules([$define]);
         $fields      = [];
 
