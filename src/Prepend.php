@@ -35,8 +35,8 @@ class Prepend extends dcNsProcess
         }
 
         // Add cleaners to Uninstaller
-        dcCore::app()->addBehavior('UninstallerCleanersConstruct', function (Uninstaller $uninstaller): void {
-            $uninstaller->cleaners
+        dcCore::app()->addBehavior('UninstallerCleanersConstruct', function (Cleaners $cleaners): void {
+            $cleaners
                 ->add(new Cleaner\Settings())
                 ->add(new Cleaner\Tables())
                 ->add(new Cleaner\Versions())
