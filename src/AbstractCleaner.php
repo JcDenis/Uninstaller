@@ -14,8 +14,6 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\Uninstaller;
 
-use ArrayObject;
-
 /**
  * Cleaner abstract class.
  *
@@ -53,17 +51,6 @@ abstract class AbstractCleaner
             }
         }
         $this->actions = $actions;
-    }
-
-    /**
-     * Create and add the Cleaner to a stack.
-     *
-     * @param   ArrayObject     $stack  The cleaners stack
-     */
-    public static function create(ArrayObject $stack): void
-    {
-        $class = static::class;
-        $stack->append(new $class());
     }
 
     /**

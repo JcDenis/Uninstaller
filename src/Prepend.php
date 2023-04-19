@@ -35,14 +35,18 @@ class Prepend extends dcNsProcess
         }
 
         // Add cleaners to Uninstaller
-        dcCore::app()->addBehavior('UninstallerAddCleaner', [Cleaner\Settings::class, 'create']);
-        dcCore::app()->addBehavior('UninstallerAddCleaner', [Cleaner\Tables::class, 'create']);
-        dcCore::app()->addBehavior('UninstallerAddCleaner', [Cleaner\Versions::class, 'create']);
-        dcCore::app()->addBehavior('UninstallerAddCleaner', [Cleaner\Logs::class, 'create']);
-        dcCore::app()->addBehavior('UninstallerAddCleaner', [Cleaner\Caches::class, 'create']);
-        dcCore::app()->addBehavior('UninstallerAddCleaner', [Cleaner\Vars::class, 'create']);
-        dcCore::app()->addBehavior('UninstallerAddCleaner', [Cleaner\Themes::class, 'create']);
-        dcCore::app()->addBehavior('UninstallerAddCleaner', [Cleaner\Plugins::class, 'create']);
+        dcCore::app()->addBehavior('UninstallerCleanersConstruct', function (Uninstaller $uninstaller): void {
+            $uninstaller->cleaners
+                ->add(new Cleaner\Settings())
+                ->add(new Cleaner\Tables())
+                ->add(new Cleaner\Versions())
+                ->add(new Cleaner\Logs())
+                ->add(new Cleaner\Caches())
+                ->add(new Cleaner\Vars())
+                ->add(new Cleaner\Themes())
+                ->add(new Cleaner\Plugins())
+            ;
+        });
 
         return true;
     }

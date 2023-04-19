@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\Uninstaller;
 
-use ArrayObject;
 use dcCore;
 use Exception;
 
@@ -27,24 +26,28 @@ class Cleaners
     private array $cleaners = [];
 
     /**
-     * Constructor register the cleaners.
+     * Contructor load cleaners.
      */
     public function __construct()
     {
-        $cleaners = new ArrayObject();
+        # --BEHAVIOR-- UninstallerConstruct: Uninstaller
+        dcCore::app()->callBehavior('UninstallerCleanersConstruct', $this);
+    }
 
-        try {
-            # --BEHAVIOR-- UninstallerAddCleaner: ArrayObject
-            dcCore::app()->callBehavior('UninstallerAddCleaner', $cleaners);
-
-            foreach ($cleaners as $cleaner) {
-                if (is_a($cleaner, AbstractCleaner::class) && !isset($this->cleaners[$cleaner->id])) {
-                    $this->cleaners[$cleaner->id] = $cleaner;
-                }
-            }
-        } catch (Exception $e) {
-            dcCore::app()->error->add($e->getMessage());
+    /**
+     * Add a cleaner.
+     *
+     * @param   AbstractCleaner     $cleaner    The cleaner instance
+     *
+     * @return  Cleaners    Self instance
+     */
+    public function add(AbstractCleaner $cleaner): Cleaners
+    {
+        if (!isset($this->cleaners[$cleaner->id])) {
+            $this->cleaners[$cleaner->id] = $cleaner;
         }
+
+        return $this;
     }
 
     /**
