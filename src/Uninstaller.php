@@ -16,7 +16,7 @@ namespace Dotclear\Plugin\Uninstaller;
 
 use dcModuleDefine;
 use dcNsProcess;
-use dcUtils;
+use Dotclear\Helper\Text;
 use Exception;
 
 /**
@@ -106,7 +106,7 @@ class Uninstaller
         }
         uasort(
             $this->modules,
-            fn ($a, $b) => dcUtils::removeDiacritics(mb_strtolower($a->get('name'))) <=> dcUtils::removeDiacritics(mb_strtolower($b->get('name')))
+            fn ($a, $b) => Text::removeDiacritics(mb_strtolower($a->get('name'))) <=> Text::removeDiacritics(mb_strtolower($b->get('name')))
         );
 
         return $this;
