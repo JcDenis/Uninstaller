@@ -54,6 +54,16 @@ abstract class AbstractCleaner
     }
 
     /**
+     * Get an action description.
+     *
+     * @return  null|ActionDescriptor   The action descriptor
+     */
+    final public function get(string $id): ?ActionDescriptor
+    {
+        return $this->actions[$id] ?? null;
+    }
+
+    /**
      * Initialize Cleaner properties.
      *
      * @return  array<string,string>   The Cleaner properties [id=>,name=>,desc=>,]
