@@ -86,7 +86,7 @@ class Cleaners
         if (!isset($this->cleaners[$id])) {
             throw new Exception(sprintf(__('Unknown cleaner "%s"'), $id));
         }
-        if (in_array($ns, [My::id(), My::root()]) {
+        if (in_array($ns, [My::id(), My::root()])) {
             throw new Exception(__("Unsintaller can't remove itself"));
         }
 
