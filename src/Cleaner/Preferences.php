@@ -179,12 +179,12 @@ class Preferences extends AbstractCleaner
     /**
      * Check well formed ns.
      *
-     * @param   string  The ns to check
+     * @param   string  $ns     The ns to check
      *
      * @return  bool    True on well formed
      */
     private static function checkNs(string $ns): bool
     {
-        return preg_match(dcWorkspace::WS_NAME_SCHEMA, $ns);
+        return (bool) preg_match(dcWorkspace::WS_NAME_SCHEMA, $ns);
     }
 }
