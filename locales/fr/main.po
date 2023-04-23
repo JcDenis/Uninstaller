@@ -1,15 +1,15 @@
 # Language: Français
-# Module: Uninstaller - 0.2
-# Date: 2023-04-16 09:40:12
+# Module: Uninstaller - 0.4
+# Date: 2023-04-23 15:51:03
 # Author: , contact@jcdenis.fr
 # Translated with translater 2023.03.19
 
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
-"Project-Id-Version: Uninstaller 0.2\n"
+"Project-Id-Version: Uninstaller 0.4\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2023-04-16T09:40:12+00:00\n"
+"PO-Revision-Date: 2023-04-23T15:51:03+00:00\n"
 "Last-Translator: Jean-Christian Denis\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -100,6 +100,74 @@ msgstr "fichiers et répertoires du plugin \"%s\" effacés"
 msgid "Failed to delete \"%s\" plugin files and directories"
 msgstr "Impossible d'effacer les fichiers et répertoires du plugin \"%s\""
 
+#: src/Cleaner/Preferences.php:40
+msgid "Preferences"
+msgstr "Préférences"
+
+#: src/Cleaner/Preferences.php:41
+msgid "Users preferences workspaces"
+msgstr "Préférences utilisateurs (workspaces)"
+
+#: src/Cleaner/Preferences.php:50
+msgid "delete selected global preferences workspaces"
+msgstr "effacer les préférences globales"
+
+#: src/Cleaner/Preferences.php:51
+msgid "delete \"%s\" global preferences workspace"
+msgstr "effacer les préférences globales \"%s\""
+
+#: src/Cleaner/Preferences.php:52
+msgid "\"%s\" global preferences workspace deleted"
+msgstr "préférences globales \"%s\" effacées"
+
+#: src/Cleaner/Preferences.php:53
+msgid "Failed to delete \"%s\" global preferences workspace"
+msgstr "Impossible d'effacer les préférences globales \"%s\""
+
+#: src/Cleaner/Preferences.php:57
+msgid "delete selected users preferences workspaces"
+msgstr "effacer les préférences utilisateurs sélectionnées"
+
+#: src/Cleaner/Preferences.php:58
+msgid "delete \"%s\" users preferences workspace"
+msgstr "effacer les préférences utilisateurs \"%s\""
+
+#: src/Cleaner/Preferences.php:59
+msgid "\"%s\" users preferences workspace deleted"
+msgstr "préférences utilistateurs \"%s\" effacées"
+
+#: src/Cleaner/Preferences.php:60
+msgid "Failed to delete \"%s\" users preferences workspace"
+msgstr "Impossible d'effacer les préférences utilisateurs \"%s\""
+
+#: src/Cleaner/Preferences.php:64
+msgid "delete selected preferences workspaces"
+msgstr "effacer les préférences selectionnées"
+
+#: src/Cleaner/Preferences.php:65
+msgid "delete \"%s\" preferences workspace"
+msgstr "effacer les préférences \"%s\""
+
+#: src/Cleaner/Preferences.php:66
+msgid "\"%s\" preferences workspace deleted"
+msgstr "préférences \"%s\" effacées"
+
+#: src/Cleaner/Preferences.php:67
+msgid "Failed to delete \"%s\" preferences workspace"
+msgstr "Impossible d'effacer les préférences \"%s\""
+
+#: src/Cleaner/Preferences.php:72
+msgid "delete related preferences"
+msgstr "effacer les préférences associées"
+
+#: src/Cleaner/Preferences.php:73
+msgid "related preferences deleted"
+msgstr "préférences associées effacées"
+
+#: src/Cleaner/Preferences.php:74
+msgid "Failed to delete related preferences"
+msgstr "Impossible d'effacer les préférences associées"
+
 #: src/Cleaner/Settings.php:41
 msgid "Namespaces registered in dcSettings"
 msgstr "Espaces de nom (namespaces) enregistrés dans dcSettings"
@@ -164,39 +232,39 @@ msgstr "paramètres relatifs effacer"
 msgid "Failed to delete related settings"
 msgstr "Impossible d'effacer les paramètres relatifs"
 
-#: src/Cleaner/Tables.php:36
+#: src/Cleaner/Tables.php:37
 msgid "All database tables of Dotclear"
 msgstr "Toutes les tables Dotclear de la base de données"
 
-#: src/Cleaner/Tables.php:45
+#: src/Cleaner/Tables.php:46
 msgid "delete selected tables"
 msgstr "effacer les tables sélectionnées"
 
-#: src/Cleaner/Tables.php:46
+#: src/Cleaner/Tables.php:47
 msgid "delete \"%s\" table"
 msgstr "Supprimer la table \"%s\""
 
-#: src/Cleaner/Tables.php:47
+#: src/Cleaner/Tables.php:48
 msgid "\"%s\" table deleted"
 msgstr "table \"%s\" supprimée"
 
-#: src/Cleaner/Tables.php:48
+#: src/Cleaner/Tables.php:49
 msgid "Failed to delete \"%s\" table"
 msgstr "Impossible de supprimer la table \"%s\""
 
-#: src/Cleaner/Tables.php:52
+#: src/Cleaner/Tables.php:53
 msgid "empty selected tables"
 msgstr "vider les tables selectionnées"
 
-#: src/Cleaner/Tables.php:53
+#: src/Cleaner/Tables.php:54
 msgid "empty \"%s\" table"
 msgstr "vider la table \"%s\""
 
-#: src/Cleaner/Tables.php:54
+#: src/Cleaner/Tables.php:55
 msgid "\"%s\" table emptied"
 msgstr "table \"%s\" vidée"
 
-#: src/Cleaner/Tables.php:55
+#: src/Cleaner/Tables.php:56
 msgid "Failed to empty \"%s\" table"
 msgstr "Impossible de vider la table \"%s\""
 
@@ -260,47 +328,47 @@ msgstr "numéro de version de \"%s\" supprimé"
 msgid "Failed to delete \"%s\" version number"
 msgstr "Impossible de supprimer le numéro de version de \"%s\""
 
-#: src/Cleaners.php:84
+#: src/Cleaners.php:87
 msgid "Unknown cleaner \"%s\""
 msgstr "Nettoyeur \"%s\" inconnu"
 
-#: src/Cleaners.php:87
+#: src/Cleaners.php:90
 msgid "Unsintaller can't remove itself"
 msgstr "Le désinstalleur ne peut pas se supprimer lui-même"
 
-#: src/Manage.php:64
+#: src/Manage.php:65
 msgid "Unknown module id to uninstall"
 msgstr "Module a désinstaller inconnu"
 
-#: src/Manage.php:71
+#: src/Manage.php:73
 msgid "There are no uninstall actions for this module"
 msgstr "Il n'y a aucune action pour ce module"
 
-#: src/Manage.php:93
+#: src/Manage.php:98
 msgid "Uninstall action successfuly excecuted"
 msgstr "Actions de désinstallation exécutées avec succès"
 
-#: src/Manage.php:96
+#: src/Manage.php:101
 msgid "No uninstall action done"
 msgstr "Aucune action de désinstallation exécutée"
 
-#: src/Manage.php:125
+#: src/Manage.php:129
 msgid "Are you sure you perform these ations?"
 msgstr "Êtes-vous sûre de vouloir effectuer ces actions ?"
 
-#: src/Manage.php:154
+#: src/Manage.php:158
 msgid "Perform selected actions"
 msgstr "Effectuer les actions sélectionnées"
 
-#: src/Manage.php:160
+#: src/Manage.php:164
 msgid "Uninstall theme \"%s\""
 msgstr "Désinstaller le thème \"%s\""
 
-#: src/Manage.php:160
+#: src/Manage.php:164
 msgid "Uninstall plugin \"%s\""
 msgstr "Désinstaller le plugin \"%s\""
 
-#: src/Manage.php:161
+#: src/Manage.php:165
 msgid "The module \"%s %s\" offers advanced unsintall process:"
 msgstr "Le module \"%s %s\" propose un processus de désinstallation avancée :"
 
