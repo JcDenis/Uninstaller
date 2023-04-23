@@ -19,6 +19,7 @@ use dcCore;
 use dcModuleDefine;
 use dcNsProcess;
 use dcPage;
+use dcUtils;
 use Exception;
 
 class Backend extends dcNsProcess
@@ -47,7 +48,7 @@ class Backend extends dcNsProcess
 
                 return empty(Uninstaller::instance()->loadModules([$define])->getUserActions($define->getId())) ? '' :
                     sprintf(
-                        ' <a href="%s" class="button delete">' . __('Uninstall') . '</a>',
+                        ' <a href="%s" class="button delete uninstall_module_button">' . __('Uninstall') . '</a>',
                         dcCore::app()->adminurl?->get('admin.plugin.' . My::id(), ['type' => $define->get('type'), 'id' => $define->getId()])
                     );
             },
@@ -58,6 +59,14 @@ class Backend extends dcNsProcess
             // perform direct action on plugin deletion
             'pluginBeforeDeleteV2' => function (dcModuleDefine $define): void {
                 self::moduleBeforeDelete($define);
+            },
+            // add js to hide delete button when uninstaller exists
+            'pluginsToolsHeadersV2' => function (): string {
+                return self::modulesToolsHeader();
+            },
+            // add js to hide delete button when uninstaller exists
+            'themesToolsHeadersV2' => function (): string {
+                return self::modulesToolsHeader();
             },
         ]);
 
@@ -97,5 +106,10 @@ class Backend extends dcNsProcess
         } catch (Exception $e) {
             dcCore::app()->error->add($e->getMessage());
         }
+    }
+
+    protected static function modulesToolsHeader()
+    {
+        return dcUtils::jsModuleLoad(My::id() . '/js/backend.js');
     }
 }

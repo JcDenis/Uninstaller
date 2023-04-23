@@ -127,7 +127,7 @@ class Manage extends dcNsProcess
         dcPage::openModule(
             My::name(),
             dcPage::jsJson('uninstaller', ['confirm_uninstall' => __('Are you sure you perform these ations?')]) .
-            dcPage::jsModuleLoad(My::id() . '/js/backend.js') .
+            dcPage::jsModuleLoad(My::id() . '/js/manage.js') .
 
             # --BEHAVIOR-- UninstallerHeader
             dcCore::app()->callBehavior('UninstallerHeader')
