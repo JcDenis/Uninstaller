@@ -14,9 +14,11 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\Uninstaller\Cleaner;
 
-use dbSchema;
-use dbStruct;
 use dcCore;
+use Dotclear\Database\{
+    AbstractSchema,
+    Structure
+};
 use Dotclear\Database\Statement\{
     DeleteStatement,
     DropStatement,
@@ -83,7 +85,7 @@ class Tables extends AbstractCleaner
 
     public function values(): array
     {
-        $object = dbSchema::init(dcCore::app()->con);
+        $object = AbstractSchema::init(dcCore::app()->con);
         $res    = $object->getTables();
 
         $rs = [];
@@ -121,7 +123,7 @@ class Tables extends AbstractCleaner
             return true;
         }
         if ($action == 'delete') {
-            $struct = new dbStruct(dcCore::app()->con, dcCore::app()->prefix);
+            $struct = new Structure(dcCore::app()->con, dcCore::app()->prefix);
             if ($struct->tableExists($ns)) {
                 $sql = new DropStatement();
                 $sql->from(dcCore::app()->prefix . $ns)
