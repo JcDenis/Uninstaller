@@ -1,3 +1,12 @@
+todo:
+- add user pref cleaner
+- add meta cleaner
+
+0.5 - 2023.04.23
+- require Dotclear 2.26 and PHP >= 8.1
+- add Claener for user pref (wrokspace)
+- add ns check on settings
+
 0.4 - 2023.04.20
 - require Dotclear 2.26 and PHP >= 8.1
 - add method to retreive an action description
