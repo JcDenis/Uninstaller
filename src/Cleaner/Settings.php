@@ -128,7 +128,7 @@ class Settings extends AbstractCleaner
     {
         $sql = new DeleteStatement();
 
-        if ($action == 'delete_global') {
+        if ($action == 'delete_global' && self::checkNs($ns)) {
             $sql->from(dcCore::app()->prefix . dcNamespace::NS_TABLE_NAME)
                 ->where('blog_id IS NULL')
                 ->and('setting_ns = ' . $sql->quote((string) $ns))
@@ -136,7 +136,7 @@ class Settings extends AbstractCleaner
 
             return true;
         }
-        if ($action == 'delete_local') {
+        if ($action == 'delete_local' && self::checkNs($ns)) {
             $sql->from(dcCore::app()->prefix . dcNamespace::NS_TABLE_NAME)
                 ->where('blog_id = ' . $sql->quote((string) dcCore::app()->blog?->id))
                 ->and('setting_ns = ' . $sql->quote((string) $ns))
@@ -144,7 +144,7 @@ class Settings extends AbstractCleaner
 
             return true;
         }
-        if ($action == 'delete_all') {
+        if ($action == 'delete_all' && self::checkNs($ns)) {
             $sql->from(dcCore::app()->prefix . dcNamespace::NS_TABLE_NAME)
                 ->where('setting_ns = ' . $sql->quote((string) $ns))
                 ->and($sql->orGroup(['blog_id IS NULL', 'blog_id IS NOT NULL']))
@@ -153,12 +153,17 @@ class Settings extends AbstractCleaner
             return true;
         }
         if ($action == 'delete_related') {
+            // check ns match ns:id;
+            $reg_ws = substr(dcNamespace::NS_NAME_SCHEMA, 2, -2);
+            $reg_id = substr(dcNamespace::NS_ID_SCHEMA, 2, -2);
+            if (!preg_match_all('#((' . $reg_ws . '):(' . $reg_id . ');?)#', $ns, $matches)) {
+                return false;
+            }
+
+            // build ws/id requests
             $or = [];
-            foreach (explode(';', $ns) as $pair) {
-                $exp = explode(':', $pair);
-                if (count($exp) == 2) {
-                    $or[] = $sql->andGroup(['setting_ns = ' . $sql->quote((string) $exp[0]), 'setting_id = ' . $sql->quote((string) $exp[1])]);
-                }
+            foreach ($matches[2] as $key => $name) {
+                $or[] = $sql->andGroup(['setting_ns = ' . $sql->quote((string) $name), 'setting_id = ' . $sql->quote((string) $matches[3][$key])]);
             }
             if (empty($or)) {
                 return false;
@@ -173,5 +178,17 @@ class Settings extends AbstractCleaner
         }
 
         return false;
+    }
+
+    /**
+     * Check well formed ns.
+     *
+     * @param   string  The ns to check
+     *
+     * @return  bool    True on well formed
+     */
+    private static function checkNs(string $ns): bool
+    {
+        return preg_match(dcNamespace::NS_NAME_SCHEMA, $ns);
     }
 }
