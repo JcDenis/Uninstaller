@@ -57,13 +57,6 @@ class ActionDescriptor
      */
     public function dump(): array
     {
-        return [
-            'id'      => $this->id,
-            'ns'      => $this->ns,
-            'select'  => $this->select,
-            'query'   => $this->query,
-            'success' => $this->success,
-            'error'   => $this->error,
-        ];
+        return get_class_vars(__CLASS__) ?: [];
     }
 }

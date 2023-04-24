@@ -15,7 +15,10 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\Uninstaller;
 
 /**
- * Cleaner value descriptor
+ * Cleaner value descriptor.
+ *
+ * Description of a value from AbstractCleaner::value()
+ * and AbstractCleaner::related()
  */
 class ValueDescriptor
 {
@@ -30,21 +33,16 @@ class ValueDescriptor
         public readonly string $ns,
         public readonly string $id,
         public readonly int $count,
-
     ) {
     }
 
     /**
      * Get descriptor properties.
      *
-     * @return  array<string,string>    The properties
+     * @return  array<string,mixed>     The properties
      */
     public function dump(): array
     {
-        return [
-            'ns'      => $this->ns,
-            'id'      => $this->id,
-            'count'  => $this->count,
-        ];
+        return get_class_vars(__CLASS__) ?: [];
     }
 }
