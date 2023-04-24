@@ -92,6 +92,18 @@ abstract class AbstractCleaner
     abstract public function values(): array;
 
     /**
+     * Get all related values for a namespace from the cleaner.
+     *
+     * @param   string  $ns     The namespace
+     *
+     * @return  array<int,array<string,string>>     The values.
+     */
+    public function related(string $ns): array
+    {
+        return [];
+    }
+
+    /**
      * Execute action on an value.
      *
      * @param   string  $action     The action id
