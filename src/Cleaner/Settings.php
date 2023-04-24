@@ -27,10 +27,10 @@ use Dotclear\Plugin\Uninstaller\{
 };
 
 /**
- * Settings cleaner.
+ * Cleaner for Dotclear blog settings.
  *
- * Cleaner manages entire setting namespace
- * except 'delete_related' which can pickup settings ns/id pairs
+ * It allows modules to delete for blogs or global a settings namespace.
+ * It also allows to pick-up specific setting id by using delete_related action.
  */
 class Settings extends AbstractCleaner
 {
@@ -46,6 +46,7 @@ class Settings extends AbstractCleaner
     protected function actions(): array
     {
         return [
+            // delete global $ns settings namespace
             new ActionDescriptor([
                 'id'      => 'delete_global',
                 'select'  => __('delete selected global settings namespaces'),
@@ -53,6 +54,7 @@ class Settings extends AbstractCleaner
                 'success' => __('"%s" global settings namespace deleted'),
                 'error'   => __('Failed to delete "%s" global settings namespace'),
             ]),
+            // delete blogs $ns settings namespace
             new ActionDescriptor([
                 'id'      => 'delete_local',
                 'select'  => __('delete selected blog settings namespaces'),
@@ -60,6 +62,7 @@ class Settings extends AbstractCleaner
                 'success' => __('"%s" blog settings namespace deleted'),
                 'error'   => __('Failed to delete "%s" blog settings namespace'),
             ]),
+            // delete blogs and global settings namespace
             new ActionDescriptor([
                 'id'      => 'delete_all',
                 'select'  => __('delete selected settings namespaces'),
@@ -67,7 +70,7 @@ class Settings extends AbstractCleaner
                 'success' => __('"%s" settings namespace deleted'),
                 'error'   => __('Failed to delete "%s" settings namespace'),
             ]),
-            // $ns = 'setting_ns:setting_id;setting_ns:setting_id;...' for global and blogs settings
+            // delete blogs and globals specific $ns:$id settings using 'setting_ns:setting_id;setting_ns:setting_id;' as $ns
             new ActionDescriptor([
                 'id'      => 'delete_related',
                 'query'   => __('delete related settings'),

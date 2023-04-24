@@ -22,6 +22,11 @@ use Dotclear\Plugin\Uninstaller\{
     ValueDescriptor
 };
 
+/**
+ * Cleaner for Dotclear themes.
+ *
+ * It allows modules to delete their own folder.
+ */
 class Themes extends AbstractCleaner
 {
     use TraitCleanerDir;
@@ -38,6 +43,7 @@ class Themes extends AbstractCleaner
     protected function actions(): array
     {
         return [
+            // delete $ns theme folder
             new ActionDescriptor([
                 'id'      => 'delete',
                 'select'  => __('delete selected themes files and directories'),

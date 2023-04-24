@@ -30,6 +30,11 @@ use Dotclear\Plugin\Uninstaller\{
     ValueDescriptor
 };
 
+/**
+ * Cleaner for Dotclear cache directory used by modules.
+ *
+ * It allows modules to delete or truncate a database table.
+ */
 class Tables extends AbstractCleaner
 {
     protected function properties(): array
@@ -44,6 +49,7 @@ class Tables extends AbstractCleaner
     protected function actions(): array
     {
         return [
+            // delete $ns database table
             new ActionDescriptor([
                 'id'      => 'delete',
                 'select'  => __('delete selected tables'),
@@ -51,6 +57,7 @@ class Tables extends AbstractCleaner
                 'success' => __('"%s" table deleted'),
                 'error'   => __('Failed to delete "%s" table'),
             ]),
+            // truncate (empty) $ns database table
             new ActionDescriptor([
                 'id'      => 'empty',
                 'select'  => __('empty selected tables'),

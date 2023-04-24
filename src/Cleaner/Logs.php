@@ -26,6 +26,12 @@ use Dotclear\Plugin\Uninstaller\{
     ValueDescriptor
 };
 
+/**
+ * Cleaner for Dotclear logs used by modules.
+ *
+ * It allows modules to delete a "log_table"
+ * of Dotclear dcLog::LOG_TABLE_NAME database table.
+ */
 class Logs extends AbstractCleaner
 {
     protected function properties(): array
@@ -40,6 +46,7 @@ class Logs extends AbstractCleaner
     protected function actions(): array
     {
         return [
+            // delete all $ns log_table entries
             new ActionDescriptor([
                 'id'      => 'delete_all',
                 'select'  => __('delete selected logs tables'),

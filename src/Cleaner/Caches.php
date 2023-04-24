@@ -21,6 +21,12 @@ use Dotclear\Plugin\Uninstaller\{
     ValueDescriptor
 };
 
+/**
+ * Cleaner for Dotclear cache directory used by modules.
+ *
+ * It allows modules to delete an entire sub folder 
+ * of DC_TPL_CACHE directory path.
+ */
 class Caches extends AbstractCleaner
 {
     use TraitCleanerDir;
@@ -37,6 +43,7 @@ class Caches extends AbstractCleaner
     protected function actions(): array
     {
         return [
+            // delete a $ns folder and thier files.
             new ActionDescriptor([
                 'id'      => 'delete',
                 'select'  => __('delete selected cache directories'),
@@ -44,6 +51,7 @@ class Caches extends AbstractCleaner
                 'success' => __('"%s" cache directory deleted'),
                 'error'   => __('Failed to delete "%s" cache directory'),
             ]),
+            // delete $ns folder files but keep folder
             new ActionDescriptor([
                 'id'      => 'empty',
                 'select'  => __('empty selected cache directories'),
@@ -56,7 +64,12 @@ class Caches extends AbstractCleaner
 
     public function distributed(): array
     {
-        return ['cbfeed', 'cbtpl', 'dcrepo', 'versions'];
+        return [
+            'cbfeed',
+            'cbtpl',
+            'dcrepo',
+            'versions'
+        ];
     }
 
     public function values(): array

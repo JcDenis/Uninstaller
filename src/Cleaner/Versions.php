@@ -22,6 +22,12 @@ use Dotclear\Plugin\Uninstaller\{
     ValueDescriptor
 };
 
+/**
+ * Cleaner for Dotclear modules versions.
+ *
+ * It allows modules to delete their versions 
+ * from Dotclear dcCore::VERSION_TABLE_NAME database table.
+ */
 class Versions extends AbstractCleaner
 {
     protected function properties(): array
@@ -36,6 +42,7 @@ class Versions extends AbstractCleaner
     protected function actions(): array
     {
         return [
+            // delete $ns version
             new ActionDescriptor([
                 'id'      => 'delete',
                 'select'  => __('delete selected versions numbers'),

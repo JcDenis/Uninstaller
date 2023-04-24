@@ -21,6 +21,11 @@ use Dotclear\Plugin\Uninstaller\{
     ValueDescriptor
 };
 
+/**
+ * Cleaner for Dotclear plugins.
+ *
+ * It allows modules to delete their own folder.
+ */
 class Plugins extends AbstractCleaner
 {
     use TraitCleanerDir;
@@ -37,6 +42,7 @@ class Plugins extends AbstractCleaner
     protected function actions(): array
     {
         return [
+            // delete $ns plugin folder
             new ActionDescriptor([
                 'id'      => 'delete',
                 'select'  => __('delete selected plugins files and directories'),

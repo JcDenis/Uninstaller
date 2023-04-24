@@ -21,6 +21,12 @@ use Dotclear\Plugin\Uninstaller\{
     ValueDescriptor
 };
 
+/**
+ * Cleaner for Dotclear VAR directory used by modules.
+ *
+ * It allows modules to delete an entire sub folder 
+ * of DC_VAR directory path.
+ */
 class Vars extends AbstractCleaner
 {
     use TraitCleanerDir;
@@ -37,6 +43,7 @@ class Vars extends AbstractCleaner
     protected function actions(): array
     {
         return [
+            // delete a $ns folder and their files
             new ActionDescriptor([
                 'id'      => 'delete',
                 'select'  => __('delete selected var directories'),

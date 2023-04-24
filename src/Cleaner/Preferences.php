@@ -27,10 +27,10 @@ use Dotclear\Plugin\Uninstaller\{
 };
 
 /**
- * Users preferences cleaner.
+ * Cleaner for Dotclear user preferences.
  *
- * Cleaner manages entire users preferences workspace
- * except 'delete_related' which can pickup preference ws/id pairs
+ * It allows modules to delete for users or global a preference workspace.
+ * It also allows to pick-up specific preference id by using delete_related action.
  */
 class Preferences extends AbstractCleaner
 {
@@ -46,6 +46,7 @@ class Preferences extends AbstractCleaner
     protected function actions(): array
     {
         return [
+            // delete global $ns preferences workspace
             new ActionDescriptor([
                 'id'      => 'delete_global',
                 'select'  => __('delete selected global preferences workspaces'),
@@ -53,6 +54,7 @@ class Preferences extends AbstractCleaner
                 'success' => __('"%s" global preferences workspace deleted'),
                 'error'   => __('Failed to delete "%s" global preferences workspace'),
             ]),
+            // delete users $ns preferences workspace
             new ActionDescriptor([
                 'id'      => 'delete_local',
                 'select'  => __('delete selected users preferences workspaces'),
@@ -60,6 +62,7 @@ class Preferences extends AbstractCleaner
                 'success' => __('"%s" users preferences workspace deleted'),
                 'error'   => __('Failed to delete "%s" users preferences workspace'),
             ]),
+            // delete user and global $ns preferences workspace
             new ActionDescriptor([
                 'id'      => 'delete_all',
                 'select'  => __('delete selected preferences workspaces'),
@@ -67,7 +70,7 @@ class Preferences extends AbstractCleaner
                 'success' => __('"%s" preferences workspace deleted'),
                 'error'   => __('Failed to delete "%s" preferences workspace'),
             ]),
-            // $ns = 'pref_ws:pref_id;pref_ws:pref_id;...' for global and users preferences
+            // delete users and globals specific $ws:$id settings using 'pref_ws:pref_id;pref_ws:pref_id;' as $ns
             new ActionDescriptor([
                 'id'      => 'delete_related',
                 'query'   => __('delete related preferences'),
