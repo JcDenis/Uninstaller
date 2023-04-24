@@ -22,7 +22,8 @@ use Dotclear\Database\Statement\{
 };
 use Dotclear\Plugin\Uninstaller\{
     AbstractCleaner,
-    ActionDescriptor
+    ActionDescriptor,
+    ValueDescriptor
 };
 
 /**
@@ -97,31 +98,57 @@ class Settings extends AbstractCleaner
     {
         $sql = new SelectStatement();
         $sql->from(dcCore::app()->prefix . dcNamespace::NS_TABLE_NAME)
-            ->columns(['setting_ns'])
+            ->columns([
+                $sql->as($sql->count('*'), 'counter'),
+                'setting_ns'
+            ])
             ->where($sql->orGroup(['blog_id IS NULL', 'blog_id IS NOT NULL']))
             ->group('setting_ns');
 
-        $res = $sql->select();
-        if ($res == null || $res->isEmpty()) {
+        $rs = $sql->select();
+        if (is_null($rs) || $rs->isEmpty()) {
             return [];
         }
 
-        $rs = [];
-        $i  = 0;
-        while ($res->fetch()) {
-            $sql = new SelectStatement();
-            $sql->from(dcCore::app()->prefix . dcNamespace::NS_TABLE_NAME)
-                ->fields([$sql->count('*')])
-                ->where($sql->orGroup(['blog_id IS NULL', 'blog_id IS NOT NULL']))
-                ->and('setting_ns = ' . $sql->quote($res->f('setting_ns')))
-                ->group('setting_ns');
-
-            $rs[$i]['key']   = $res->f('setting_ns');
-            $rs[$i]['value'] = (int) $sql->select()?->f(0);
-            $i++;
+        $res = [];
+        while ($rs->fetch()) {
+            $res[] = new ValueDescriptor(
+                $rs->f('setting_ns'),
+                '',
+                (int) $rs->f('counter')
+            );
         }
 
-        return $rs;
+        return $res;
+    }
+
+    public function related(string $ns): array
+    {
+        $sql = new SelectStatement();
+        $sql->from(dcCore::app()->prefix . dcNamespace::NS_TABLE_NAME)
+            ->columns([
+                $sql->as($sql->count('*'), 'counter'),
+                'setting_id'
+            ])
+            ->where($sql->orGroup(['blog_id IS NULL', 'blog_id IS NOT NULL']))
+            ->and('setting_ns = ' . $sql->quote($ns))
+            ->group('setting_id');
+
+        $rs = $sql->select();
+        if (is_null($rs) || $rs->isEmpty()) {
+            return [];
+        }
+
+        $res = [];
+        while ($rs->fetch()) {
+            $res[] = new ValueDescriptor(
+                $ns,
+                $rs->f('setting_id'),
+                (int) $rs->f('counter')
+            );
+        }
+
+        return $res;
     }
 
     public function execute(string $action, string $ns): bool

@@ -17,7 +17,8 @@ namespace Dotclear\Plugin\Uninstaller\Cleaner;
 use Dotclear\Plugin\Uninstaller\{
     AbstractCleaner,
     ActionDescriptor,
-    TraitCleanerDir
+    TraitCleanerDir,
+    ValueDescriptor
 };
 
 class Plugins extends AbstractCleaner
@@ -53,8 +54,17 @@ class Plugins extends AbstractCleaner
 
     public function values(): array
     {
-        $res = self::getDirs(explode(PATH_SEPARATOR, DC_PLUGINS_ROOT));
-        sort($res);
+        $dirs = self::getDirs(explode(PATH_SEPARATOR, DC_PLUGINS_ROOT));
+        sort($dirs);
+
+        $res = [];
+        foreach($dirs as $dir) {
+            $res[] = new ValueDescriptor(
+                $dir['key'],
+                '',
+                (int) $dir['value']
+            ); 
+        }
 
         return $res;
     }

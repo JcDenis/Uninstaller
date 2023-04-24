@@ -26,7 +26,8 @@ use Dotclear\Database\Statement\{
 };
 use Dotclear\Plugin\Uninstaller\{
     AbstractCleaner,
-    ActionDescriptor
+    ActionDescriptor,
+    ValueDescriptor
 };
 
 class Tables extends AbstractCleaner
@@ -86,11 +87,10 @@ class Tables extends AbstractCleaner
     public function values(): array
     {
         $object = AbstractSchema::init(dcCore::app()->con);
-        $res    = $object->getTables();
+        $tables = $object->getTables();
 
-        $rs = [];
-        $i  = 0;
-        foreach ($res as $k => $v) {
+        $res = [];
+        foreach ($tables as $k => $v) {
             // get only tables with dotclear prefix
             if ('' != dcCore::app()->prefix) {
                 if (!preg_match('/^' . preg_quote(dcCore::app()->prefix) . '(.*?)$/', $v, $m)) {
@@ -100,16 +100,15 @@ class Tables extends AbstractCleaner
             }
 
             $sql = new SelectStatement();
-            $sql->from($res[$k])
-                ->fields([$sql->count('*')]);
 
-            $rs[$i]['key']   = $v;
-            $rs[$i]['value'] = (int) $sql->select()?->f(0);
-            ;
-            $i++;
+            $res[] = new ValueDescriptor(
+                $v,
+                '',
+                (int) $sql->from($tables[$k])->fields([$sql->count('*')])->select()?->f(0)
+            );
         }
 
-        return $rs;
+        return $res;
     }
 
     public function execute(string $action, string $ns): bool

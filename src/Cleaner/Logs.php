@@ -22,7 +22,8 @@ use Dotclear\Database\Statement\{
 };
 use Dotclear\Plugin\Uninstaller\{
     AbstractCleaner,
-    ActionDescriptor
+    ActionDescriptor,
+    ValueDescriptor
 };
 
 class Logs extends AbstractCleaner
@@ -61,31 +62,28 @@ class Logs extends AbstractCleaner
     {
         $sql = new SelectStatement();
         $sql->from(dcCore::app()->prefix . dcLog::LOG_TABLE_NAME)
-            ->columns(['log_table'])
+            ->columns([
+                $sql->as($sql->count('*'), 'counter'),
+                'log_table',
+            ])
             ->where($sql->orGroup(['blog_id IS NULL', 'blog_id IS NOT NULL']))
             ->group('log_table');
 
-        $res = $sql->select();
-        if ($res == null || $res->isEmpty()) {
+        $rs = $sql->select();
+        if (is_null($rs) || $rs->isEmpty()) {
             return [];
         }
 
-        $rs = [];
-        $i  = 0;
-        while ($res->fetch()) {
-            $sql = new SelectStatement();
-            $sql->from(dcCore::app()->prefix . dcLog::LOG_TABLE_NAME)
-                ->fields([$sql->count('*')])
-                ->where($sql->orGroup(['blog_id IS NULL', 'blog_id IS NOT NULL']))
-                ->and('log_table = ' . $sql->quote($res->f('log_table')))
-                ->group('log_table');
-
-            $rs[$i]['key']   = $res->f('log_table');
-            $rs[$i]['value'] = (int) $sql->select()?->f(0);
-            $i++;
+        $res = [];
+        while ($rs->fetch()) {
+            $res[] = new ValueDescriptor(
+                $rs->f('log_table'),
+                '',
+                (int) $rs->f('counter')
+            );
         }
 
-        return $rs;
+        return $res;
     }
 
     public function execute(string $action, string $ns): bool

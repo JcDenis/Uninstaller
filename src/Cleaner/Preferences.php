@@ -22,7 +22,8 @@ use Dotclear\Database\Statement\{
 };
 use Dotclear\Plugin\Uninstaller\{
     AbstractCleaner,
-    ActionDescriptor
+    ActionDescriptor,
+    ValueDescriptor
 };
 
 /**
@@ -93,31 +94,57 @@ class Preferences extends AbstractCleaner
     {
         $sql = new SelectStatement();
         $sql->from(dcCore::app()->prefix . dcWorkspace::WS_TABLE_NAME)
-            ->columns(['pref_ws'])
+            ->columns([
+                $sql->as($sql->count('*'), 'counter'),
+                'pref_ws'
+            ])
             ->where($sql->orGroup(['user_id IS NULL', 'user_id IS NOT NULL']))
             ->group('pref_ws');
 
-        $res = $sql->select();
-        if ($res == null || $res->isEmpty()) {
+        $rs = $sql->select();
+        if (is_null($rs) || $rs->isEmpty()) {
             return [];
         }
 
-        $rs = [];
-        $i  = 0;
-        while ($res->fetch()) {
-            $sql = new SelectStatement();
-            $sql->from(dcCore::app()->prefix . dcWorkspace::WS_TABLE_NAME)
-                ->fields([$sql->count('*')])
-                ->where($sql->orGroup(['user_id IS NULL', 'user_id IS NOT NULL']))
-                ->and('pref_ws = ' . $sql->quote($res->f('pref_ws')))
-                ->group('pref_ws');
-
-            $rs[$i]['key']   = $res->f('pref_ws');
-            $rs[$i]['value'] = (int) $sql->select()?->f(0);
-            $i++;
+        $res = [];
+        while ($rs->fetch()) {
+            $res[] = new ValueDescriptor(
+                $rs->f('pref_ws'),
+                '',
+                (int) $rs->f('counter')
+            );
         }
 
-        return $rs;
+        return $res;
+    }
+
+    public function related(string $ns): array
+    {
+        $sql = new SelectStatement();
+        $sql->from(dcCore::app()->prefix . dcWorkspace::WS_TABLE_NAME)
+            ->columns([
+                $sql->as($sql->count('*'), 'counter'),
+                'pref_id'
+            ])
+            ->where($sql->orGroup(['user_id IS NULL', 'user_id IS NOT NULL']))
+            ->and('pref_ws = ' . $sql->quote($ns))
+            ->group('pref_id');
+
+        $rs = $sql->select();
+        if (is_null($rs) || $rs->isEmpty()) {
+            return [];
+        }
+
+        $res = [];
+        while ($rs->fetch()) {
+            $res[] = new ValueDescriptor(
+                $rs->f('pref_ws'),
+                $rs->f('pref_id'),
+                (int) $rs->f('counter')
+            );
+        }
+
+        return $res;
     }
 
     public function execute(string $action, string $ns): bool

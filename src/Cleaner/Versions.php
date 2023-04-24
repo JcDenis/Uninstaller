@@ -15,9 +15,11 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\Uninstaller\Cleaner;
 
 use dcCore;
+use Dotclear\Database\Statement\SelectStatement;
 use Dotclear\Plugin\Uninstaller\{
     AbstractCleaner,
-    ActionDescriptor
+    ActionDescriptor,
+    ValueDescriptor
 };
 
 class Versions extends AbstractCleaner
@@ -63,17 +65,26 @@ class Versions extends AbstractCleaner
 
     public function values(): array
     {
-        $res = dcCore::app()->con->select('SELECT * FROM ' . dcCore::app()->prefix . dcCore::VERSION_TABLE_NAME);
+        $sql = new SelectStatement();
+        $rs = $sql
+            ->from(dcCore::app()->prefix . dcCore::VERSION_TABLE_NAME)
+            ->columns(['module', 'version'])
+            ->select();
 
-        $rs = [];
-        $i  = 0;
-        while ($res->fetch()) {
-            $rs[$i]['key']   = $res->f('module');
-            $rs[$i]['value'] = $res->f('version');
-            $i++;
+        if (is_null($rs) || $rs->isEmpty()) {
+            return [];
         }
 
-        return $rs;
+        $res = [];
+        while ($rs->fetch()) {
+            $res[] = new ValueDescriptor(
+                $rs->f('module'),
+                $rs->f('version'),
+                1
+            );
+        }
+
+        return $res;
     }
 
     public function execute(string $action, string $ns): bool

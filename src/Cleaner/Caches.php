@@ -17,7 +17,8 @@ namespace Dotclear\Plugin\Uninstaller\Cleaner;
 use Dotclear\Plugin\Uninstaller\{
     AbstractCleaner,
     ActionDescriptor,
-    TraitCleanerDir
+    TraitCleanerDir,
+    ValueDescriptor
 };
 
 class Caches extends AbstractCleaner
@@ -60,7 +61,16 @@ class Caches extends AbstractCleaner
 
     public function values(): array
     {
-        return self::getDirs(DC_TPL_CACHE);
+        $res = [];
+        foreach(self::getDirs(DC_TPL_CACHE) as $dir) {
+            $res[] = new ValueDescriptor(
+                $dir['key'],
+                '',
+                (int) $dir['value']
+            ); 
+        }
+
+        return $res;
     }
 
     public function execute(string $action, string $ns): bool

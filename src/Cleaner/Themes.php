@@ -18,7 +18,8 @@ use dcCore;
 use Dotclear\Plugin\Uninstaller\{
     AbstractCleaner,
     ActionDescriptor,
-    TraitCleanerDir
+    TraitCleanerDir,
+    ValueDescriptor
 };
 
 class Themes extends AbstractCleaner
@@ -58,8 +59,17 @@ class Themes extends AbstractCleaner
             return [];
         }
 
-        $res = self::getDirs($path);
-        sort($res);
+        $dirs = self::getDirs($path);
+        sort($dirs);
+
+        $res = [];
+        foreach($dirs as $dir) {
+            $res[] = new ValueDescriptor(
+                $dir['key'],
+                '',
+                (int) $dir['value']
+            ); 
+        }
 
         return $res;
     }
