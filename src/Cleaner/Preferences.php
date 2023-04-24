@@ -138,7 +138,7 @@ class Preferences extends AbstractCleaner
         $res = [];
         while ($rs->fetch()) {
             $res[] = new ValueDescriptor(
-                $rs->f('pref_ws'),
+                $ns,
                 $rs->f('pref_id'),
                 (int) $rs->f('counter')
             );
