@@ -2,6 +2,14 @@ todo:
 - add user pref cleaner
 - add meta cleaner
 
+0.6 - 2023.04.24
+- require Dotclear 2.26 and PHP 8.1+
+- hide dotclear "delete" button on modules lists
+- fix sql queries (less queries)
+- add namespace related method (get namespace children values)
+- add namespace related value descriptor
+- change AbstractCleaner::values() return (use descriptor)
+
 0.5 - 2023.04.23
 - require Dotclear 2.26 and PHP >= 8.1
 - add Claener for user pref (wrokspace)
