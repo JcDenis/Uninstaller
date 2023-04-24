@@ -2,5 +2,7 @@
 'use strict';
 
 $(() => {
-  $('a.uninstall_module_button').parent().find('input.delete').hide();
+  $('a.uninstall_module_button').each(function () {
+    $(this).parent().find('input.delete').replaceWith($(this));
+  });
 });
