@@ -66,7 +66,7 @@ class Versions extends AbstractCleaner
     public function values(): array
     {
         $sql = new SelectStatement();
-        $rs = $sql
+        $rs  = $sql
             ->from(dcCore::app()->prefix . dcCore::VERSION_TABLE_NAME)
             ->columns(['module', 'version'])
             ->select();

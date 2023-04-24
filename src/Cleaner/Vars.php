@@ -55,12 +55,12 @@ class Vars extends AbstractCleaner
     public function values(): array
     {
         $res = [];
-        foreach(self::getDirs(DC_VAR) as $dir) {
+        foreach (self::getDirs(DC_VAR) as $dir) {
             $res[] = new ValueDescriptor(
                 $dir['key'],
                 '',
                 (int) $dir['value']
-            ); 
+            );
         }
 
         return $res;

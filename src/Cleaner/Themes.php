@@ -63,12 +63,12 @@ class Themes extends AbstractCleaner
         sort($dirs);
 
         $res = [];
-        foreach($dirs as $dir) {
+        foreach ($dirs as $dir) {
             $res[] = new ValueDescriptor(
                 $dir['key'],
                 '',
                 (int) $dir['value']
-            ); 
+            );
         }
 
         return $res;

@@ -96,7 +96,7 @@ class Preferences extends AbstractCleaner
         $sql->from(dcCore::app()->prefix . dcWorkspace::WS_TABLE_NAME)
             ->columns([
                 $sql->as($sql->count('*'), 'counter'),
-                'pref_ws'
+                'pref_ws',
             ])
             ->where($sql->orGroup(['user_id IS NULL', 'user_id IS NOT NULL']))
             ->group('pref_ws');
@@ -124,7 +124,7 @@ class Preferences extends AbstractCleaner
         $sql->from(dcCore::app()->prefix . dcWorkspace::WS_TABLE_NAME)
             ->columns([
                 $sql->as($sql->count('*'), 'counter'),
-                'pref_id'
+                'pref_id',
             ])
             ->where($sql->orGroup(['user_id IS NULL', 'user_id IS NOT NULL']))
             ->and('pref_ws = ' . $sql->quote($ns))

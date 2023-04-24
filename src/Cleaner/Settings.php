@@ -100,7 +100,7 @@ class Settings extends AbstractCleaner
         $sql->from(dcCore::app()->prefix . dcNamespace::NS_TABLE_NAME)
             ->columns([
                 $sql->as($sql->count('*'), 'counter'),
-                'setting_ns'
+                'setting_ns',
             ])
             ->where($sql->orGroup(['blog_id IS NULL', 'blog_id IS NOT NULL']))
             ->group('setting_ns');
@@ -128,7 +128,7 @@ class Settings extends AbstractCleaner
         $sql->from(dcCore::app()->prefix . dcNamespace::NS_TABLE_NAME)
             ->columns([
                 $sql->as($sql->count('*'), 'counter'),
-                'setting_id'
+                'setting_id',
             ])
             ->where($sql->orGroup(['blog_id IS NULL', 'blog_id IS NOT NULL']))
             ->and('setting_ns = ' . $sql->quote($ns))

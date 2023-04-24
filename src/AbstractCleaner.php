@@ -87,7 +87,7 @@ abstract class AbstractCleaner
     /**
      * Get all values from the cleaner.
      *
-     * @return  array<int,array<string,string>>     The values.
+     * @return  array<int,ValueDescriptor>  The values.
      */
     abstract public function values(): array;
 
@@ -96,7 +96,7 @@ abstract class AbstractCleaner
      *
      * @param   string  $ns     The namespace
      *
-     * @return  array<int,array<string,string>>     The values.
+     * @return  array<int,ValueDescriptor>  The values.
      */
     public function related(string $ns): array
     {

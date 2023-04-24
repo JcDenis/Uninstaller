@@ -73,6 +73,11 @@ class Backend extends dcNsProcess
         return true;
     }
 
+    /**
+     * Perfom direct action on module deletion.
+     *
+     * @param   dcModuleDefine  $define     The module
+     */
     protected static function moduleBeforeDelete(dcModuleDefine $define): void
     {
         if (dcCore::app()->blog?->settings->get('system')->get('no_uninstall_direct')) {
@@ -108,7 +113,12 @@ class Backend extends dcNsProcess
         }
     }
 
-    protected static function modulesToolsHeader()
+    /**
+     * Get backend URL of uninstaller js.
+     *
+     * @return  string  The URL
+     */
+    protected static function modulesToolsHeader(): string
     {
         return dcUtils::jsModuleLoad(My::id() . '/js/backend.js');
     }

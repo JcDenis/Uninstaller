@@ -62,12 +62,12 @@ class Caches extends AbstractCleaner
     public function values(): array
     {
         $res = [];
-        foreach(self::getDirs(DC_TPL_CACHE) as $dir) {
+        foreach (self::getDirs(DC_TPL_CACHE) as $dir) {
             $res[] = new ValueDescriptor(
                 $dir['key'],
                 '',
                 (int) $dir['value']
-            ); 
+            );
         }
 
         return $res;
