@@ -18,8 +18,9 @@ use dcCore;
 use Dotclear\Plugin\Uninstaller\{
     AbstractCleaner,
     ActionDescriptor,
-    TraitCleanerDir,
-    ValueDescriptor
+    CleanerDescriptor,
+    ValueDescriptor,
+    TraitCleanerDir
 };
 
 /**
@@ -31,27 +32,23 @@ class Themes extends AbstractCleaner
 {
     use TraitCleanerDir;
 
-    protected function properties(): array
+    public function __construct()
     {
-        return [
-            'id'   => 'themes',
-            'name' => __('Themes'),
-            'desc' => __('Folders from blog themes directory'),
-        ];
-    }
-
-    protected function actions(): array
-    {
-        return [
-            // delete $ns theme folder
-            new ActionDescriptor(
-                id:      'delete',
-                select:  __('delete selected themes files and directories'),
-                query:   __('delete "%s" theme files and directories'),
-                success: __('"%s" theme files and directories deleted'),
-                error:   __('Failed to delete "%s" theme files and directories')
-            ),
-        ];
+        parent::__construct(new CleanerDescriptor(
+            id:   'themes',
+            name: __('Themes'),
+            desc: __('Folders from blog themes directory'),
+            actions: [
+                // delete $ns theme folder
+                new ActionDescriptor(
+                    id:      'delete',
+                    select:  __('delete selected themes files and directories'),
+                    query:   __('delete "%s" theme files and directories'),
+                    success: __('"%s" theme files and directories deleted'),
+                    error:   __('Failed to delete "%s" theme files and directories')
+                ),
+            ]
+        ));
     }
 
     public function distributed(): array

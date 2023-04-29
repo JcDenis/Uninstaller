@@ -17,8 +17,9 @@ namespace Dotclear\Plugin\Uninstaller\Cleaner;
 use Dotclear\Plugin\Uninstaller\{
     AbstractCleaner,
     ActionDescriptor,
-    TraitCleanerDir,
-    ValueDescriptor
+    CleanerDescriptor,
+    ValueDescriptor,
+    TraitCleanerDir
 };
 
 /**
@@ -31,27 +32,23 @@ class Vars extends AbstractCleaner
 {
     use TraitCleanerDir;
 
-    protected function properties(): array
+    public function __construct()
     {
-        return [
-            'id'   => 'vars',
-            'name' => __('Var'),
-            'desc' => __('Folders from Dotclear VAR directory'),
-        ];
-    }
-
-    protected function actions(): array
-    {
-        return [
-            // delete a $ns folder and their files
-            new ActionDescriptor(
-                id:      'delete',
-                select:  __('delete selected var directories'),
-                query:   __('delete "%s" var directory'),
-                success: __('"%s" var directory deleted'),
-                error:   __('Failed to delete "%s" var directory')
-            ),
-        ];
+        parent::__construct(new CleanerDescriptor(
+            id:   'vars',
+            name: __('Var'),
+            desc: __('Folders from Dotclear VAR directory'),
+            actions: [
+                // delete a $ns folder and their files
+                new ActionDescriptor(
+                    id:      'delete',
+                    select:  __('delete selected var directories'),
+                    query:   __('delete "%s" var directory'),
+                    success: __('"%s" var directory deleted'),
+                    error:   __('Failed to delete "%s" var directory')
+                ),
+            ]
+        ));
     }
 
     public function distributed(): array

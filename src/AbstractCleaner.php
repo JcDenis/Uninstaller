@@ -37,20 +37,12 @@ abstract class AbstractCleaner
     /**
      * Constructor set up a Cleaner.
      */
-    final public function __construct()
+    public function __construct(CleanerDescriptor $descriptor)
     {
-        $properties = $this->properties();
-        $this->id   = $properties['id']   ?? 'undefined';
-        $this->name = $properties['name'] ?? 'undefined';
-        $this->desc = $properties['desc'] ?? 'undefined';
-
-        $actions = [];
-        foreach ($this->actions() as $descriptor) {
-            if (is_a($descriptor, ActionDescriptor::class) && $descriptor->id != 'undefined') {
-                $actions[$descriptor->id] = $descriptor;
-            }
-        }
-        $this->actions = $actions;
+        $this->id      = $descriptor->id;
+        $this->name    = $descriptor->name;
+        $this->desc    = $descriptor->desc;
+        $this->actions = $descriptor->actions;
     }
 
     /**
@@ -62,20 +54,6 @@ abstract class AbstractCleaner
     {
         return $this->actions[$id] ?? null;
     }
-
-    /**
-     * Initialize Cleaner properties.
-     *
-     * @return  array<string,string>   The Cleaner properties [id=>,name=>,desc=>,]
-     */
-    abstract protected function properties(): array;
-
-    /**
-     * Initialize Cleaner actions.
-     *
-     * @return  array<int,ActionDescriptor>    The Cleaner actions definitions
-     */
-    abstract protected function actions(): array;
 
     /**
      * Get list of distirbuted values for the cleaner.

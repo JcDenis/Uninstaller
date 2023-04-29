@@ -23,6 +23,7 @@ use Dotclear\Database\Statement\{
 use Dotclear\Plugin\Uninstaller\{
     AbstractCleaner,
     ActionDescriptor,
+    CleanerDescriptor,
     ValueDescriptor
 };
 
@@ -34,27 +35,23 @@ use Dotclear\Plugin\Uninstaller\{
  */
 class Logs extends AbstractCleaner
 {
-    protected function properties(): array
+    public function __construct()
     {
-        return [
-            'id'   => 'logs',
-            'name' => __('Logs'),
-            'desc' => __('Logs in Dotclear logs table'),
-        ];
-    }
-
-    protected function actions(): array
-    {
-        return [
-            // delete all $ns log_table entries
-            new ActionDescriptor(
-                id:      'delete_all',
-                select:  __('delete selected logs tables'),
-                query:   __('delete "%s" logs table'),
-                success: __('"%s" logs table deleted'),
-                error:   __('Failed to delete "%s" logs table')
-            ),
-        ];
+        parent::__construct(new CleanerDescriptor(
+            id:   'logs',
+            name: __('Logs'),
+            desc: __('Logs in Dotclear logs table'),
+            actions: [
+                // delete all $ns log_table entries
+                new ActionDescriptor(
+                    id:      'delete_all',
+                    select:  __('delete selected logs tables'),
+                    query:   __('delete "%s" logs table'),
+                    success: __('"%s" logs table deleted'),
+                    error:   __('Failed to delete "%s" logs table')
+                ),
+            ]
+        ));
     }
 
     public function distributed(): array

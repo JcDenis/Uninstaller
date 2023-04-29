@@ -19,6 +19,7 @@ use Dotclear\Database\Statement\SelectStatement;
 use Dotclear\Plugin\Uninstaller\{
     AbstractCleaner,
     ActionDescriptor,
+    CleanerDescriptor,
     ValueDescriptor
 };
 
@@ -30,27 +31,23 @@ use Dotclear\Plugin\Uninstaller\{
  */
 class Versions extends AbstractCleaner
 {
-    protected function properties(): array
+    public function __construct()
     {
-        return [
-            'id'   => 'versions',
-            'name' => __('Versions'),
-            'desc' => __('Versions registered in table "version" of Dotclear'),
-        ];
-    }
-
-    protected function actions(): array
-    {
-        return [
-            // delete $ns version
-            new ActionDescriptor(
-                id:      'delete',
-                select:  __('delete selected versions numbers'),
-                query:   __('delete "%s" version number'),
-                success: __('"%s" version number deleted'),
-                error:   __('Failed to delete "%s" version number')
-            ),
-        ];
+        parent::__construct(new CleanerDescriptor(
+            id:   'versions',
+            name: __('Versions'),
+            desc: __('Versions registered in table "version" of Dotclear'),
+            actions: [
+                // delete $ns version
+                new ActionDescriptor(
+                    id:      'delete',
+                    select:  __('delete selected versions numbers'),
+                    query:   __('delete "%s" version number'),
+                    success: __('"%s" version number deleted'),
+                    error:   __('Failed to delete "%s" version number')
+                ),
+            ]
+        ));
     }
 
     public function distributed(): array

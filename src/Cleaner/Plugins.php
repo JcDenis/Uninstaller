@@ -17,8 +17,9 @@ namespace Dotclear\Plugin\Uninstaller\Cleaner;
 use Dotclear\Plugin\Uninstaller\{
     AbstractCleaner,
     ActionDescriptor,
-    TraitCleanerDir,
-    ValueDescriptor
+    CleanerDescriptor,
+    ValueDescriptor,
+    TraitCleanerDir
 };
 
 /**
@@ -30,27 +31,23 @@ class Plugins extends AbstractCleaner
 {
     use TraitCleanerDir;
 
-    protected function properties(): array
+    public function __construct()
     {
-        return [
-            'id'   => 'plugins',
-            'name' => __('Plugins'),
-            'desc' => __('Folders from plugins directories'),
-        ];
-    }
-
-    protected function actions(): array
-    {
-        return [
-            // delete $ns plugin folder
-            new ActionDescriptor(
-                id:      'delete',
-                select:  __('delete selected plugins files and directories'),
-                query:   __('delete "%s" plugin files and directories'),
-                success: __('"%s" plugin files and directories deleted'),
-                error:   __('Failed to delete "%s" plugin files and directories')
-            ),
-        ];
+        parent::__construct(new CleanerDescriptor(
+            id:   'plugins',
+            name: __('Plugins'),
+            desc: __('Folders from plugins directories'),
+            actions: [
+                // delete $ns plugin folder
+                new ActionDescriptor(
+                    id:      'delete',
+                    select:  __('delete selected plugins files and directories'),
+                    query:   __('delete "%s" plugin files and directories'),
+                    success: __('"%s" plugin files and directories deleted'),
+                    error:   __('Failed to delete "%s" plugin files and directories')
+                ),
+            ]
+        ));
     }
 
     public function distributed(): array

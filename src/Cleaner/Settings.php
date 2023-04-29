@@ -23,6 +23,7 @@ use Dotclear\Database\Statement\{
 use Dotclear\Plugin\Uninstaller\{
     AbstractCleaner,
     ActionDescriptor,
+    CleanerDescriptor,
     ValueDescriptor
 };
 
@@ -34,50 +35,46 @@ use Dotclear\Plugin\Uninstaller\{
  */
 class Settings extends AbstractCleaner
 {
-    protected function properties(): array
+    public function __construct()
     {
-        return [
-            'id'   => 'settings',
-            'name' => __('Settings'),
-            'desc' => __('Namespaces registered in dcSettings'),
-        ];
-    }
-
-    protected function actions(): array
-    {
-        return [
-            // delete global $ns settings namespace
-            new ActionDescriptor(
-                id:      'delete_global',
-                select:  __('delete selected global settings namespaces'),
-                query:   __('delete "%s" global settings namespace'),
-                success: __('"%s" global settings namespace deleted'),
-                error:   __('Failed to delete "%s" global settings namespace')
-            ),
-            // delete blogs $ns settings namespace
-            new ActionDescriptor(
-                id:      'delete_local',
-                select:  __('delete selected blog settings namespaces'),
-                query:   __('delete "%s" blog settings namespace'),
-                success: __('"%s" blog settings namespace deleted'),
-                error:   __('Failed to delete "%s" blog settings namespace')
-            ),
-            // delete blogs and global settings namespace
-            new ActionDescriptor(
-                id:      'delete_all',
-                select:  __('delete selected settings namespaces'),
-                query:   __('delete "%s" settings namespace'),
-                success: __('"%s" settings namespace deleted'),
-                error:   __('Failed to delete "%s" settings namespace')
-            ),
-            // delete blogs and globals specific $ns:$id settings using 'setting_ns:setting_id;setting_ns:setting_id;' as $ns
-            new ActionDescriptor(
-                id:      'delete_related',
-                query:   __('delete related settings'),
-                success: __('related settings deleted'),
-                error:   __('Failed to delete related settings')
-            ),
-        ];
+        parent::__construct(new CleanerDescriptor(
+            id:   'settings',
+            name: __('Settings'),
+            desc: __('Namespaces registered in dcSettings'),
+            actions: [
+                // delete global $ns settings namespace
+                new ActionDescriptor(
+                    id:      'delete_global',
+                    select:  __('delete selected global settings namespaces'),
+                    query:   __('delete "%s" global settings namespace'),
+                    success: __('"%s" global settings namespace deleted'),
+                    error:   __('Failed to delete "%s" global settings namespace')
+                ),
+                // delete blogs $ns settings namespace
+                new ActionDescriptor(
+                    id:      'delete_local',
+                    select:  __('delete selected blog settings namespaces'),
+                    query:   __('delete "%s" blog settings namespace'),
+                    success: __('"%s" blog settings namespace deleted'),
+                    error:   __('Failed to delete "%s" blog settings namespace')
+                ),
+                // delete blogs and global settings namespace
+                new ActionDescriptor(
+                    id:      'delete_all',
+                    select:  __('delete selected settings namespaces'),
+                    query:   __('delete "%s" settings namespace'),
+                    success: __('"%s" settings namespace deleted'),
+                    error:   __('Failed to delete "%s" settings namespace')
+                ),
+                // delete blogs and globals specific $ns:$id settings using 'setting_ns:setting_id;setting_ns:setting_id;' as $ns
+                new ActionDescriptor(
+                    id:      'delete_related',
+                    query:   __('delete related settings'),
+                    success: __('related settings deleted'),
+                    error:   __('Failed to delete related settings')
+                ),
+            ]
+        ));
     }
 
     public function distributed(): array

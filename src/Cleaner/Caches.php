@@ -17,6 +17,7 @@ namespace Dotclear\Plugin\Uninstaller\Cleaner;
 use Dotclear\Plugin\Uninstaller\{
     AbstractCleaner,
     ActionDescriptor,
+    CleanerDescriptor,
     TraitCleanerDir,
     ValueDescriptor
 };
@@ -31,35 +32,31 @@ class Caches extends AbstractCleaner
 {
     use TraitCleanerDir;
 
-    protected function properties(): array
+    public function __construct()
     {
-        return [
-            'id'   => 'caches',
-            'name' => __('Cache'),
-            'desc' => __('Folders from cache directory'),
-        ];
-    }
-
-    protected function actions(): array
-    {
-        return [
-            // delete a $ns folder and thier files.
-            new ActionDescriptor(
-                id:      'delete',
-                select:  __('delete selected cache directories'),
-                query:   __('delete "%s" cache directory'),
-                success: __('"%s" cache directory deleted'),
-                error:   __('Failed to delete "%s" cache directory')
-            ),
-            // delete $ns folder files but keep folder
-            new ActionDescriptor(
-                id:      'empty',
-                select:  __('empty selected cache directories'),
-                query:   __('empty "%s" cache directory'),
-                success: __('"%s" cache directory emptied'),
-                error:   __('Failed to empty "%s" cache directory')
-            ),
-        ];
+        parent::__construct(new CleanerDescriptor(
+            id:   'caches',
+            name: __('Cache'),
+            desc: __('Folders from cache directory'),
+            actions: [
+                // delete a $ns folder and thier files.
+                new ActionDescriptor(
+                    id:      'delete',
+                    select:  __('delete selected cache directories'),
+                    query:   __('delete "%s" cache directory'),
+                    success: __('"%s" cache directory deleted'),
+                    error:   __('Failed to delete "%s" cache directory')
+                ),
+                // delete $ns folder files but keep folder
+                new ActionDescriptor(
+                    id:      'empty',
+                    select:  __('empty selected cache directories'),
+                    query:   __('empty "%s" cache directory'),
+                    success: __('"%s" cache directory emptied'),
+                    error:   __('Failed to empty "%s" cache directory')
+                ),
+            ]
+        ));
     }
 
     public function distributed(): array

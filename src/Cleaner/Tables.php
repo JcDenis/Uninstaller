@@ -27,6 +27,7 @@ use Dotclear\Database\Statement\{
 use Dotclear\Plugin\Uninstaller\{
     AbstractCleaner,
     ActionDescriptor,
+    CleanerDescriptor,
     ValueDescriptor
 };
 
@@ -37,35 +38,31 @@ use Dotclear\Plugin\Uninstaller\{
  */
 class Tables extends AbstractCleaner
 {
-    protected function properties(): array
+    public function __construct()
     {
-        return [
-            'id'   => 'tables',
-            'name' => __('Tables'),
-            'desc' => __('All database tables of Dotclear'),
-        ];
-    }
-
-    protected function actions(): array
-    {
-        return [
-            // delete $ns database table
-            new ActionDescriptor(
-                id:      'delete',
-                select:  __('delete selected tables'),
-                query:   __('delete "%s" table'),
-                success: __('"%s" table deleted'),
-                error:   __('Failed to delete "%s" table')
-            ),
-            // truncate (empty) $ns database table
-            new ActionDescriptor(
-                id:      'empty',
-                select:  __('empty selected tables'),
-                query:   __('empty "%s" table'),
-                success: __('"%s" table emptied'),
-                error:   __('Failed to empty "%s" table')
-            ),
-        ];
+        parent::__construct(new CleanerDescriptor(
+            id:   'tables',
+            name: __('Tables'),
+            desc: __('All database tables of Dotclear'),
+            actions: [
+                // delete $ns database table
+                new ActionDescriptor(
+                    id:      'delete',
+                    select:  __('delete selected tables'),
+                    query:   __('delete "%s" table'),
+                    success: __('"%s" table deleted'),
+                    error:   __('Failed to delete "%s" table')
+                ),
+                // truncate (empty) $ns database table
+                new ActionDescriptor(
+                    id:      'empty',
+                    select:  __('empty selected tables'),
+                    query:   __('empty "%s" table'),
+                    success: __('"%s" table emptied'),
+                    error:   __('Failed to empty "%s" table')
+                ),
+            ]
+        ));
     }
 
     public function distributed(): array
