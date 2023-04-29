@@ -43,6 +43,6 @@ class ValueDescriptor
      */
     public function dump(): array
     {
-        return get_class_vars(__CLASS__) ?: [];
+        return get_object_vars($this);
     }
 }
