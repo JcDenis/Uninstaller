@@ -2,6 +2,12 @@ todo:
 - add user pref cleaner
 - add meta cleaner
 
+0.7 - 2023.04.30
+- require Dotclear 2.26 and PHP 8.1+
+- add cleaner descriptor
+- use named parameters on descriptors
+- fix dump on dynamic class
+
 0.6 - 2023.04.24
 - require Dotclear 2.26 and PHP 8.1+
 - hide dotclear "delete" button on modules lists
