@@ -22,7 +22,7 @@ use Dotclear\Helper\File\Path;
  */
 trait TraitCleanerDir
 {
-    /** @var array The excluded files */
+    /** @var    array<int,string>   The excluded files */
     public const EXCLUDED = [
         '.',
         '..',
