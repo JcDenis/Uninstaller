@@ -30,7 +30,7 @@ class Cleaners
      */
     public function __construct()
     {
-        # --BEHAVIOR-- UninstallerConstruct: Uninstaller
+        # --BEHAVIOR-- UninstallerCleanersConstruct: Cleaners
         dcCore::app()->callBehavior('UninstallerCleanersConstruct', $this);
     }
 
