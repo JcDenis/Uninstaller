@@ -257,13 +257,13 @@ class Uninstaller
         }
 
         // fill action properties
-        $this->actions[$group][$this->module->getId()][$cleaner][] = new ActionDescriptor([
-            'id'      => $action,
-            'ns'      => $ns,
-            'select'  => $this->cleaners->get($cleaner)->actions[$action]->select,
-            'query'   => sprintf($this->cleaners->get($cleaner)->actions[$action]->query, $ns),
-            'success' => sprintf($this->cleaners->get($cleaner)->actions[$action]->success, $ns),
-            'error'   => sprintf($this->cleaners->get($cleaner)->actions[$action]->error, $ns),
-        ]);
+        $this->actions[$group][$this->module->getId()][$cleaner][] = new ActionDescriptor(
+            id: $action,
+            ns: $ns,
+            select: $this->cleaners->get($cleaner)->actions[$action]->select,
+            query: sprintf($this->cleaners->get($cleaner)->actions[$action]->query, $ns),
+            success: sprintf($this->cleaners->get($cleaner)->actions[$action]->success, $ns),
+            error: sprintf($this->cleaners->get($cleaner)->actions[$action]->error, $ns),
+        );
     }
 }

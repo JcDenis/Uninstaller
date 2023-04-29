@@ -30,9 +30,9 @@ class ValueDescriptor
      * @param   int     $count  The count of ID on the namespace
      */
     public function __construct(
-        public readonly string $ns,
-        public readonly string $id,
-        public readonly int $count,
+        public readonly string $ns = '',
+        public readonly string $id = '',
+        public readonly int $count = 0,
     ) {
     }
 

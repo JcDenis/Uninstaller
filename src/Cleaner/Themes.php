@@ -44,13 +44,13 @@ class Themes extends AbstractCleaner
     {
         return [
             // delete $ns theme folder
-            new ActionDescriptor([
-                'id'      => 'delete',
-                'select'  => __('delete selected themes files and directories'),
-                'query'   => __('delete "%s" theme files and directories'),
-                'success' => __('"%s" theme files and directories deleted'),
-                'error'   => __('Failed to delete "%s" theme files and directories'),
-            ]),
+            new ActionDescriptor(
+                id:      'delete',
+                select:  __('delete selected themes files and directories'),
+                query:   __('delete "%s" theme files and directories'),
+                success: __('"%s" theme files and directories deleted'),
+                error:   __('Failed to delete "%s" theme files and directories')
+            ),
         ];
     }
 
@@ -71,9 +71,8 @@ class Themes extends AbstractCleaner
         $res = [];
         foreach ($dirs as $dir) {
             $res[] = new ValueDescriptor(
-                $dir['key'],
-                '',
-                (int) $dir['value']
+                ns:    $dir['key'],
+                count: (int) $dir['value']
             );
         }
 

@@ -47,13 +47,13 @@ class Logs extends AbstractCleaner
     {
         return [
             // delete all $ns log_table entries
-            new ActionDescriptor([
-                'id'      => 'delete_all',
-                'select'  => __('delete selected logs tables'),
-                'query'   => __('delete "%s" logs table'),
-                'success' => __('"%s" logs table deleted'),
-                'error'   => __('Failed to delete "%s" logs table'),
-            ]),
+            new ActionDescriptor(
+                id:      'delete_all',
+                select:  __('delete selected logs tables'),
+                query:   __('delete "%s" logs table'),
+                success: __('"%s" logs table deleted'),
+                error:   __('Failed to delete "%s" logs table')
+            ),
         ];
     }
 
@@ -84,9 +84,8 @@ class Logs extends AbstractCleaner
         $res = [];
         while ($rs->fetch()) {
             $res[] = new ValueDescriptor(
-                $rs->f('log_table'),
-                '',
-                (int) $rs->f('counter')
+                ns:    (string) $rs->f('log_table'),
+                count: (int) $rs->f('counter')
             );
         }
 

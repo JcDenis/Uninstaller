@@ -24,7 +24,7 @@ use Dotclear\Plugin\Uninstaller\{
 /**
  * Cleaner for Dotclear cache directory used by modules.
  *
- * It allows modules to delete an entire sub folder 
+ * It allows modules to delete an entire sub folder
  * of DC_TPL_CACHE directory path.
  */
 class Caches extends AbstractCleaner
@@ -44,21 +44,21 @@ class Caches extends AbstractCleaner
     {
         return [
             // delete a $ns folder and thier files.
-            new ActionDescriptor([
-                'id'      => 'delete',
-                'select'  => __('delete selected cache directories'),
-                'query'   => __('delete "%s" cache directory'),
-                'success' => __('"%s" cache directory deleted'),
-                'error'   => __('Failed to delete "%s" cache directory'),
-            ]),
+            new ActionDescriptor(
+                id:      'delete',
+                select:  __('delete selected cache directories'),
+                query:   __('delete "%s" cache directory'),
+                success: __('"%s" cache directory deleted'),
+                error:   __('Failed to delete "%s" cache directory')
+            ),
             // delete $ns folder files but keep folder
-            new ActionDescriptor([
-                'id'      => 'empty',
-                'select'  => __('empty selected cache directories'),
-                'query'   => __('empty "%s" cache directory'),
-                'success' => __('"%s" cache directory emptied'),
-                'error'   => __('Failed to empty "%s" cache directory'),
-            ]),
+            new ActionDescriptor(
+                id:      'empty',
+                select:  __('empty selected cache directories'),
+                query:   __('empty "%s" cache directory'),
+                success: __('"%s" cache directory emptied'),
+                error:   __('Failed to empty "%s" cache directory')
+            ),
         ];
     }
 
@@ -68,7 +68,7 @@ class Caches extends AbstractCleaner
             'cbfeed',
             'cbtpl',
             'dcrepo',
-            'versions'
+            'versions',
         ];
     }
 
@@ -77,9 +77,8 @@ class Caches extends AbstractCleaner
         $res = [];
         foreach (self::getDirs(DC_TPL_CACHE) as $dir) {
             $res[] = new ValueDescriptor(
-                $dir['key'],
-                '',
-                (int) $dir['value']
+                ns:    $dir['key'],
+                count: (int) $dir['value']
             );
         }
 

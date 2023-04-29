@@ -24,7 +24,7 @@ use Dotclear\Plugin\Uninstaller\{
 /**
  * Cleaner for Dotclear VAR directory used by modules.
  *
- * It allows modules to delete an entire sub folder 
+ * It allows modules to delete an entire sub folder
  * of DC_VAR directory path.
  */
 class Vars extends AbstractCleaner
@@ -44,13 +44,13 @@ class Vars extends AbstractCleaner
     {
         return [
             // delete a $ns folder and their files
-            new ActionDescriptor([
-                'id'      => 'delete',
-                'select'  => __('delete selected var directories'),
-                'query'   => __('delete "%s" var directory'),
-                'success' => __('"%s" var directory deleted'),
-                'error'   => __('Failed to delete "%s" var directory'),
-            ]),
+            new ActionDescriptor(
+                id:      'delete',
+                select:  __('delete selected var directories'),
+                query:   __('delete "%s" var directory'),
+                success: __('"%s" var directory deleted'),
+                error:   __('Failed to delete "%s" var directory')
+            ),
         ];
     }
 
@@ -64,9 +64,8 @@ class Vars extends AbstractCleaner
         $res = [];
         foreach (self::getDirs(DC_VAR) as $dir) {
             $res[] = new ValueDescriptor(
-                $dir['key'],
-                '',
-                (int) $dir['value']
+                ns:    $dir['key'],
+                count: (int) $dir['value']
             );
         }
 

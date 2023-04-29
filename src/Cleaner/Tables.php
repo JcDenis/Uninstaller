@@ -50,21 +50,21 @@ class Tables extends AbstractCleaner
     {
         return [
             // delete $ns database table
-            new ActionDescriptor([
-                'id'      => 'delete',
-                'select'  => __('delete selected tables'),
-                'query'   => __('delete "%s" table'),
-                'success' => __('"%s" table deleted'),
-                'error'   => __('Failed to delete "%s" table'),
-            ]),
+            new ActionDescriptor(
+                id:      'delete',
+                select:  __('delete selected tables'),
+                query:   __('delete "%s" table'),
+                success: __('"%s" table deleted'),
+                error:   __('Failed to delete "%s" table')
+            ),
             // truncate (empty) $ns database table
-            new ActionDescriptor([
-                'id'      => 'empty',
-                'select'  => __('empty selected tables'),
-                'query'   => __('empty "%s" table'),
-                'success' => __('"%s" table emptied'),
-                'error'   => __('Failed to empty "%s" table'),
-            ]),
+            new ActionDescriptor(
+                id:      'empty',
+                select:  __('empty selected tables'),
+                query:   __('empty "%s" table'),
+                success: __('"%s" table emptied'),
+                error:   __('Failed to empty "%s" table')
+            ),
         ];
     }
 
@@ -109,9 +109,8 @@ class Tables extends AbstractCleaner
             $sql = new SelectStatement();
 
             $res[] = new ValueDescriptor(
-                $v,
-                '',
-                (int) $sql->from($tables[$k])->fields([$sql->count('*')])->select()?->f(0)
+                ns:    (string) $v,
+                count: (int) $sql->from($tables[$k])->fields([$sql->count('*')])->select()?->f(0)
             );
         }
 

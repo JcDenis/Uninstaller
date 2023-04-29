@@ -47,36 +47,36 @@ class Settings extends AbstractCleaner
     {
         return [
             // delete global $ns settings namespace
-            new ActionDescriptor([
-                'id'      => 'delete_global',
-                'select'  => __('delete selected global settings namespaces'),
-                'query'   => __('delete "%s" global settings namespace'),
-                'success' => __('"%s" global settings namespace deleted'),
-                'error'   => __('Failed to delete "%s" global settings namespace'),
-            ]),
+            new ActionDescriptor(
+                id:      'delete_global',
+                select:  __('delete selected global settings namespaces'),
+                query:   __('delete "%s" global settings namespace'),
+                success: __('"%s" global settings namespace deleted'),
+                error:   __('Failed to delete "%s" global settings namespace')
+            ),
             // delete blogs $ns settings namespace
-            new ActionDescriptor([
-                'id'      => 'delete_local',
-                'select'  => __('delete selected blog settings namespaces'),
-                'query'   => __('delete "%s" blog settings namespace'),
-                'success' => __('"%s" blog settings namespace deleted'),
-                'error'   => __('Failed to delete "%s" blog settings namespace'),
-            ]),
+            new ActionDescriptor(
+                id:      'delete_local',
+                select:  __('delete selected blog settings namespaces'),
+                query:   __('delete "%s" blog settings namespace'),
+                success: __('"%s" blog settings namespace deleted'),
+                error:   __('Failed to delete "%s" blog settings namespace')
+            ),
             // delete blogs and global settings namespace
-            new ActionDescriptor([
-                'id'      => 'delete_all',
-                'select'  => __('delete selected settings namespaces'),
-                'query'   => __('delete "%s" settings namespace'),
-                'success' => __('"%s" settings namespace deleted'),
-                'error'   => __('Failed to delete "%s" settings namespace'),
-            ]),
+            new ActionDescriptor(
+                id:      'delete_all',
+                select:  __('delete selected settings namespaces'),
+                query:   __('delete "%s" settings namespace'),
+                success: __('"%s" settings namespace deleted'),
+                error:   __('Failed to delete "%s" settings namespace')
+            ),
             // delete blogs and globals specific $ns:$id settings using 'setting_ns:setting_id;setting_ns:setting_id;' as $ns
-            new ActionDescriptor([
-                'id'      => 'delete_related',
-                'query'   => __('delete related settings'),
-                'success' => __('related settings deleted'),
-                'error'   => __('Failed to delete related settings'),
-            ]),
+            new ActionDescriptor(
+                id:      'delete_related',
+                query:   __('delete related settings'),
+                success: __('related settings deleted'),
+                error:   __('Failed to delete related settings')
+            ),
         ];
     }
 
@@ -116,9 +116,8 @@ class Settings extends AbstractCleaner
         $res = [];
         while ($rs->fetch()) {
             $res[] = new ValueDescriptor(
-                $rs->f('setting_ns'),
-                '',
-                (int) $rs->f('counter')
+                ns:    (string) $rs->f('setting_ns'),
+                count: (int) $rs->f('counter')
             );
         }
 
@@ -145,9 +144,8 @@ class Settings extends AbstractCleaner
         $res = [];
         while ($rs->fetch()) {
             $res[] = new ValueDescriptor(
-                $ns,
-                $rs->f('setting_id'),
-                (int) $rs->f('counter')
+                id:    (string) $rs->f('setting_id'),
+                count: (int) $rs->f('counter')
             );
         }
 

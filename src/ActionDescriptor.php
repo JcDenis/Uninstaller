@@ -19,35 +19,24 @@ namespace Dotclear\Plugin\Uninstaller;
  */
 class ActionDescriptor
 {
-    /** @var    string  $id     The action ID */
-    public readonly string $id;
-
-    /** @var    string  $ns     The namespace (for defined action) */
-    public readonly string $ns;
-
-    /** @var    string  $query  The generic message (used for self::values() management) */
-    public readonly string $select;
-
-    /** @var    string  $query  The query message */
-    public readonly string $query;
-
-    /** @var    string  $success    The succes message */
-    public readonly string $success;
-
-    /** @var    string  $error  The error message */
-    public readonly string $error;
-
     /**
      * Contructor populate descriptor properties.
+     *
+     * @param   string  $id         The action ID
+     * @param   string  $query      The query message
+     * @param   string  $success    The succes message
+     * @param   string  $error      The error message
+     * @param   string  $ns         The namespace (for defined action)
+     * @param   string  $select     The generic message (used for self::values() management)
      */
-    public function __construct(array $description)
-    {
-        $this->id      = (string) ($description['id'] ?? 'undefined');
-        $this->ns      = (string) ($description['ns'] ?? '');
-        $this->select  = (string) ($description['select'] ?? 'undefined');
-        $this->query   = (string) ($description['query'] ?? 'undefined');
-        $this->success = (string) ($description['success'] ?? 'undefined');
-        $this->error   = (string) ($description['error'] ?? 'undefined');
+    public function __construct(
+        public readonly string $id,
+        public readonly string $query,
+        public readonly string $success,
+        public readonly string $error,
+        public readonly string $ns = '',
+        public readonly string $select = ''
+    ) {
     }
 
     /**

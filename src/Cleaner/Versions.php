@@ -25,7 +25,7 @@ use Dotclear\Plugin\Uninstaller\{
 /**
  * Cleaner for Dotclear modules versions.
  *
- * It allows modules to delete their versions 
+ * It allows modules to delete their versions
  * from Dotclear dcCore::VERSION_TABLE_NAME database table.
  */
 class Versions extends AbstractCleaner
@@ -43,13 +43,13 @@ class Versions extends AbstractCleaner
     {
         return [
             // delete $ns version
-            new ActionDescriptor([
-                'id'      => 'delete',
-                'select'  => __('delete selected versions numbers'),
-                'query'   => __('delete "%s" version number'),
-                'success' => __('"%s" version number deleted'),
-                'error'   => __('Failed to delete "%s" version number'),
-            ]),
+            new ActionDescriptor(
+                id:      'delete',
+                select:  __('delete selected versions numbers'),
+                query:   __('delete "%s" version number'),
+                success: __('"%s" version number deleted'),
+                error:   __('Failed to delete "%s" version number')
+            ),
         ];
     }
 
@@ -85,9 +85,9 @@ class Versions extends AbstractCleaner
         $res = [];
         while ($rs->fetch()) {
             $res[] = new ValueDescriptor(
-                $rs->f('module'),
-                $rs->f('version'),
-                1
+                ns:    (string) $rs->f('module'),
+                id:    (string) $rs->f('version'),
+                count: 1
             );
         }
 

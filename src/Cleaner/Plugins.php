@@ -43,13 +43,13 @@ class Plugins extends AbstractCleaner
     {
         return [
             // delete $ns plugin folder
-            new ActionDescriptor([
-                'id'      => 'delete',
-                'select'  => __('delete selected plugins files and directories'),
-                'query'   => __('delete "%s" plugin files and directories'),
-                'success' => __('"%s" plugin files and directories deleted'),
-                'error'   => __('Failed to delete "%s" plugin files and directories'),
-            ]),
+            new ActionDescriptor(
+                id:      'delete',
+                select:  __('delete selected plugins files and directories'),
+                query:   __('delete "%s" plugin files and directories'),
+                success: __('"%s" plugin files and directories deleted'),
+                error:   __('Failed to delete "%s" plugin files and directories')
+            ),
         ];
     }
 
@@ -66,9 +66,8 @@ class Plugins extends AbstractCleaner
         $res = [];
         foreach ($dirs as $dir) {
             $res[] = new ValueDescriptor(
-                $dir['key'],
-                '',
-                (int) $dir['value']
+                ns:    $dir['key'],
+                count: (int) $dir['value']
             );
         }
 
