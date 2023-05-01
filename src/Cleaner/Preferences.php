@@ -21,9 +21,9 @@ use Dotclear\Database\Statement\{
     SelectStatement
 };
 use Dotclear\Plugin\Uninstaller\{
-    AbstractCleaner,
     ActionDescriptor,
     CleanerDescriptor,
+    CleanerParent,
     ValueDescriptor
 };
 
@@ -33,7 +33,7 @@ use Dotclear\Plugin\Uninstaller\{
  * It allows modules to delete for users or global a preference workspace.
  * It also allows to pick-up specific preference id by using delete_related action.
  */
-class Preferences extends AbstractCleaner
+class Preferences extends CleanerParent
 {
     public function __construct()
     {

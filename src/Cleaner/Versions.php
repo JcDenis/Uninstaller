@@ -17,7 +17,7 @@ namespace Dotclear\Plugin\Uninstaller\Cleaner;
 use dcCore;
 use Dotclear\Database\Statement\SelectStatement;
 use Dotclear\Plugin\Uninstaller\{
-    AbstractCleaner,
+    CleanerParent,
     ActionDescriptor,
     CleanerDescriptor,
     ValueDescriptor
@@ -29,7 +29,7 @@ use Dotclear\Plugin\Uninstaller\{
  * It allows modules to delete their versions
  * from Dotclear dcCore::VERSION_TABLE_NAME database table.
  */
-class Versions extends AbstractCleaner
+class Versions extends CleanerParent
 {
     public function __construct()
     {

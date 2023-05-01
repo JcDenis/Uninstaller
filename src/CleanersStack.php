@@ -14,62 +14,82 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\Uninstaller;
 
+use Countable;
 use dcCore;
+use Iterator;
 use Exception;
 
 /**
  * The cleaners stack.
+ *
+ * @implements Iterator<string,CleanerParent>
  */
-class Cleaners
+class CleanersStack implements Countable, Iterator
 {
-    /** @var    array<string,AbstractCleaner>   $cleaners   The cleaner stack */
-    private array $cleaners = [];
+    /** @var    array<string,CleanerParent>   $stack   The cleaner stack */
+    private array $stack = [];
 
     /**
      * Contructor load cleaners.
      */
     public function __construct()
     {
-        # --BEHAVIOR-- UninstallerCleanersConstruct: Cleaners
+        # --BEHAVIOR-- UninstallerCleanersConstruct: CleanersStack
         dcCore::app()->callBehavior('UninstallerCleanersConstruct', $this);
     }
 
-    /**
-     * Add a cleaner.
-     *
-     * @param   AbstractCleaner     $cleaner    The cleaner instance
-     *
-     * @return  Cleaners    Self instance
-     */
-    public function add(AbstractCleaner $cleaner): Cleaners
+    public function exists(string $offset): bool
     {
-        if (!isset($this->cleaners[$cleaner->id])) {
-            $this->cleaners[$cleaner->id] = $cleaner;
+        return isset($this->stack[$offset]);
+    }
+
+    public function get(string $offset): ?CleanerParent
+    {
+        return $this->stack[$offset] ?? null;
+    }
+
+    public function set(CleanerParent $value): CleanersStack
+    {
+        if (!isset($this->stack[$value->id])) {
+            $this->stack[$value->id] = $value;
         }
 
         return $this;
     }
 
-    /**
-     * Get all clearners.
-     *
-     * @return  array<string,AbstractCleaner>   The cleaners
-     */
-    public function dump(): array
+    public function unset(string $offset): void
     {
-        return $this->cleaners;
+        unset($this->stack[$offset]);
     }
 
-    /**
-     * Get a cleaner.
-     *
-     * @param   string  $id     The cleaner id
-     *
-     * @return  null|AbstractCleaner    The cleaner
-     */
-    public function get(string $id): ?AbstractCleaner
+    public function rewind(): void
     {
-        return $this->cleaners[$id] ?? null;
+        reset($this->stack);
+    }
+
+    public function current(): false|CleanerParent
+    {
+        return current($this->stack);
+    }
+
+    public function key(): ?string
+    {
+        return key($this->stack);
+    }
+
+    public function next(): void
+    {
+        next($this->stack);
+    }
+
+    public function valid(): bool
+    {
+        return key($this->stack) !== null;
+    }
+
+    public function count(): int
+    {
+        return count($this->stack);
     }
 
     /**
@@ -83,7 +103,7 @@ class Cleaners
      */
     public function execute(string $id, string $action, string $ns): bool
     {
-        if (!isset($this->cleaners[$id])) {
+        if (!isset($this->stack[$id])) {
             throw new Exception(sprintf(__('Unknown cleaner "%s"'), $id));
         }
         if (in_array($ns, [My::id(), My::root()])) {
@@ -93,6 +113,6 @@ class Cleaners
         # --BEHAVIOR-- UninstallerBeforeAction: string, string, string
         dcCore::app()->callBehavior('UninstallerBeforeAction', $id, $action, $ns);
 
-        return $this->cleaners[$id]->execute($action, $ns);
+        return $this->stack[$id]->execute($action, $ns);
     }
 }

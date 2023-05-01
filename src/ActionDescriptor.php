@@ -42,7 +42,7 @@ class ActionDescriptor
     /**
      * Get descriptor properties.
      *
-     * @return  array<string,string>    The properties
+     * @return  array<string,mixed>     The properties
      */
     public function dump(): array
     {

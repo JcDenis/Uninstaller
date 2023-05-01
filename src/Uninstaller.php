@@ -29,8 +29,8 @@ class Uninstaller
     /** @var    string  The Uninstall class name */
     public const UNINSTALL_CLASS_NAME = 'Uninstall';
 
-    /** @var    Cleaners    $cleaners The cleaners stack */
-    public readonly Cleaners $cleaners;
+    /** @var    CleanersStack    $cleaners The cleaners stack */
+    public readonly CleanersStack $cleaners;
 
     /** @var    null|dcModuleDefine     $module Current module */
     private ?dcModuleDefine $module = null;
@@ -41,8 +41,11 @@ class Uninstaller
     /** @var    array<int,string>   List of modules with custom actions render */
     private array $renders = [];
 
-    /** @var    array   List of registered actions */
-    private array $actions = ['user' => [], 'direct' => []];
+    /** @var    array<string,ActionsStack>     List of registered user actions */
+    private array $user_actions = [];
+
+    /** @var    array<string,ActionsStack>     List of registered direct actions */
+    private array $direct_actions = [];
 
     /** @var    Uninstaller     $uninstaller   Uninstaller instance */
     private static $uninstaller;
@@ -52,7 +55,7 @@ class Uninstaller
      */
     public function __construct()
     {
-        $this->cleaners = new Cleaners();
+        $this->cleaners = new CleanersStack();
     }
 
     /**
@@ -81,10 +84,11 @@ class Uninstaller
     public function loadModules(array $modules): Uninstaller
     {
         // reset unsintaller
-        $this->module  = null;
-        $this->modules = [];
-        $this->renders = [];
-        $this->actions = ['user' => [], 'direct' => []];
+        $this->module         = null;
+        $this->modules        = [];
+        $this->renders        = [];
+        $this->user_actions   = [];
+        $this->direct_actions = [];
 
         foreach ($modules as $module) {
             if (!($module instanceof dcModuleDefine)) {
@@ -138,7 +142,12 @@ class Uninstaller
      */
     public function addUserAction(string $cleaner, string $action, string $ns): Uninstaller
     {
-        $this->addAction('user', $cleaner, $action, $ns);
+        if (null !== $this->module && null !== ($res = $this->addAction($cleaner, $action, $ns))) {
+            if (!isset($this->user_actions[$this->module->getId()])) {
+                $this->user_actions[$this->module->getId()] = new ActionsStack();
+            }
+            $this->user_actions[$this->module->getId()]->get($cleaner)->set($res);
+        }
 
         return $this;
     }
@@ -159,7 +168,12 @@ class Uninstaller
      */
     public function addDirectAction(string $cleaner, string $action, string $ns): Uninstaller
     {
-        $this->addAction('direct', $cleaner, $action, $ns);
+        if (null !== $this->module && null !== ($res = $this->addAction($cleaner, $action, $ns))) {
+            if (!isset($this->direct_actions[$this->module->getId()])) {
+                $this->direct_actions[$this->module->getId()] = new ActionsStack();
+            }
+            $this->direct_actions[$this->module->getId()]->get($cleaner)->set($res);
+        }
 
         return $this;
     }
@@ -169,11 +183,11 @@ class Uninstaller
      *
      * @param   string  $id     The module ID
      *
-     * @return  array   List module user actions group by cleaner
+     * @return  ActionsStack   List module user actions group by cleaner
      */
-    public function getUserActions(string $id): array
+    public function getUserActions(string $id): ActionsStack
     {
-        return $this->actions['user'][$id] ?? [];
+        return $this->user_actions[$id] ?? new ActionsStack();
     }
 
     /**
@@ -181,11 +195,11 @@ class Uninstaller
      *
      * @param   string  $id     The module ID
      *
-     * @return  array   List module direct actions group by cleaner
+     * @return  ActionsStack   List module direct actions group by cleaner
      */
-    public function getDirectActions(string $id): array
+    public function getDirectActions(string $id): ActionsStack
     {
-        return $this->actions['direct'][$id] ?? [];
+        return $this->direct_actions[$id] ?? new ActionsStack();
     }
 
     /**
@@ -240,12 +254,13 @@ class Uninstaller
     /**
      * Add a predefined action to unsintall features.
      *
-     * @param   string  $group      The group (user or direct)
      * @param   string  $cleaner    The cleaner ID
      * @param   string  $action     The action ID
      * @param   string  $ns         Name of setting related to module.
+     *
+     * @return  null|ActionDescriptor   The action description
      */
-    private function addAction(string $group, string $cleaner, string $action, string $ns): void
+    private function addAction(string $cleaner, string $action, string $ns): ?ActionDescriptor
     {
         // no current module or no cleaner id or no ns or unknown cleaner action
         if (null === $this->module
@@ -253,11 +268,11 @@ class Uninstaller
             || empty($ns)
             || !isset($this->cleaners->get($cleaner)->actions[$action])
         ) {
-            return;
+            return null;
         }
 
         // fill action properties
-        $this->actions[$group][$this->module->getId()][$cleaner][] = new ActionDescriptor(
+        return new ActionDescriptor(
             id: $action,
             ns: $ns,
             select: $this->cleaners->get($cleaner)->actions[$action]->select,

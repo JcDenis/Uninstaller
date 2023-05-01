@@ -15,9 +15,9 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\Uninstaller\Cleaner;
 
 use Dotclear\Plugin\Uninstaller\{
-    AbstractCleaner,
     ActionDescriptor,
     CleanerDescriptor,
+    CleanerParent,
     TraitCleanerDir,
     ValueDescriptor
 };
@@ -28,7 +28,7 @@ use Dotclear\Plugin\Uninstaller\{
  * It allows modules to delete an entire sub folder
  * of DC_TPL_CACHE directory path.
  */
-class Caches extends AbstractCleaner
+class Caches extends CleanerParent
 {
     use TraitCleanerDir;
 

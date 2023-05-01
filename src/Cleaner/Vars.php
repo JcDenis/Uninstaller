@@ -15,9 +15,9 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\Uninstaller\Cleaner;
 
 use Dotclear\Plugin\Uninstaller\{
-    AbstractCleaner,
     ActionDescriptor,
     CleanerDescriptor,
+    CleanerParent,
     ValueDescriptor,
     TraitCleanerDir
 };
@@ -28,7 +28,7 @@ use Dotclear\Plugin\Uninstaller\{
  * It allows modules to delete an entire sub folder
  * of DC_VAR directory path.
  */
-class Vars extends AbstractCleaner
+class Vars extends CleanerParent
 {
     use TraitCleanerDir;
 

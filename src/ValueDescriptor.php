@@ -17,8 +17,8 @@ namespace Dotclear\Plugin\Uninstaller;
 /**
  * Cleaner value descriptor.
  *
- * Description of a value from AbstractCleaner::value()
- * and AbstractCleaner::related()
+ * Description of a value from CleanerParent::value()
+ * and CleanerParent::related()
  */
 class ValueDescriptor
 {

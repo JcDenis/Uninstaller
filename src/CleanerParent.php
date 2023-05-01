@@ -20,7 +20,7 @@ namespace Dotclear\Plugin\Uninstaller;
  * Cleaner manages only one part of uninstall process.
  * For exemple Settings, Caches, db, etc...
  */
-abstract class AbstractCleaner
+abstract class CleanerParent
 {
     /** @var    string  $id     The cleaner Id */
     public readonly string $id;

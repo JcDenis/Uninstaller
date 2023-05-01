@@ -25,6 +25,7 @@ use Dotclear\Helper\Html\Form\{
     Form,
     Hidden,
     Label,
+    Link,
     Para,
     Submit,
     Text
@@ -69,7 +70,7 @@ class Manage extends dcNsProcess
         // load uninstaller for selected module and check if it has action
         $uninstaller = Uninstaller::instance()->loadModules([$define]);
         $actions     = $uninstaller->getUserActions($define->getId());
-        if (empty($actions)) {
+        if (!count($actions)) {
             dcCore::app()->error->add(__('There are no uninstall actions for this module'));
             self::doRedirect();
         }
@@ -151,12 +152,12 @@ class Manage extends dcNsProcess
         }
 
         // submit
-        $fields[] = (new Para())->items([
+        $fields[] = (new Para())->separator(' ')->items([
             dcCore::app()->formNonce(false),
             (new Hidden(['type'], self::getType())),
             (new Hidden(['id'], $define->getId())),
             (new Submit(['do']))->value(__('Perform selected actions'))->class('delete'),
-            (new Text('', ' <a class="button" href="' . self::getRedirect() . '">' . __('Cancel') . '</a>')),
+            (new Link())->class('button')->text(__('Cancel'))->href(self::getRedirect()),
         ]);
 
         // display form

@@ -15,9 +15,9 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\Uninstaller\Cleaner;
 
 use Dotclear\Plugin\Uninstaller\{
-    AbstractCleaner,
     ActionDescriptor,
     CleanerDescriptor,
+    CleanerParent,
     ValueDescriptor,
     TraitCleanerDir
 };
@@ -27,7 +27,7 @@ use Dotclear\Plugin\Uninstaller\{
  *
  * It allows modules to delete their own folder.
  */
-class Plugins extends AbstractCleaner
+class Plugins extends CleanerParent
 {
     use TraitCleanerDir;
 

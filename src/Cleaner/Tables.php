@@ -25,9 +25,9 @@ use Dotclear\Database\Statement\{
     SelectStatement
 };
 use Dotclear\Plugin\Uninstaller\{
-    AbstractCleaner,
     ActionDescriptor,
     CleanerDescriptor,
+    CleanerParent,
     ValueDescriptor
 };
 
@@ -36,7 +36,7 @@ use Dotclear\Plugin\Uninstaller\{
  *
  * It allows modules to delete or truncate a database table.
  */
-class Tables extends AbstractCleaner
+class Tables extends CleanerParent
 {
     public function __construct()
     {

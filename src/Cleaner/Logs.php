@@ -21,9 +21,9 @@ use Dotclear\Database\Statement\{
     SelectStatement
 };
 use Dotclear\Plugin\Uninstaller\{
-    AbstractCleaner,
     ActionDescriptor,
     CleanerDescriptor,
+    CleanerParent,
     ValueDescriptor
 };
 
@@ -33,7 +33,7 @@ use Dotclear\Plugin\Uninstaller\{
  * It allows modules to delete a "log_table"
  * of Dotclear dcLog::LOG_TABLE_NAME database table.
  */
-class Logs extends AbstractCleaner
+class Logs extends CleanerParent
 {
     public function __construct()
     {

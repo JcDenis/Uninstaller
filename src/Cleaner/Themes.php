@@ -16,9 +16,9 @@ namespace Dotclear\Plugin\Uninstaller\Cleaner;
 
 use dcCore;
 use Dotclear\Plugin\Uninstaller\{
-    AbstractCleaner,
     ActionDescriptor,
     CleanerDescriptor,
+    CleanerParent,
     ValueDescriptor,
     TraitCleanerDir
 };
@@ -28,7 +28,7 @@ use Dotclear\Plugin\Uninstaller\{
  *
  * It allows modules to delete their own folder.
  */
-class Themes extends AbstractCleaner
+class Themes extends CleanerParent
 {
     use TraitCleanerDir;
 

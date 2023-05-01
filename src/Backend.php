@@ -46,7 +46,7 @@ class Backend extends dcNsProcess
                     return '';
                 }
 
-                return empty(Uninstaller::instance()->loadModules([$define])->getUserActions($define->getId())) ? '' :
+                return !count(Uninstaller::instance()->loadModules([$define])->getUserActions($define->getId())) ? '' :
                     sprintf(
                         ' <a href="%s" class="button delete uninstall_module_button">' . __('Uninstall') . '</a>',
                         dcCore::app()->adminurl?->get('admin.plugin.' . My::id(), ['type' => $define->get('type'), 'id' => $define->getId()])
@@ -90,10 +90,10 @@ class Backend extends dcNsProcess
             $done = [];
             foreach ($uninstaller->getDirectActions($define->getId()) as $cleaner => $stack) {
                 foreach ($stack as $action) {
-                    if ($uninstaller->execute($cleaner, $action['action'], $action['ns'])) {
-                        $done[] = $action['success'];
+                    if ($uninstaller->execute($cleaner, $action->id, $action->ns)) {
+                        $done[] = $action->success;
                     } else {
-                        dcCore::app()->error->add($action['error']);
+                        dcCore::app()->error->add($action->error);
                     }
                 }
             }

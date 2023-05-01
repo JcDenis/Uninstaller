@@ -21,9 +21,9 @@ use Dotclear\Database\Statement\{
     SelectStatement
 };
 use Dotclear\Plugin\Uninstaller\{
-    AbstractCleaner,
     ActionDescriptor,
     CleanerDescriptor,
+    CleanerParent,
     ValueDescriptor
 };
 
@@ -33,7 +33,7 @@ use Dotclear\Plugin\Uninstaller\{
  * It allows modules to delete for blogs or global a settings namespace.
  * It also allows to pick-up specific setting id by using delete_related action.
  */
-class Settings extends AbstractCleaner
+class Settings extends CleanerParent
 {
     public function __construct()
     {
