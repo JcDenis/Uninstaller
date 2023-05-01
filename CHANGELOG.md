@@ -2,6 +2,11 @@ todo:
 - add user pref cleaner
 - add meta cleaner
 
+0.8 - 2023.05.01
+- require Dotclear 2.26 and PHP 8.1+
+- use iterable stacks
+- fix and clean dir trait
+
 0.7 - 2023.04.30
 - require Dotclear 2.26 and PHP 8.1+
 - add cleaner descriptor
