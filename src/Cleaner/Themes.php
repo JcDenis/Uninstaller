@@ -20,7 +20,7 @@ use Dotclear\Plugin\Uninstaller\{
     CleanerDescriptor,
     CleanerParent,
     ValueDescriptor,
-    TraitCleanerDir
+    Helper\DirTrait
 };
 
 /**
@@ -30,7 +30,7 @@ use Dotclear\Plugin\Uninstaller\{
  */
 class Themes extends CleanerParent
 {
-    use TraitCleanerDir;
+    use DirTrait;
 
     public function __construct()
     {
@@ -66,10 +66,10 @@ class Themes extends CleanerParent
         sort($dirs);
 
         $res = [];
-        foreach ($dirs as $dir) {
+        foreach ($dirs as $path => $count) {
             $res[] = new ValueDescriptor(
-                ns:    $dir['key'],
-                count: (int) $dir['value']
+                ns:    $path,
+                count: $count
             );
         }
 

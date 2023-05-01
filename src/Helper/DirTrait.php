@@ -12,7 +12,7 @@
  */
 declare(strict_types=1);
 
-namespace Dotclear\Plugin\Uninstaller;
+namespace Dotclear\Plugin\Uninstaller\Helper;
 
 use Dotclear\Helper\File\Files;
 use Dotclear\Helper\File\Path;
@@ -20,7 +20,7 @@ use Dotclear\Helper\File\Path;
 /**
  * Cleaner helper for files structure.
  */
-trait TraitCleanerDir
+trait DirTrait
 {
     /** @var    array<int,string>   The excluded files */
     public const EXCLUDED = [
@@ -37,46 +37,67 @@ trait TraitCleanerDir
         '_disabled',
     ];
 
-    protected static function getDirs(string|array $roots): array
+    /**
+     * Get path structure.
+     *
+     * @param   string  $paths  The directories paths to scan
+     *
+     * @return  array<string,int>    The path structure
+     */
+    protected static function getDirs(string $paths): array
     {
-        if (!is_array($roots)) {
-            $roots = [$roots];
-        }
-        $rs = [];
-        $i  = 0;
-        foreach ($roots as $root) {
-            $dirs = Files::scanDir($root);
+        $paths = explode(PATH_SEPARATOR, $paths);
+
+        $stack = [];
+        foreach ($paths as $path) {
+            $dirs = Files::scanDir($path);
             foreach ($dirs as $k) {
-                if (in_array($k, self::EXCLUDED) || !is_dir($root . DIRECTORY_SEPARATOR . $k)) {
+                if (!is_string($k) || in_array($k, self::EXCLUDED) || !is_dir($path . DIRECTORY_SEPARATOR . $k)) {
                     continue;
                 }
-                $rs[$i]['key']   = $k;
-                $rs[$i]['value'] = count(self::scanDir($root . DIRECTORY_SEPARATOR . $k));
-                $i++;
+                $stack[$k] = count(self::scanDir($path . DIRECTORY_SEPARATOR . $k));
             }
         }
 
-        return $rs;
+        return $stack;
     }
 
-    protected static function delDir(string|array $roots, string $folder, bool $delfolder = true): bool
+    /**
+     * Delete path structure.
+     *
+     * @param   string  $paths      The directories paths to scan
+     * @param   string  $folder     The folder in path
+     * @param   bool    $delete     Also delete folder itself
+     *
+     * @return  bool    True on success
+     */
+    protected static function delDir(string $paths, string $folder, bool $delete = true): bool
     {
+        $paths = explode(PATH_SEPARATOR, $paths);
+
         if (strpos($folder, DIRECTORY_SEPARATOR)) {
             return false;
         }
-        if (!is_array($roots)) {
-            $roots = [$roots];
-        }
-        foreach ($roots as $root) {
-            if (file_exists($root . DIRECTORY_SEPARATOR . $folder)) {
-                return self::delTree($root . DIRECTORY_SEPARATOR . $folder, $delfolder);
+
+        foreach ($paths as $path) {
+            if (file_exists($path . DIRECTORY_SEPARATOR . $folder)) {
+                return self::delTree($path . DIRECTORY_SEPARATOR . $folder, $delete);
             }
         }
 
         return false;
     }
 
-    protected static function scanDir(string $path, string $dir = '', array $res = []): array
+    /**
+     * Scan recursively a directory.
+     *
+     * @param   string              $path   The directory path to scan
+     * @param   string              $dir    The current directory
+     * @param   array<int,string>   $stack  The paths stack
+     *
+     * @return  array<int,string>   The paths stack
+     */
+    private static function scanDir(string $path, string $dir = '', array $stack = []): array
     {
         $path = Path::real($path);
         if ($path === false || !is_dir($path) || !is_readable($path)) {
@@ -89,35 +110,43 @@ trait TraitCleanerDir
                 continue;
             }
             if (is_dir($path . DIRECTORY_SEPARATOR . $file)) {
-                $res[] = $file;
-                $res   = self::scanDir($path . DIRECTORY_SEPARATOR . $file, $dir . DIRECTORY_SEPARATOR . $file, $res);
+                $stack[] = $file;
+                $stack   = self::scanDir($path . DIRECTORY_SEPARATOR . $file, $dir . DIRECTORY_SEPARATOR . $file, $stack);
             } else {
-                $res[] = empty($dir) ? $file : $dir . DIRECTORY_SEPARATOR . $file;
+                $stack[] = empty($dir) ? $file : $dir . DIRECTORY_SEPARATOR . $file;
             }
         }
 
-        return $res;
+        return $stack;
     }
 
-    protected static function delTree(string $dir, bool $delroot = true): bool
+    /**
+     * Delete path tree.
+     *
+     * @param   string  $path       The directory path
+     * @param   bool    $delete     Also delete the directory path
+     *
+     * @return  bool    True on success
+     */
+    private static function delTree(string $path, bool $delete = true): bool
     {
-        if (!is_dir($dir) || !is_readable($dir)) {
+        if (!is_dir($path) || !is_readable($path)) {
             return false;
         }
-        if (substr($dir, -1) != DIRECTORY_SEPARATOR) {
-            $dir .= DIRECTORY_SEPARATOR;
+        if (substr($path, -1) != DIRECTORY_SEPARATOR) {
+            $path .= DIRECTORY_SEPARATOR;
         }
-        if (($d = @dir($dir)) === false) {
+        if (($d = @dir($path)) === false) {
             return false;
         }
         while (($entryname = $d->read()) !== false) {
             if ($entryname != '.' && $entryname != '..') {
-                if (is_dir($dir . DIRECTORY_SEPARATOR . $entryname)) {
-                    if (!self::delTree($dir . DIRECTORY_SEPARATOR . $entryname)) {
+                if (is_dir($path . DIRECTORY_SEPARATOR . $entryname)) {
+                    if (!self::delTree($path . DIRECTORY_SEPARATOR . $entryname)) {
                         return false;
                     }
                 } else {
-                    if (!@unlink($dir . DIRECTORY_SEPARATOR . $entryname)) {
+                    if (!@unlink($path . DIRECTORY_SEPARATOR . $entryname)) {
                         return false;
                     }
                 }
@@ -125,8 +154,8 @@ trait TraitCleanerDir
         }
         $d->close();
 
-        if ($delroot) {
-            return @rmdir($dir);
+        if ($delete) {
+            return @rmdir($path);
         }
 
         return true;

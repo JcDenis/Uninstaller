@@ -19,7 +19,7 @@ use Dotclear\Plugin\Uninstaller\{
     CleanerDescriptor,
     CleanerParent,
     ValueDescriptor,
-    TraitCleanerDir
+    Helper\DirTrait
 };
 
 /**
@@ -29,7 +29,7 @@ use Dotclear\Plugin\Uninstaller\{
  */
 class Plugins extends CleanerParent
 {
-    use TraitCleanerDir;
+    use DirTrait;
 
     public function __construct()
     {
@@ -57,14 +57,14 @@ class Plugins extends CleanerParent
 
     public function values(): array
     {
-        $dirs = self::getDirs(explode(PATH_SEPARATOR, DC_PLUGINS_ROOT));
+        $dirs = self::getDirs(DC_PLUGINS_ROOT);
         sort($dirs);
 
         $res = [];
-        foreach ($dirs as $dir) {
+        foreach ($dirs as $path => $count) {
             $res[] = new ValueDescriptor(
-                ns:    $dir['key'],
-                count: (int) $dir['value']
+                ns:    $path,
+                count: $count
             );
         }
 
@@ -74,8 +74,7 @@ class Plugins extends CleanerParent
     public function execute(string $action, string $ns): bool
     {
         if ($action == 'delete') {
-            $res = explode(PATH_SEPARATOR, DC_PLUGINS_ROOT);
-            self::delDir($res, $ns, true);
+            self::delDir(DC_PLUGINS_ROOT, $ns, true);
 
             return true;
         }

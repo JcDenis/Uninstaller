@@ -19,7 +19,8 @@ use Dotclear\Plugin\Uninstaller\{
     CleanerDescriptor,
     CleanerParent,
     TraitCleanerDir,
-    ValueDescriptor
+    ValueDescriptor,
+    Helper\DirTrait
 };
 
 /**
@@ -30,7 +31,7 @@ use Dotclear\Plugin\Uninstaller\{
  */
 class Caches extends CleanerParent
 {
-    use TraitCleanerDir;
+    use DirTrait;
 
     public function __construct()
     {
@@ -72,10 +73,10 @@ class Caches extends CleanerParent
     public function values(): array
     {
         $res = [];
-        foreach (self::getDirs(DC_TPL_CACHE) as $dir) {
+        foreach (self::getDirs(DC_TPL_CACHE) as $path => $count) {
             $res[] = new ValueDescriptor(
-                ns:    $dir['key'],
-                count: (int) $dir['value']
+                ns:    $path,
+                count: $count
             );
         }
 
