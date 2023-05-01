@@ -110,7 +110,7 @@ class Uninstaller
         }
         uasort(
             $this->modules,
-            fn ($a, $b) => Text::removeDiacritics(mb_strtolower($a->get('name'))) <=> Text::removeDiacritics(mb_strtolower($b->get('name')))
+            fn ($a, $b) => Text::removeDiacritics(mb_strtolower(is_string($a->get('name')) ? $a->get('name') : $a->getId())) <=> Text::removeDiacritics(mb_strtolower(is_string($b->get('name')) ? $b->get('name') : $b->getId()))
         );
 
         return $this;
