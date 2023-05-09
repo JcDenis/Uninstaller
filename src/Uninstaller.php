@@ -163,18 +163,15 @@ class Uninstaller
      * user will NOT be prompted before these actions execution.
      * Note: If module is disabled, direct actions are not executed.
      *
-     * Leave $default param to null to let Cleaner decide.
-     *
      * @param   string      $cleaner    The cleaner ID
      * @param   string      $action     The action ID
      * @param   string      $ns         Name of setting related to module
-     * @param   null|null   $default    The default state of form field (checked)
      *
      * @return  Uninstaller     Uninstaller instance
      */
-    public function addDirectAction(string $cleaner, string $action, string $ns, ?bool $default = null): Uninstaller
+    public function addDirectAction(string $cleaner, string $action, string $ns): Uninstaller
     {
-        if (null !== $this->module && null !== ($res = $this->addAction($cleaner, $action, $ns, $default))) {
+        if (null !== $this->module && null !== ($res = $this->addAction($cleaner, $action, $ns, true))) {
             if (!isset($this->direct_actions[$this->module->getId()])) {
                 $this->direct_actions[$this->module->getId()] = new ActionsStack();
             }
