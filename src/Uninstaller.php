@@ -134,15 +134,18 @@ class Uninstaller
      * This method should be called from module Uninstall::proces() method.
      * User will be prompted before doing these actions.
      *
-     * @param   string  $cleaner    The cleaner ID
-     * @param   string  $action     The action ID
-     * @param   string  $ns         Name of setting related to module
+     * Leave $default param to null to let Cleaner decide.
+     *
+     * @param   string      $cleaner    The cleaner ID
+     * @param   string      $action     The action ID
+     * @param   string      $ns         Name of setting related to module
+     * @param   null|null   $default    The default state of form field (checked)
      *
      * @return  Uninstaller     Uninstaller instance
      */
-    public function addUserAction(string $cleaner, string $action, string $ns): Uninstaller
+    public function addUserAction(string $cleaner, string $action, string $ns, ?bool $default = null): Uninstaller
     {
-        if (null !== $this->module && null !== ($res = $this->addAction($cleaner, $action, $ns))) {
+        if (null !== $this->module && null !== ($res = $this->addAction($cleaner, $action, $ns, $default))) {
             if (!isset($this->user_actions[$this->module->getId()])) {
                 $this->user_actions[$this->module->getId()] = new ActionsStack();
             }
@@ -160,15 +163,18 @@ class Uninstaller
      * user will NOT be prompted before these actions execution.
      * Note: If module is disabled, direct actions are not executed.
      *
-     * @param   string  $cleaner    The cleaner ID
-     * @param   string  $action     The action ID
-     * @param   string  $ns         Name of setting related to module.
+     * Leave $default param to null to let Cleaner decide.
+     *
+     * @param   string      $cleaner    The cleaner ID
+     * @param   string      $action     The action ID
+     * @param   string      $ns         Name of setting related to module
+     * @param   null|null   $default    The default state of form field (checked)
      *
      * @return  Uninstaller     Uninstaller instance
      */
-    public function addDirectAction(string $cleaner, string $action, string $ns): Uninstaller
+    public function addDirectAction(string $cleaner, string $action, string $ns, ?bool $default = null): Uninstaller
     {
-        if (null !== $this->module && null !== ($res = $this->addAction($cleaner, $action, $ns))) {
+        if (null !== $this->module && null !== ($res = $this->addAction($cleaner, $action, $ns, $default))) {
             if (!isset($this->direct_actions[$this->module->getId()])) {
                 $this->direct_actions[$this->module->getId()] = new ActionsStack();
             }
@@ -254,13 +260,14 @@ class Uninstaller
     /**
      * Add a predefined action to unsintall features.
      *
-     * @param   string  $cleaner    The cleaner ID
-     * @param   string  $action     The action ID
-     * @param   string  $ns         Name of setting related to module.
+     * @param   string      $cleaner    The cleaner ID
+     * @param   string      $action     The action ID
+     * @param   string      $ns         Name of setting related to module
+     * @param   null|null   $default    The default state of form field (checked)
      *
      * @return  null|ActionDescriptor   The action description
      */
-    private function addAction(string $cleaner, string $action, string $ns): ?ActionDescriptor
+    private function addAction(string $cleaner, string $action, string $ns, ?bool $default): ?ActionDescriptor
     {
         // no current module or no cleaner id or no ns or unknown cleaner action
         if (null === $this->module
@@ -279,6 +286,7 @@ class Uninstaller
             query: sprintf($this->cleaners->get($cleaner)->actions[$action]->query, $ns),
             success: sprintf($this->cleaners->get($cleaner)->actions[$action]->success, $ns),
             error: sprintf($this->cleaners->get($cleaner)->actions[$action]->error, $ns),
+            default: is_null($default) ? $this->cleaners->get($cleaner)->actions[$action]->default : $default
         );
     }
 }

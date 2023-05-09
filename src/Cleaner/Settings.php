@@ -48,7 +48,8 @@ class Settings extends CleanerParent
                     select:  __('delete selected global settings namespaces'),
                     query:   __('delete "%s" global settings namespace'),
                     success: __('"%s" global settings namespace deleted'),
-                    error:   __('Failed to delete "%s" global settings namespace')
+                    error:   __('Failed to delete "%s" global settings namespace'),
+                    default: false
                 ),
                 // delete blogs $ns settings namespace
                 new ActionDescriptor(
@@ -56,7 +57,8 @@ class Settings extends CleanerParent
                     select:  __('delete selected blog settings namespaces'),
                     query:   __('delete "%s" blog settings namespace'),
                     success: __('"%s" blog settings namespace deleted'),
-                    error:   __('Failed to delete "%s" blog settings namespace')
+                    error:   __('Failed to delete "%s" blog settings namespace'),
+                    default: false
                 ),
                 // delete blogs and global settings namespace
                 new ActionDescriptor(
@@ -64,14 +66,16 @@ class Settings extends CleanerParent
                     select:  __('delete selected settings namespaces'),
                     query:   __('delete "%s" settings namespace'),
                     success: __('"%s" settings namespace deleted'),
-                    error:   __('Failed to delete "%s" settings namespace')
+                    error:   __('Failed to delete "%s" settings namespace'),
+                    default: false
                 ),
                 // delete blogs and globals specific $ns:$id settings using 'setting_ns:setting_id;setting_ns:setting_id;' as $ns
                 new ActionDescriptor(
                     id:      'delete_related',
                     query:   __('delete related settings'),
                     success: __('related settings deleted'),
-                    error:   __('Failed to delete related settings')
+                    error:   __('Failed to delete related settings'),
+                    default: false
                 ),
             ]
         ));

@@ -51,7 +51,8 @@ class Tables extends CleanerParent
                     select:  __('delete selected tables'),
                     query:   __('delete "%s" table'),
                     success: __('"%s" table deleted'),
-                    error:   __('Failed to delete "%s" table')
+                    error:   __('Failed to delete "%s" table'),
+                    default: false
                 ),
                 // truncate (empty) $ns database table
                 new ActionDescriptor(
@@ -59,7 +60,8 @@ class Tables extends CleanerParent
                     select:  __('empty selected tables'),
                     query:   __('empty "%s" table'),
                     success: __('"%s" table emptied'),
-                    error:   __('Failed to empty "%s" table')
+                    error:   __('Failed to empty "%s" table'),
+                    default: false
                 ),
             ]
         ));

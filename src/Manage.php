@@ -145,7 +145,7 @@ class Manage extends dcNsProcess
         foreach ($uninstaller->getUserActions($define->getId()) as $cleaner => $stack) {
             foreach ($stack as $action) {
                 $fields[] = (new Para())->items([
-                    (new Checkbox(['action[' . $cleaner . '][' . $action->id . ']', 'action_' . $cleaner . '_' . $action->id], true))->value($action->ns),
+                    (new Checkbox(['action[' . $cleaner . '][' . $action->id . ']', 'action_' . $cleaner . '_' . $action->id], $action->default))->value($action->ns),
                     (new Label($action->query, Label::OUTSIDE_LABEL_AFTER))->for('action_' . $cleaner . '_' . $action->id)->class('classic'),
                 ]);
             }

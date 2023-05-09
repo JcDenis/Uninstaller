@@ -48,7 +48,8 @@ class Logs extends CleanerParent
                     select:  __('delete selected logs tables'),
                     query:   __('delete "%s" logs table'),
                     success: __('"%s" logs table deleted'),
-                    error:   __('Failed to delete "%s" logs table')
+                    error:   __('Failed to delete "%s" logs table'),
+                    default: true
                 ),
             ]
         ));

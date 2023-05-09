@@ -45,7 +45,8 @@ class Vars extends CleanerParent
                     select:  __('delete selected var directories'),
                     query:   __('delete "%s" var directory'),
                     success: __('"%s" var directory deleted'),
-                    error:   __('Failed to delete "%s" var directory')
+                    error:   __('Failed to delete "%s" var directory'),
+                    default: true
                 ),
             ]
         ));

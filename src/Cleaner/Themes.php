@@ -45,7 +45,8 @@ class Themes extends CleanerParent
                     select:  __('delete selected themes files and directories'),
                     query:   __('delete "%s" theme files and directories'),
                     success: __('"%s" theme files and directories deleted'),
-                    error:   __('Failed to delete "%s" theme files and directories')
+                    error:   __('Failed to delete "%s" theme files and directories'),
+                    default: true
                 ),
             ]
         ));

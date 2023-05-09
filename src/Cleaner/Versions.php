@@ -44,7 +44,8 @@ class Versions extends CleanerParent
                     select:  __('delete selected versions numbers'),
                     query:   __('delete "%s" version number'),
                     success: __('"%s" version number deleted'),
-                    error:   __('Failed to delete "%s" version number')
+                    error:   __('Failed to delete "%s" version number'),
+                    default: true
                 ),
             ]
         ));

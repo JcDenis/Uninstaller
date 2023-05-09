@@ -48,7 +48,8 @@ class Preferences extends CleanerParent
                     select:  __('delete selected global preferences workspaces'),
                     query:   __('delete "%s" global preferences workspace'),
                     success: __('"%s" global preferences workspace deleted'),
-                    error:   __('Failed to delete "%s" global preferences workspace')
+                    error:   __('Failed to delete "%s" global preferences workspace'),
+                    default: false
                 ),
                 // delete users $ns preferences workspace
                 new ActionDescriptor(
@@ -56,7 +57,8 @@ class Preferences extends CleanerParent
                     select:  __('delete selected users preferences workspaces'),
                     query:   __('delete "%s" users preferences workspace'),
                     success: __('"%s" users preferences workspace deleted'),
-                    error:   __('Failed to delete "%s" users preferences workspace')
+                    error:   __('Failed to delete "%s" users preferences workspace'),
+                    default: false
                 ),
                 // delete user and global $ns preferences workspace
                 new ActionDescriptor(
@@ -64,14 +66,16 @@ class Preferences extends CleanerParent
                     select:  __('delete selected preferences workspaces'),
                     query:   __('delete "%s" preferences workspace'),
                     success: __('"%s" preferences workspace deleted'),
-                    error:   __('Failed to delete "%s" preferences workspace')
+                    error:   __('Failed to delete "%s" preferences workspace'),
+                    default: false
                 ),
                 // delete users and globals specific $ws:$id settings using 'pref_ws:pref_id;pref_ws:pref_id;' as $ns
                 new ActionDescriptor(
                     id:      'delete_related',
                     query:   __('delete related preferences'),
                     success: __('related preferences deleted'),
-                    error:   __('Failed to delete related preferences')
+                    error:   __('Failed to delete related preferences'),
+                    default: false
                 ),
             ]
         ));

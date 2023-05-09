@@ -28,6 +28,7 @@ class ActionDescriptor
      * @param   string  $error      The error message
      * @param   string  $ns         The namespace (for defined action)
      * @param   string  $select     The generic message (used for self::values() management)
+     * @param   bool    $default    The default state of action form field (checked or not)
      */
     public function __construct(
         public readonly string $id,
@@ -35,7 +36,8 @@ class ActionDescriptor
         public readonly string $success,
         public readonly string $error,
         public readonly string $ns = '',
-        public readonly string $select = ''
+        public readonly string $select = '',
+        public readonly bool $default = true
     ) {
     }
 
