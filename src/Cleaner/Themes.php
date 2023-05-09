@@ -66,15 +66,15 @@ class Themes extends CleanerParent
         $dirs = self::getDirs($path);
         sort($dirs);
 
-        $res = [];
+        $stack = [];
         foreach ($dirs as $path => $count) {
-            $res[] = new ValueDescriptor(
+            $stack[] = new ValueDescriptor(
                 ns:    $path,
                 count: $count
             );
         }
 
-        return $res;
+        return $stack;
     }
 
     public function execute(string $action, string $ns): bool

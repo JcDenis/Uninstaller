@@ -74,20 +74,22 @@ class Logs extends CleanerParent
             ->where($sql->orGroup(['blog_id IS NULL', 'blog_id IS NOT NULL']))
             ->group('log_table');
 
-        $rs = $sql->select();
-        if (is_null($rs) || $rs->isEmpty()) {
+        $record = $sql->select();
+        if (is_null($record) || $record->isEmpty()) {
             return [];
         }
 
-        $res = [];
-        while ($rs->fetch()) {
-            $res[] = new ValueDescriptor(
-                ns:    (string) $rs->f('log_table'),
-                count: (int) $rs->f('counter')
-            );
+        $stack = [];
+        while ($record->fetch()) {
+            if (is_string($record->f('log_table')) && is_numeric($record->f('counter'))) {
+                $stack[] = new ValueDescriptor(
+                    ns:    $record->f('log_table'),
+                    count: (int) $record->f('counter')
+                );
+            }
         }
 
-        return $res;
+        return $stack;
     }
 
     public function execute(string $action, string $ns): bool

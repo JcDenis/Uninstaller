@@ -92,10 +92,10 @@ class Tables extends CleanerParent
 
     public function values(): array
     {
-        $object = AbstractSchema::init(dcCore::app()->con);
-        $tables = $object->getTables();
+        $schema = AbstractSchema::init(dcCore::app()->con);
+        $tables = $schema->getTables();
 
-        $res = [];
+        $stack = [];
         foreach ($tables as $k => $v) {
             // get only tables with dotclear prefix
             if ('' != dcCore::app()->prefix) {
@@ -105,15 +105,16 @@ class Tables extends CleanerParent
                 $v = $m[1];
             }
 
-            $sql = new SelectStatement();
+            $sql   = new SelectStatement();
+            $count = $sql->from($tables[$k])->fields([$sql->count('*')])->select()?->f(0);
 
-            $res[] = new ValueDescriptor(
+            $stack[] = new ValueDescriptor(
                 ns:    (string) $v,
-                count: (int) $sql->from($tables[$k])->fields([$sql->count('*')])->select()?->f(0)
+                count: is_numeric($count) ? (int) $count : 0
             );
         }
 
-        return $res;
+        return $stack;
     }
 
     public function execute(string $action, string $ns): bool

@@ -105,20 +105,22 @@ class Preferences extends CleanerParent
             ->where($sql->orGroup(['user_id IS NULL', 'user_id IS NOT NULL']))
             ->group('pref_ws');
 
-        $rs = $sql->select();
-        if (is_null($rs) || $rs->isEmpty()) {
+        $record = $sql->select();
+        if (is_null($record) || $record->isEmpty()) {
             return [];
         }
 
-        $res = [];
-        while ($rs->fetch()) {
-            $res[] = new ValueDescriptor(
-                ns:    (string) $rs->f('pref_ws'),
-                count: (int) $rs->f('counter')
-            );
+        $stack = [];
+        while ($record->fetch()) {
+            if (is_string($record->f('pref_ws')) && is_numeric($record->f('counter'))) {
+                $stack[] = new ValueDescriptor(
+                    ns:    $record->f('pref_ws'),
+                    count: (int) $record->f('counter')
+                );
+            }
         }
 
-        return $res;
+        return $stack;
     }
 
     public function related(string $ns): array
@@ -133,20 +135,22 @@ class Preferences extends CleanerParent
             ->and('pref_ws = ' . $sql->quote($ns))
             ->group('pref_id');
 
-        $rs = $sql->select();
-        if (is_null($rs) || $rs->isEmpty()) {
+        $record = $sql->select();
+        if (is_null($record) || $record->isEmpty()) {
             return [];
         }
 
-        $res = [];
-        while ($rs->fetch()) {
-            $res[] = new ValueDescriptor(
-                id:    (string) $rs->f('pref_id'),
-                count: (int) $rs->f('counter')
-            );
+        $stack = [];
+        while ($record->fetch()) {
+            if (is_string($record->f('pref_id')) && is_numeric($record->f('counter'))) {
+                $stack[] = new ValueDescriptor(
+                    id:    $record->f('pref_id'),
+                    count: (int) $record->f('counter')
+                );
+            }
         }
 
-        return $res;
+        return $stack;
     }
 
     public function execute(string $action, string $ns): bool

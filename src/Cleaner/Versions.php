@@ -80,16 +80,16 @@ class Versions extends CleanerParent
             return [];
         }
 
-        $res = [];
+        $stack = [];
         while ($rs->fetch()) {
-            $res[] = new ValueDescriptor(
+            $stack[] = new ValueDescriptor(
                 ns:    (string) $rs->f('module'),
                 id:    (string) $rs->f('version'),
                 count: 1
             );
         }
 
-        return $res;
+        return $stack;
     }
 
     public function execute(string $action, string $ns): bool

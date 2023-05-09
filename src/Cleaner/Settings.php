@@ -109,20 +109,22 @@ class Settings extends CleanerParent
             ->where($sql->orGroup(['blog_id IS NULL', 'blog_id IS NOT NULL']))
             ->group('setting_ns');
 
-        $rs = $sql->select();
-        if (is_null($rs) || $rs->isEmpty()) {
+        $record = $sql->select();
+        if (is_null($record) || $record->isEmpty()) {
             return [];
         }
 
-        $res = [];
-        while ($rs->fetch()) {
-            $res[] = new ValueDescriptor(
-                ns:    (string) $rs->f('setting_ns'),
-                count: (int) $rs->f('counter')
-            );
+        $stack = [];
+        while ($record->fetch()) {
+            if (is_string($record->f('setting_ns')) && is_numeric($record->f('counter'))) {
+                $stack[] = new ValueDescriptor(
+                    ns:    $record->f('setting_ns'),
+                    count: (int) $record->f('counter')
+                );
+            }
         }
 
-        return $res;
+        return $stack;
     }
 
     public function related(string $ns): array
@@ -137,20 +139,22 @@ class Settings extends CleanerParent
             ->and('setting_ns = ' . $sql->quote($ns))
             ->group('setting_id');
 
-        $rs = $sql->select();
-        if (is_null($rs) || $rs->isEmpty()) {
+        $record = $sql->select();
+        if (is_null($record) || $record->isEmpty()) {
             return [];
         }
 
-        $res = [];
-        while ($rs->fetch()) {
-            $res[] = new ValueDescriptor(
-                id:    (string) $rs->f('setting_id'),
-                count: (int) $rs->f('counter')
-            );
+        $stack = [];
+        while ($record->fetch()) {
+            if (is_string($record->f('setting_id')) && is_numeric($record->f('counter'))) {
+                $stack[] = new ValueDescriptor(
+                    id:    $record->f('setting_id'),
+                    count: (int) $record->f('counter')
+                );
+            }
         }
 
-        return $res;
+        return $stack;
     }
 
     public function execute(string $action, string $ns): bool

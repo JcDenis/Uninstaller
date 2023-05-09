@@ -59,15 +59,15 @@ class Vars extends CleanerParent
 
     public function values(): array
     {
-        $res = [];
+        $stack = [];
         foreach (self::getDirs(DC_VAR) as $path => $count) {
-            $res[] = new ValueDescriptor(
+            $stack[] = new ValueDescriptor(
                 ns:    $path,
                 count: $count
             );
         }
 
-        return $res;
+        return $stack;
     }
 
     public function execute(string $action, string $ns): bool
