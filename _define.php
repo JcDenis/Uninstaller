@@ -20,7 +20,10 @@ $this->registerModule(
     'Jean-Christian Denis and Contributors',
     '0.9.1',
     [
-        'requires'    => [['core', '2.26']],
+        'requires'    => [
+            ['php', '8.1'],
+            ['core', '2.26'],
+        ],
         'permissions' => null,
         'type'        => 'plugin',
         'settings'    => [
