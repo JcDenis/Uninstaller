@@ -58,6 +58,7 @@ trait DirTrait
                 $stack[$k] = count(self::scanDir($path . DIRECTORY_SEPARATOR . $k));
             }
         }
+        ksort($stack);
 
         return $stack;
     }

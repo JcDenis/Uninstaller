@@ -58,11 +58,8 @@ class Plugins extends CleanerParent
 
     public function values(): array
     {
-        $dirs = self::getDirs(DC_PLUGINS_ROOT);
-        sort($dirs);
-
         $stack = [];
-        foreach ($dirs as $path => $count) {
+        foreach (self::getDirs(DC_PLUGINS_ROOT) as $path => $count) {
             $stack[] = new ValueDescriptor(
                 ns:    $path,
                 count: $count
