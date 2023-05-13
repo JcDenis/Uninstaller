@@ -53,19 +53,11 @@ class Versions extends CleanerParent
 
     public function distributed(): array
     {
-        return [
-            'antispam',
-            'blogroll',
-            'blowupConfig',
-            'core',
-            'dcCKEditor',
-            'dcLegacyEditor',
-            'pages',
-            'pings',
-            'simpleMenu',
-            'tags',
-            'widgets',
-        ];
+        return array_merge(
+            ['core'],
+            explode(',', DC_DISTRIB_THEMES),
+            explode(',', DC_DISTRIB_PLUGINS)
+        );
     }
 
     public function values(): array
