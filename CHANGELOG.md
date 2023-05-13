@@ -2,6 +2,10 @@ todo:
 - add user pref cleaner
 - add meta cleaner
 
+0.9.2 - 2023.05.13
+- require Dotclear 2.26 and PHP 8.1+
+- use define php_min
+
 0.9 - 2023.05.09
 - require Dotclear 2.26 and PHP 8.1+
 - add form select default state to ActionDescriptor
