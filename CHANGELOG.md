@@ -2,6 +2,11 @@ todo:
 - add user pref cleaner
 - add meta cleaner
 
+0.9.3 - 2023.05.13
+- require Dotclear 2.26 and PHP 8.1+
+- fix list of distributed modules version
+- fix broken type after sort function
+
 0.9.2 - 2023.05.13
 - require Dotclear 2.26 and PHP 8.1+
 - use define php_min
