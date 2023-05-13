@@ -107,6 +107,7 @@ class Settings extends CleanerParent
                 'setting_ns',
             ])
             ->where($sql->orGroup(['blog_id IS NULL', 'blog_id IS NOT NULL']))
+            ->order('setting_ns ASC')
             ->group('setting_ns');
 
         $record = $sql->select();

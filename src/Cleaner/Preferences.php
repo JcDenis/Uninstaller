@@ -103,6 +103,7 @@ class Preferences extends CleanerParent
                 'pref_ws',
             ])
             ->where($sql->orGroup(['user_id IS NULL', 'user_id IS NOT NULL']))
+            ->order('pref_ws ASC')
             ->group('pref_ws');
 
         $record = $sql->select();

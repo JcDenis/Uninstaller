@@ -66,6 +66,7 @@ class Versions extends CleanerParent
         $rs  = $sql
             ->from(dcCore::app()->prefix . dcCore::VERSION_TABLE_NAME)
             ->columns(['module', 'version'])
+            ->order('module ASC')
             ->select();
 
         if (is_null($rs) || $rs->isEmpty()) {

@@ -72,6 +72,7 @@ class Logs extends CleanerParent
                 'log_table',
             ])
             ->where($sql->orGroup(['blog_id IS NULL', 'blog_id IS NOT NULL']))
+            ->order('log_table ASC')
             ->group('log_table');
 
         $record = $sql->select();
