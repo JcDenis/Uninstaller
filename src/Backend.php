@@ -74,12 +74,16 @@ class Backend extends dcNsProcess
 
     /**
      * Perfom direct action on module deletion.
+     * 
+     * This does not perform action on disabled module.
      *
      * @param   dcModuleDefine  $define     The module
      */
     protected static function moduleBeforeDelete(dcModuleDefine $define): void
     {
-        if (dcCore::app()->blog?->settings->get('system')->get('no_uninstall_direct')) {
+        if (dcCore::app()->blog?->settings->get('system')->get('no_uninstall_direct')
+            || $define->get('state') != dcModuleDefine::STATE_ENABLED
+        ) {
             return;
         }
 
