@@ -74,7 +74,7 @@ class Backend extends dcNsProcess
 
     /**
      * Perfom direct action on module deletion.
-     * 
+     *
      * This does not perform action on disabled module.
      *
      * @param   dcModuleDefine  $define     The module
