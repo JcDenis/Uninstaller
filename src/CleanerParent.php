@@ -63,7 +63,7 @@ abstract class CleanerParent
     abstract public function distributed(): array;
 
     /**
-     * Get all values from the cleaner.
+     * Get all possible ns values from the cleaner.
      *
      * @return  array<int,ValueDescriptor>  The values.
      */
