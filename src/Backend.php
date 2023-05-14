@@ -81,14 +81,22 @@ class Backend extends dcNsProcess
      */
     protected static function moduleBeforeDelete(dcModuleDefine $define): void
     {
-        if (dcCore::app()->blog?->settings->get('system')->get('no_uninstall_direct')
-            || $define->get('state') != dcModuleDefine::STATE_ENABLED
-        ) {
+        if (dcCore::app()->blog?->settings->get('system')->get('no_uninstall_direct')) {
             return;
         }
 
         try {
             $uninstaller = Uninstaller::instance()->loadModules([$define]);
+
+            // Do not perform action on disabled module if a duplicate exists.
+            if ($define->get('state') != dcModuleDefine::STATE_ENABLED) {
+                if (!in_array($define->get('type'), ['plugin', 'theme']) 
+                    || $define->get('type') == 'plugin' && 1 < count(dcCore::app()->plugins->getDefines(['id' => $define->getId()]))
+                    || $define->get('type') == 'theme' && 1 < count(dcCore::app()->themes->getDefines(['id' => $define->getId()]))
+                ) {
+                    return;
+                }
+            }
 
             $done = [];
             foreach ($uninstaller->getDirectActions($define->getId()) as $cleaner => $stack) {
