@@ -99,7 +99,7 @@ class Logs extends CleanerParent
             $sql = new DeleteStatement();
             $sql->from(dcCore::app()->prefix . dcLog::LOG_TABLE_NAME)
                 ->where('log_table = ' . $sql->quote((string) $ns))
-                ->and($sql->orGroup(['blog_id IS NULL', 'blog_id IS NOT NULL']))
+                //->and($sql->orGroup(['blog_id IS NULL', 'blog_id IS NOT NULL']))
                 ->delete();
 
             return true;

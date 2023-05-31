@@ -26,7 +26,7 @@ use Exception;
  */
 class Uninstaller
 {
-    /** @var    string  The Uninstall class name */
+    /** @var    string  The module Uninstall class name */
     public const UNINSTALL_CLASS_NAME = 'Uninstall';
 
     /** @var    CleanersStack    $cleaners The cleaners stack */
@@ -156,9 +156,9 @@ class Uninstaller
     }
 
     /**
-     * Add a predefined action to direct unsintall features.
+     * Add a predefined action to direct uninstall features.
      *
-     * This method should be called from module Uninstall::proces() method.
+     * This method should be called from module Uninstall::process() method.
      * Direct actions will be called from behavior xxxBeforeDelete and
      * user will NOT be prompted before these actions execution.
      * Note: If module is disabled, direct actions are not executed.
