@@ -22,20 +22,27 @@ use Dotclear\Helper\File\Path;
  */
 trait DirTrait
 {
-    /** @var    array<int,string>   The excluded files */
-    public const EXCLUDED = [
-        '.',
-        '..',
-        '__MACOSX',
-        '.svn',
-        '.hg',
-        '.git',
-        'CVS',
-        '.directory',
-        '.DS_Store',
-        'Thumbs.db',
-        '_disabled',
-    ];
+    /**
+     * Get excuded files.
+     *
+     * @param   array<int,string>   The excluded files
+     */
+    public static function getExcluded(): array
+    {
+        return  [
+            '.',
+            '..',
+            '__MACOSX',
+            '.svn',
+            '.hg',
+            '.git',
+            'CVS',
+            '.directory',
+            '.DS_Store',
+            'Thumbs.db',
+            '_disabled',
+        ];
+    }
 
     /**
      * Get path structure.
@@ -52,7 +59,7 @@ trait DirTrait
         foreach ($paths as $path) {
             $dirs = Files::scanDir($path);
             foreach ($dirs as $k) {
-                if (!is_string($k) || in_array($k, self::EXCLUDED) || !is_dir($path . DIRECTORY_SEPARATOR . $k)) {
+                if (!is_string($k) || in_array($k, self::getExcluded()) || !is_dir($path . DIRECTORY_SEPARATOR . $k)) {
                     continue;
                 }
                 $stack[$k] = count(self::scanDir($path . DIRECTORY_SEPARATOR . $k));
@@ -107,7 +114,7 @@ trait DirTrait
         $files = Files::scandir($path);
 
         foreach ($files as $file) {
-            if (in_array($file, self::EXCLUDED)) {
+            if (in_array($file, self::getExcluded())) {
                 continue;
             }
             if (is_dir($path . DIRECTORY_SEPARATOR . $file)) {
