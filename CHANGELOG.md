@@ -2,6 +2,10 @@ todo:
 - add user pref cleaner
 - add meta cleaner
 
+0.9.5 - 2023.05.31
+- require Dotclear 2.26 and PHP 8.1+
+- fix Traits constants in php 8.1
+
 0.9.4 - 2023.05.14
 - require Dotclear 2.26 and PHP 8.1+
 - sort values list
