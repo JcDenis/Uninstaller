@@ -16,9 +16,9 @@ namespace Dotclear\Plugin\Uninstaller;
 
 use dcCore;
 use dcModuleDefine;
-use dcNsProcess;
-use dcPage;
 use dcThemes;
+use Dotclear\Core\Process;
+use Dotclear\Core\Backend\Page;
 use Dotclear\Helper\Html\Form\{
     Checkbox,
     Div,
@@ -32,19 +32,16 @@ use Dotclear\Helper\Html\Form\{
 };
 use Exception;
 
-class Manage extends dcNsProcess
+class Manage extends Process
 {
     public static function init(): bool
     {
-        static::$init = defined('DC_CONTEXT_ADMIN')
-            && dcCore::app()->auth?->isSuperAdmin();
-
-        return static::$init;
+        return self::status(My::checkContext(My::MANAGE));
     }
 
     public static function process(): bool
     {
-        if (!static::$init) {
+        if (!self::status()) {
             return false;
         }
 
@@ -96,9 +93,9 @@ class Manage extends dcNsProcess
             // list success actions
             if (!empty($done)) {
                 array_unshift($done, __('Uninstall action successfuly excecuted'));
-                dcPage::addSuccessNotice(implode('<br />', $done));
+                Page::addSuccessNotice(implode('<br />', $done));
             } else {
-                dcPage::addWarningNotice(__('No uninstall action done'));
+                Page::addWarningNotice(__('No uninstall action done'));
             }
             self::doRedirect();
         } catch (Exception $e) {
@@ -110,7 +107,7 @@ class Manage extends dcNsProcess
 
     public static function render(): void
     {
-        if (!static::$init) {
+        if (!self::status()) {
             return;
         }
 
@@ -124,21 +121,21 @@ class Manage extends dcNsProcess
             $fields[] = (new Text('', $uninstaller->render($define->getId())));
         }
 
-        dcPage::openModule(
+        Page::openModule(
             My::name(),
-            dcPage::jsJson('uninstaller', ['confirm_uninstall' => __('Are you sure you perform these ations?')]) .
-            dcPage::jsModuleLoad(My::id() . '/js/manage.js') .
+            Page::jsJson('uninstaller', ['confirm_uninstall' => __('Are you sure you perform these ations?')]) .
+            My::jsLoad('manage.js') .
 
             # --BEHAVIOR-- UninstallerHeader
             dcCore::app()->callBehavior('UninstallerHeader')
         );
 
         echo
-        dcPage::breadcrumb([
+        Page::breadcrumb([
             __('System') => '',
             My::name()   => '',
         ]) .
-        dcPage::notices();
+        Page::notices();
 
         // user actions form fields
         foreach ($uninstaller->getUserActions($define->getId()) as $cleaner => $stack) {
@@ -166,7 +163,7 @@ class Manage extends dcNsProcess
             (new Form('uninstall-form'))->method('post')->action(dcCore::app()->adminurl?->get('admin.plugin.' . My::id()))->fields($fields),
         ])->render();
 
-        dcPage::closeModule();
+        Page::closeModule();
     }
 
     private static function getType(): string
