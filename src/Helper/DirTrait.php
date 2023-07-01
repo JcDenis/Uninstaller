@@ -25,7 +25,7 @@ trait DirTrait
     /**
      * Get excuded files.
      *
-     * @param   array<int,string>   The excluded files
+     * @return  array<int,string>   The excluded files
      */
     public static function getExcluded(): array
     {

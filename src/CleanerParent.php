@@ -50,7 +50,7 @@ abstract class CleanerParent
      *
      * @return  null|ActionDescriptor   The action descriptor
      */
-    final public function get(string $id): ?ActionDescriptor
+    final public function get(string $id)
     {
         return $this->actions[$id] ?? null;
     }

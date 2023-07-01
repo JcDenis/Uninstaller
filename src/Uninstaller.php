@@ -264,7 +264,7 @@ class Uninstaller
      *
      * @return  null|ActionDescriptor   The action description
      */
-    private function addAction(string $cleaner, string $action, string $ns, ?bool $default): ?ActionDescriptor
+    private function addAction(string $cleaner, string $action, string $ns, ?bool $default)
     {
         // no current module or no cleaner id or no ns or unknown cleaner action
         if (null === $this->module

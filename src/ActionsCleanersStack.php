@@ -32,7 +32,10 @@ class ActionsCleanersStack implements Countable, Iterator
         return isset($this->stack[$offset]);
     }
 
-    public function get(int $offset): ?ActionDescriptor
+    /**
+     * @return null|ActionDescriptor
+     */
+    public function get(int $offset)
     {
         return $this->stack[$offset] ?? null;
     }
@@ -52,12 +55,20 @@ class ActionsCleanersStack implements Countable, Iterator
         reset($this->stack);
     }
 
-    public function current(): false|ActionDescriptor
+    /**
+     * @return false|ActionDescriptor
+     */
+    #[\ReturnTypeWillChange]
+    public function current()
     {
         return current($this->stack);
     }
 
-    public function key(): ?int
+    /**
+     * @return null|int
+     */
+    #[\ReturnTypeWillChange]
+    public function key()
     {
         return key($this->stack);
     }

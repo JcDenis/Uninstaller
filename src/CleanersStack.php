@@ -43,7 +43,10 @@ class CleanersStack implements Countable, Iterator
         return isset($this->stack[$offset]);
     }
 
-    public function get(string $offset): ?CleanerParent
+    /**
+     * @return null|CleanerParent
+     */
+    public function get(string $offset)
     {
         return $this->stack[$offset] ?? null;
     }
@@ -67,12 +70,20 @@ class CleanersStack implements Countable, Iterator
         reset($this->stack);
     }
 
-    public function current(): false|CleanerParent
+     /**
+      * @return false|CleanerParent
+      */
+     #[\ReturnTypeWillChange]
+    public function current()
     {
         return current($this->stack);
     }
 
-    public function key(): ?string
+    /**
+     * @return null|string
+     */
+    #[\ReturnTypeWillChange]
+    public function key()
     {
         return key($this->stack);
     }

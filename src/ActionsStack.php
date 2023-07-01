@@ -56,12 +56,20 @@ class ActionsStack implements Countable, Iterator
         reset($this->stack);
     }
 
-    public function current(): false|ActionsCleanersStack
+    /**
+     * @return false|ActionsCleanersStack
+     */
+    #[\ReturnTypeWillChange]
+    public function current()
     {
         return current($this->stack);
     }
 
-    public function key(): ?string
+    /**
+     * return null|string
+     */
+    #[\ReturnTypeWillChange]
+    public function key()
     {
         return key($this->stack);
     }
