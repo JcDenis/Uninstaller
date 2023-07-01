@@ -2,6 +2,11 @@ todo:
 - add user pref cleaner
 - add meta cleaner
 
+0.9.6 - 2023.07.01
+- require Dotclear 2.27 and PHP 8.1+
+- fix PHP 8.1 limitation
+- use Dotclear 2.27 My helpers
+
 0.9.5 - 2023.05.31
 - require Dotclear 2.26 and PHP 8.1+
 - fix Traits constants in php 8.1

@@ -3,7 +3,7 @@
 [![Release](https://img.shields.io/github/v/release/JcDenis/Uninstaller)](https://github.com/JcDenis/Uninstaller/releases)
 [![Date](https://img.shields.io/github/release-date/JcDenis/Uninstaller)](https://github.com/JcDenis/Uninstaller/releases)
 [![Issues](https://img.shields.io/github/issues/JcDenis/Uninstaller)](https://github.com/JcDenis/Uninstaller/issues)
-[![Dotclear](https://img.shields.io/badge/dotclear-v2.26-blue.svg)](https://fr.dotclear.org/download)
+[![Dotclear](https://img.shields.io/badge/dotclear-v2.27-blue.svg)](https://fr.dotclear.org/download)
 [![Dotaddict](https://img.shields.io/badge/dotaddict-official-green.svg)](https://plugins.dotaddict.org/dc2/details/Uninstaller)
 [![License](https://img.shields.io/github/license/JcDenis/Uninstaller)](https://github.com/JcDenis/Uninstaller/blob/master/LICENSE)
 
@@ -19,7 +19,7 @@ It adds habitlity to uninstall modules using their feature...
 _Uninstaller_ requires: 
 
   * super admin permissions to uninstall modules
-  * Dotclear 2.26
+  * Dotclear 2.27
   * PHP >= 8.1
 
 ## USAGE
