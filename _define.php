@@ -18,7 +18,7 @@ $this->registerModule(
     'Uninstaller',
     'Uninstall cleanly plugins and themes',
     'Jean-Christian Denis and Contributors',
-    '0.9.6',
+    '0.9.7',
     [
         'requires' => [
             ['php', '8.1'],
