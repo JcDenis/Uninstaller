@@ -57,13 +57,9 @@ class Backend extends Process
                 self::moduleBeforeDelete($define);
             },
             // add js to hide delete button when uninstaller exists
-            'pluginsToolsHeadersV2' => function (): string {
-                return self::modulesToolsHeader();
-            },
+            'pluginsToolsHeadersV2' => fn (): string => self::modulesToolsHeader(),
             // add js to hide delete button when uninstaller exists
-            'themesToolsHeadersV2' => function (): string {
-                return self::modulesToolsHeader();
-            },
+            'themesToolsHeadersV2' => fn (): string => self::modulesToolsHeader(),
         ]);
 
         return true;
@@ -111,9 +107,9 @@ class Backend extends Process
                 array_unshift($done, __('Plugin has been successfully uninstalled.'));
                 Page::addSuccessNotice(implode('<br />', $done));
                 if ($define->get('type') == 'theme') {
-                    dcCore::app()->adminurl?->redirect('admin.blog.theme', [], '#themes');
+                    dcCore::app()->admin->url->redirect('admin.blog.theme', [], '#themes');
                 } else {
-                    dcCore::app()->adminurl?->redirect('admin.plugins', [], '#plugins');
+                    dcCore::app()->admin->url->redirect('admin.plugins', [], '#plugins');
                 }
             }
         } catch (Exception $e) {

@@ -18,7 +18,10 @@ use dcCore;
 use dcModuleDefine;
 use dcThemes;
 use Dotclear\Core\Process;
-use Dotclear\Core\Backend\Page;
+use Dotclear\Core\Backend\{
+    Notices,
+    Page
+};
 use Dotclear\Helper\Html\Form\{
     Checkbox,
     Div,
@@ -93,9 +96,9 @@ class Manage extends Process
             // list success actions
             if (!empty($done)) {
                 array_unshift($done, __('Uninstall action successfuly excecuted'));
-                Page::addSuccessNotice(implode('<br />', $done));
+                Notices::addSuccessNotice(implode('<br />', $done));
             } else {
-                Page::addWarningNotice(__('No uninstall action done'));
+                Notices::addWarningNotice(__('No uninstall action done'));
             }
             self::doRedirect();
         } catch (Exception $e) {
@@ -135,7 +138,7 @@ class Manage extends Process
             __('System') => '',
             My::name()   => '',
         ]) .
-        Page::notices();
+        Notices::getNotices();
 
         // user actions form fields
         foreach ($uninstaller->getUserActions($define->getId()) as $cleaner => $stack) {
@@ -160,7 +163,7 @@ class Manage extends Process
         echo (new Div())->items([
             (new Text('h3', sprintf((self::getType() == 'theme' ? __('Uninstall theme "%s"') : __('Uninstall plugin "%s"')), __($define->get('name'))))),
             (new Text('p', sprintf(__('The module "%s %s" offers advanced unsintall process:'), $define->getId(), $define->get('version')))),
-            (new Form('uninstall-form'))->method('post')->action(dcCore::app()->adminurl?->get('admin.plugin.' . My::id()))->fields($fields),
+            (new Form('uninstall-form'))->method('post')->action(dcCore::app()->admin->url->get('admin.plugin.' . My::id()))->fields($fields),
         ])->render();
 
         Page::closeModule();
@@ -178,11 +181,11 @@ class Manage extends Process
 
     private static function getRedirect(): string
     {
-        return (string) dcCore::app()->adminurl?->get(self::getRedir()) . '#' . self::getType() . 's';
+        return (string) dcCore::app()->admin->url->get(self::getRedir()) . '#' . self::getType() . 's';
     }
 
     private static function doRedirect(): void
     {
-        dcCore::app()->adminurl?->redirect(self::getRedir(), [], '#' . self::getType() . 's');
+        dcCore::app()->admin->url->redirect(self::getRedir(), [], '#' . self::getType() . 's');
     }
 }
