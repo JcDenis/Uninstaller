@@ -70,10 +70,10 @@ class CleanersStack implements Countable, Iterator
         reset($this->stack);
     }
 
-     /**
-      * @return false|CleanerParent
-      */
-     #[\ReturnTypeWillChange]
+    /**
+     * @return false|CleanerParent
+     */
+    #[\ReturnTypeWillChange]
     public function current()
     {
         return current($this->stack);
