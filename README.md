@@ -6,6 +6,10 @@
 [![Dotaddict](https://img.shields.io/badge/dotaddict-official-9ac123.svg)](https://plugins.dotaddict.org/dc2/details/Uninstaller)
 [![License](https://img.shields.io/github/license/JcDenis/Uninstaller)](https://git.dotclear.watch/JcDenis/Uninstaller/blob/master/LICENSE)
 
+## IMPORTANT
+
+__This plugin is no more maintained as it is integrated to Dotclear official distribution.__
+
 ## WHAT IS UNINSTALLER ?
 
 _Uninstaller_ is a plugin for the open-source 
